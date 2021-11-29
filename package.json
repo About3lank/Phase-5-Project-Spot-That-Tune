@@ -1,5 +1,5 @@
 {
-    "name": "phase-5-project-spot-that-tune",
+    "name": "Phase-5-Project-Spot-That-Tune",
     "description": "Name That Tune, powered by Spotify",
     "engines": {
       "node": ">= 14"
