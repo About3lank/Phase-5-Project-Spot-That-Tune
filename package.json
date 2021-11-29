@@ -1,8 +1,8 @@
 {
-    "name": "Phase-5-Project-Spot-That-Tune",
-    "description": "Name That Tune, powered by Spotify",
+    "name": "phase-5-project-spot-that-tune",
+    "description": "Name That Tune, powered by Spoti",
     "engines": {
-      "node": ">= 14"
+      "node": "16.x"
     },
     "scripts": {
       "build": "npm install --prefix client && npm run build --prefix client",
