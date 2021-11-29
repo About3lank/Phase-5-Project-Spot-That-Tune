@@ -10,6 +10,7 @@ import { Container } from 'react-bootstrap';
 function App() {
 
   const code = new URLSearchParams(window.location.search).get('code')
+  console.log("CODE@App.js: ", code)
 
   return (
     <>
