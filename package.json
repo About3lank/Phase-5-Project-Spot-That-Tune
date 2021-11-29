@@ -1,6 +1,6 @@
 {
     "name": "phase-5-project-spot-that-tune",
-    "description": "Name That Tune, powered by Spoti",
+    "description": "Name That Tune, powered by Spotify",
     "engines": {
       "node": "16.x"
     },
