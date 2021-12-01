@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react'
 import { Container, Form } from 'react-bootstrap'
 import SpotifyWebApi from 'spotify-web-api-node'
-import useAuth from '../hooks/useAuth'
+
 import TrackSearchResult from './TrackSearchResult'
 import PlaylistSearchResult from './PlaylistSearchResult'
-import PlayerHUD from './PlayerHUD'
 import Playback from './Playback'
-import cLog from '../functions/ConsoleLogger'
+
 import axios from 'axios'
+import cLog from '../functions/ConsoleLogger'
 
 const spotifyApi = new SpotifyWebApi({
     clientId: "0c9faf3864844c4eb5607e934c7b90a4"
 })
 
-console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
+// console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
 export default function Dashboard({ accessToken, playing, setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers }) {
 
