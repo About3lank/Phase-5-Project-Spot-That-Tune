@@ -6,9 +6,10 @@ import cLog from '../functions/ConsoleLogger'
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
 
-    const [ userData, setUserData ] = useState({})
-    const [ selectedPlaylist, setSelectedPlaylist ] = useState()
-    const [ playlistTracks, setPlaylistTracks ] = useState([])
+        const [ userData, setUserData ] = useState({})
+        const [ userId, setUserId ] = useState()
+        const [ selectedPlaylist, setSelectedPlaylist ] = useState()
+        const [ playlistTracks, setPlaylistTracks ] = useState([])
 
     // call Spotify API for User Data, then store that in state
     useEffect(() => {
@@ -47,9 +48,8 @@ export default function AuthorizedApp({ code }) {
                 body: JSON.stringify(userData)
             })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => setUserId(data.id))
     }, [userData])
-
 
     return (
             <Dashboard 
