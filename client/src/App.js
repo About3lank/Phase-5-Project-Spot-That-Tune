@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login'
+import AuthorizedApp from './components/AuthorizedApp';
 import Dashboard from './components/Dashboard';
 import { Container } from 'react-bootstrap';
 
@@ -19,7 +20,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/dashboard">
-            {code? <Dashboard code={code} /> : <Login />}
+            {code? <AuthorizedApp code={code} /> : <Login />}
           </Route>
           <Route path="/testing">
             <h1>TEST ROUTE</h1>

@@ -13,23 +13,25 @@ const spotifyApi = new SpotifyWebApi({
 
 console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
-export default function Dashboard({ code }) {
-    const accessToken = useAuth(code)
+export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks }) {
 
-    const [ trackSearch, setTrackSearch ] = useState("")
-    const [ trackResults, setTrackResults ] = useState([])
+        const [ trackSearch, setTrackSearch ] = useState("")
+        const [ trackResults, setTrackResults ] = useState([])
 
-    const [ playlistSearch, setPlaylistSearch ] = useState("")
-    const [ playlistResults, setPlaylistResults ] = useState([])
-    const [ selectedPlaylist, setSelectedPlaylist ] = useState()
-    const [ playlistTracks, setPlaylistTracks ] = useState([])
+        const [ playlistSearch, setPlaylistSearch ] = useState("")
+        const [ playlistResults, setPlaylistResults ] = useState([])
 
-    const [ playingTrack, setPlayingTrack ] = useState()
-    const [ playing, setPlaying ] = useState(false)
+        const [ playingTrack, setPlayingTrack ] = useState()
+        const [ playing, setPlaying ] = useState(false)
 
-    const [ lyrics, setLyrics ] = useState("")
+        const [ lyrics, setLyrics ] = useState("")
 
-    // console.log("CODE@Dashboard.js: ", code)
+    // set access token for Spotify API (package: 'spotify-web-api-node')
+    // replace with rails API when possible/practical?
+    useEffect(() => {
+        if (!accessToken) return
+        spotifyApi.setAccessToken(accessToken)
+    }, [accessToken])
 
     function handlePlay() {
 
@@ -62,12 +64,6 @@ export default function Dashboard({ code }) {
         setPlaylistSearch(e.target.value)
         setPlaylistTracks([])
     }
-
-    // set access token for Spotify API
-    useEffect(() => {
-        if (!accessToken) return
-        spotifyApi.setAccessToken(accessToken)
-    }, [accessToken])
 
     // retrieve playlist items
     useEffect(() => {
