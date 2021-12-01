@@ -9,11 +9,11 @@ export default function PlaylistSearchResult({ playlist, choosePlaylist }) {
             className="d-flex m-2 align-items-center"
             style={{ cursor: "pointer" }}
             onClick={handleChoice}
-        >
+            >
             <img
                 src={playlist.imageUrl} 
                 style={{ height: "64px", width: "64px" }}
-            />
+                />
             <div className="ml-3">{playlist.name}</div>
             <div className="text-muted">&nbsp;{playlist.description.length>0? `- ${playlist.description}` : "" }</div>
             

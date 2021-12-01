@@ -15,5 +15,5 @@ export default function Playback({ accessToken, trackUri, playing, setPlaying })
             }}
             play={playing}
             uris={trackUri? [trackUri] : []}
-        />)
+            />)
 }

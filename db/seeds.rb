@@ -12,9 +12,22 @@ User.destroy_all
 puts "Creating user(s)..."
 User.create([
     {
-        display_name: "Jeff",
-        email: "Jeff@jeff.com",
+        display_name: "Pablo Sanchez",
+        email: "nerf_this@hotmail.com",
         spotify_id: "123456789",
         uri: "URI1234"
-    }
+    },
+    {
+        display_name: "Pete Wheeler",
+        email: "absoluteLegend2@earthlink.net",
+        spotify_id: "223456449",
+        uri: "URI3456"
+    },
+    {
+        display_name: "Kiesha Phillips",
+        email: "GOATed4dayz@aol.com",
+        spotify_id: "075259549",
+        uri: "URI6789"
+    },
+
 ])

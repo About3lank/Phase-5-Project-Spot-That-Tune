@@ -4,7 +4,9 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import useAuth from '../hooks/useAuth'
 import TrackSearchResult from './TrackSearchResult'
 import PlaylistSearchResult from './PlaylistSearchResult'
+import PlayerHUD from './PlayerHUD'
 import Playback from './Playback'
+import cLog from '../functions/ConsoleLogger'
 import axios from 'axios'
 
 const spotifyApi = new SpotifyWebApi({
@@ -13,7 +15,7 @@ const spotifyApi = new SpotifyWebApi({
 
 console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
-export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks }) {
+export default function Dashboard({ accessToken, playing, setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers }) {
 
         const [ trackSearch, setTrackSearch ] = useState("")
         const [ trackResults, setTrackResults ] = useState([])
@@ -22,9 +24,10 @@ export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPl
         const [ playlistResults, setPlaylistResults ] = useState([])
 
         const [ playingTrack, setPlayingTrack ] = useState()
-        const [ playing, setPlaying ] = useState(false)
 
-        const [ lyrics, setLyrics ] = useState("")
+
+            const [ lyrics, setLyrics ] = useState("")
+
 
     // set access token for Spotify API (package: 'spotify-web-api-node')
     // replace with rails API when possible/practical?
@@ -178,21 +181,21 @@ export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPl
     return (
         <Container 
             className="d-flex flex-column py-2"
-            style={{height: "100vh" }}
+            style={{height: "50vh" }}
             >
                 {/* <Form.Control 
                     type="search" 
                     placeholder="Search Songs"
                     value={trackSearch}
                     onChange={e => setTrackSearch(e.target.value)}
-                />
+                    />
                 <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
                     {trackResults.map(track => (
                         <TrackSearchResult
                             track={track}
                             key={track.url} 
                             playTrack={playTrack}
-                        />
+                            />
                     ))}
                     {trackResults.length === 0 && (
                         <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
@@ -203,22 +206,21 @@ export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPl
                     placeholder="Search Playlists"
                     value={playlistSearch}
                     onChange={e => handlePlaylistSearch(e)}
-                />
+                    />
                 <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
                     {playlistResults.map(playlist => (
                         <PlaylistSearchResult
                             playlist={playlist}
                             key={playlist.uri} 
                             choosePlaylist={choosePlaylist}
-                        />
+                            />
                     ))}
                     {playlistTracks.map(track => (
                         <TrackSearchResult
                             track={track}
                             key={track.uri} 
                             playTrack={playTrack}
-
-                        />
+                            />
                     ))}
 
                     {/* 
@@ -232,10 +234,13 @@ export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPl
                 </div>
                 
                 {// prototype for BUZZ and NEW-ROUND buttons
-                playing===true?
-                    <button type="button" onClick={() => setPlaying(false)} >BUZZZZ</button>
-                    : <button type="button" onClick={handlePlay}>NEW ROUND</button>
+                playing===true
+                    ? <button type="button" onClick={() => setPlaying(false)}> TEST BUZZ</button>
+                    : <button type="button" onClick={handlePlay}>
+                        NEW ROUND
+                    </button>
                 }
+                <button type="button" onClick={() => setPlaying(true)}> RESUME PLAYING </button>
                 
                 <div>
                     <Playback
@@ -243,7 +248,7 @@ export default function Dashboard({ accessToken, selectedPlaylist, setSelectedPl
                         trackUri={playingTrack?.uri}
                         playing={playing}
                         setPlaying={setPlaying}
-                    />
+                        />
                 </div>
         </Container>
     )

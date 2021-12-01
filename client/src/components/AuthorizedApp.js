@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
 import useAuth from '../hooks/useAuth'
 import Dashboard from './Dashboard'
+import NavBar from './NavBar'
 import cLog from '../functions/ConsoleLogger'
+import PlayerHUD from './PlayerHUD'
 
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
 
         const [ userData, setUserData ] = useState({})
-        const [ userId, setUserId ] = useState()
         const [ selectedPlaylist, setSelectedPlaylist ] = useState()
         const [ playlistTracks, setPlaylistTracks ] = useState([])
+        const [ players, setPlayers ] = useState([{name: "", eliminated: false}, {name: "", eliminated: false}, {name: "", eliminated: false}, {name: "", eliminated: false}])
+        const [ playing, setPlaying ] = useState(false)
 
     // call Spotify API for User Data, then store that in state
     useEffect(() => {
@@ -48,15 +51,29 @@ export default function AuthorizedApp({ code }) {
                 body: JSON.stringify(userData)
             })
         .then(res => res.json())
-        .then(data => setUserId(data.id))
+        .then(data => setUserData(data))
     }, [userData])
 
     return (
-            <Dashboard 
-                accessToken={accessToken}
-                selectedPlaylist={selectedPlaylist}
-                setSelectedPlaylist={setSelectedPlaylist}
-                playlistTracks={playlistTracks}
-                setPlaylistTracks={setPlaylistTracks} />
+        <>
+                <NavBar userData={userData}/>
+                <Dashboard 
+                    accessToken={accessToken}
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    selectedPlaylist={selectedPlaylist}
+                    setSelectedPlaylist={setSelectedPlaylist}
+                    playlistTracks={playlistTracks}
+                    setPlaylistTracks={setPlaylistTracks}
+                    players={players} 
+                    setPlayers={setPlayers}
+                    />
+                <PlayerHUD 
+                    players={players} 
+                    setPlayers={setPlayers}
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    />
+        </>
     )
 }
