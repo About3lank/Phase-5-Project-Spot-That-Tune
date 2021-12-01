@@ -4,7 +4,7 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import useAuth from '../hooks/useAuth'
 import TrackSearchResult from './TrackSearchResult'
 import PlaylistSearchResult from './PlaylistSearchResult'
-import Player from './Player'
+import Playback from './Playback'
 import axios from 'axios'
 
 const spotifyApi = new SpotifyWebApi({
@@ -213,7 +213,7 @@ export default function Dashboard({ code }) {
 
                 </div>
                 <div>
-                    <Player
+                    <Playback
                         accessToken={accessToken}
                         trackUri={playingTrack?.uri}
                     />
