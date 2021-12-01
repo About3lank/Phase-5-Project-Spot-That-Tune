@@ -234,13 +234,13 @@ export default function Dashboard({ code }) {
 
 
                 </div>
-
-                {playing===true?
+                
+                {// prototype for BUZZ and NEW-ROUND buttons
+                playing===true?
                     <button type="button" onClick={() => setPlaying(false)} >BUZZZZ</button>
                     : <button type="button" onClick={handlePlay}>NEW ROUND</button>
                 }
                 
-
                 <div>
                     <Playback
                         accessToken={accessToken}
