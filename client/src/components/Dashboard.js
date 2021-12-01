@@ -33,14 +33,14 @@ export default function Dashboard({ code }) {
 
     function handlePlay() {
 
-        chooseTrack(randomNewTrack());
+        playTrack(randomNewTrack());
         console.log("PLAYLIST TRACKS @button: ", playlistTracks)
         console.log("PLAYING TRACK @button: ", playingTrack)
         // setPlaying(true)
         
     }
 
-    function chooseTrack(track) {
+    function playTrack(track) {
         setPlayingTrack(track)
         // setTrackSearch("")
     }
@@ -195,7 +195,7 @@ export default function Dashboard({ code }) {
                         <TrackSearchResult
                             track={track}
                             key={track.url} 
-                            chooseTrack={chooseTrack}
+                            playTrack={playTrack}
                         />
                     ))}
                     {trackResults.length === 0 && (
@@ -220,7 +220,7 @@ export default function Dashboard({ code }) {
                         <TrackSearchResult
                             track={track}
                             key={track.uri} 
-                            chooseTrack={chooseTrack}
+                            playTrack={playTrack}
 
                         />
                     ))}

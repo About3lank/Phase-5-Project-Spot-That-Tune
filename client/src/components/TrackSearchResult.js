@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function TrackSearchResult({ track, chooseTrack }) {
+export default function TrackSearchResult({ track, playTrack }) {
     function handlePlay() {
         console.log("TRACK @tracksearchresult _onClick_: ", track)
-        chooseTrack(track)
+        playTrack(track)
     }
     return (
         <div
