@@ -10,6 +10,7 @@
 
 .float-child {
   width: 25%;
+  height: 60vh;
   float: left;
   padding: 20px;
   border: 2px solid red;
