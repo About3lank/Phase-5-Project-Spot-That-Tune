@@ -198,6 +198,7 @@ export default function Dashboard({ code }) {
                     {playlistTracks.map(track => (
                         <TrackSearchResult
                             track={track}
+                            key={track.uri} 
                             chooseTrack={chooseTrack}
 
                         />
