@@ -32,7 +32,7 @@ export default function PlayerAdder({ players, setPlayers, number }) {
     }
 
     return (
-        <Container style={{width: "40vh" }}>
+        <div className="float-child">
             {showForm
             ? <div>
                 <Form.Control 
@@ -53,6 +53,6 @@ export default function PlayerAdder({ players, setPlayers, number }) {
                 >
                     + ADD PLAYER #{number}
             </button>}
-        </Container>
+        </div>
     )
 }

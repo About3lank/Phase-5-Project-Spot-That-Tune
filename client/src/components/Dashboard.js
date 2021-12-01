@@ -39,6 +39,11 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
     function handlePlay() {
 
         playTrack(randomNewTrack());
+        const updatedPlayers = players.map((player) => {
+            player.eliminated = false
+            return player
+        })
+        setPlayers(updatedPlayers)
         console.log("PLAYLIST TRACKS @button: ", playlistTracks)
         console.log("PLAYING TRACK @button: ", playingTrack)
         // setPlaying(true)

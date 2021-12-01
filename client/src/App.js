@@ -20,7 +20,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/dashboard">
-            {code? <AuthorizedApp code={code} /> : <Login />}
+            <div>{code? <AuthorizedApp code={code} /> : <Login />}</div>
           </Route>
           <Route path="/testing">
             <h1>TEST ROUTE</h1>

@@ -10,9 +10,10 @@ export default function PlayerHUD({ players, setPlayers, playing, setPlaying }) 
     // console.log("PLAYERS @PlayerHUD.js: ", players)
     return (
 
-        <Container 
-            className="d-flex flex-column py-2"
-            style={{height: "50vh" }}
+        <div
+            // className="d-flex flex-column py-2"
+            className="float-container"
+            // style={{height: "50vh" }}
             >
         
                 
@@ -20,11 +21,13 @@ export default function PlayerHUD({ players, setPlayers, playing, setPlaying }) 
 
                     player.name===""
                     ? <PlayerAdder 
+                        className="float-child"
                         players={players} 
                         setPlayers={setPlayers}
                         number={i+1}
                         />
                     : <Player 
+                        className="float-child"
                         player={player} 
                         players={players}
                         setPlayers={setPlayers}
@@ -35,6 +38,6 @@ export default function PlayerHUD({ players, setPlayers, playing, setPlaying }) 
                         setWhoBuzzed={setWhoBuzzed}
                         />
             )}
-        </Container>
+        </div>
     )
 }
