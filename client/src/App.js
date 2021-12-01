@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login'
 import Dashboard from './components/Dashboard';
@@ -10,26 +10,26 @@ import { Container } from 'react-bootstrap';
 function App() {
 
   const code = new URLSearchParams(window.location.search).get('code')
-  console.log("CODE@App.js: ", code)
+  // console.log("CODE@App.js: ", code)
+  console.log("WINDOW LOCATION SEARCH: ", window.location.search)
 
   return (
-    <>
-      {code? <Dashboard code={code} /> : <Login />}
-    </>
 
-
-  //   <BrowserRouter>
-  //     <div className="App">
-  //       <Switch>
-  //         <Route path="/testing">
-  //           <h1>Test Route</h1>
-  //         </Route>
-  //         <Route path="/">
-  //           <h1>Page Count: {count}</h1>
-  //         </Route>
-  //       </Switch>
-  //     </div>
-  //   </BrowserRouter>
+    <BrowserRouter>
+      <div className="App">
+        <Switch>
+          <Route path="/dashboard">
+            {code? <Dashboard code={code} /> : <Login />}
+          </Route>
+          <Route path="/testing">
+            <h1>TEST ROUTE</h1>
+          </Route>
+          <Route path="/">
+            <Redirect to="/dashboard" />
+          </Route>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
