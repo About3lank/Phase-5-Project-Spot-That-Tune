@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import SpotifyPlayer from 'react-spotify-web-playback'
 
-export default function Playback({ accessToken, trackUri }) {
-    const [ play, setPlay ] = useState(false)
+export default function Playback({ accessToken, trackUri, playing, setPlaying }) {
 
-    useEffect(() => setPlay(true), [trackUri])
+    useEffect(() => setPlaying(true), [trackUri])
 
     if (!accessToken) return null
     return( 
@@ -12,9 +11,9 @@ export default function Playback({ accessToken, trackUri }) {
             token={accessToken}
             showSaveIcon
             callback={state => {
-                if (!state.isPlaying) setPlay(false)
+                if (!state.isPlaying) setPlaying(false)
             }}
-            play={play}
+            play={playing}
             uris={trackUri? [trackUri] : []}
         />)
 }

@@ -15,23 +15,44 @@ console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spoti
 
 export default function Dashboard({ code }) {
     const accessToken = useAuth(code)
+
     const [ trackSearch, setTrackSearch ] = useState("")
     const [ trackResults, setTrackResults ] = useState([])
+
     const [ playlistSearch, setPlaylistSearch ] = useState("")
     const [ playlistResults, setPlaylistResults ] = useState([])
-    const [ playingTrack, setPlayingTrack ] = useState()
     const [ selectedPlaylist, setSelectedPlaylist ] = useState()
     const [ playlistTracks, setPlaylistTracks ] = useState([])
+
+    const [ playingTrack, setPlayingTrack ] = useState()
+    const [ playing, setPlaying ] = useState(false)
+
     const [ lyrics, setLyrics ] = useState("")
 
     // console.log("CODE@Dashboard.js: ", code)
 
-    function chooseTrack(track) {
-        setPlayingTrack(track)
-        setTrackSearch("")
+    function handlePlay() {
+
+        chooseTrack(randomNewTrack());
+        console.log("PLAYLIST TRACKS @button: ", playlistTracks)
+        console.log("PLAYING TRACK @button: ", playingTrack)
+        // setPlaying(true)
+        
     }
 
+    function chooseTrack(track) {
+        setPlayingTrack(track)
+        // setTrackSearch("")
+    }
+
+    function randomNewTrack() {
+        const randomIndex = Math.floor(Math.random() * playlistTracks.length)
+        const randomTrack = playlistTracks.splice(randomIndex, 1)[0]
+        return randomTrack
+    } 
+
     function choosePlaylist(playlist) {
+        
         setSelectedPlaylist(playlist)
         console.log("SELECTED PLAYLIST: ", playlist)
         setPlaylistSearch("")
@@ -63,7 +84,7 @@ export default function Dashboard({ code }) {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data.items)
+            // console.log(data.items)
             setPlaylistTracks(data.items.map(item => {
                 const smallestAlbumImage = item.track.album.images.reduce(
                     (smallest, image) => {
@@ -213,10 +234,19 @@ export default function Dashboard({ code }) {
 
 
                 </div>
+
+                {playing===true?
+                    <button type="button" onClick={() => setPlaying(false)} >BUZZZZ</button>
+                    : <button type="button" onClick={handlePlay}>NEW ROUND</button>
+                }
+                
+
                 <div>
                     <Playback
                         accessToken={accessToken}
                         trackUri={playingTrack?.uri}
+                        playing={playing}
+                        setPlaying={setPlaying}
                     />
                 </div>
         </Container>
