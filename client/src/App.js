@@ -19,14 +19,11 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/dashboard">
-            <div>{code? <AuthorizedApp code={code} /> : <Login />}</div>
-          </Route>
           <Route path="/testing">
             <h1>TEST ROUTE</h1>
           </Route>
           <Route path="/">
-            <Redirect to="/dashboard" />
+            <div>{code? <AuthorizedApp code={code} /> : <Login />}</div>
           </Route>
         </Switch>
       </div>

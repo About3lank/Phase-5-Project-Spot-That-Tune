@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_01_174708) do
+ActiveRecord::Schema.define(version: 2021_12_02_102354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "playlists", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "imageUrl"
+    t.string "tracks"
+    t.string "uri"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "display_name"
@@ -22,6 +32,7 @@ ActiveRecord::Schema.define(version: 2021_12_01_174708) do
     t.string "uri"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "account_name"
   end
 
 end

@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react'
 import useAuth from '../hooks/useAuth'
-import Dashboard from './Dashboard'
 import NavBar from './NavBar'
-import cLog from '../functions/ConsoleLogger'
+import CreateGame from './CreateGame'
+import Dashboard from './Dashboard'
 import PlayerHUD from './PlayerHUD'
+
+import cLog from '../functions/ConsoleLogger'
+
 
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
 
         const [ userData, setUserData ] = useState({})
+        const [ currentGame, setCurrentGame ] = useState("")
         const [ selectedPlaylist, setSelectedPlaylist ] = useState()
         const [ playlistTracks, setPlaylistTracks ] = useState([])
         const [ players, setPlayers ] = useState([{name: "", eliminated: false}, {name: "", eliminated: false}, {name: "", eliminated: false}, {name: "", eliminated: false}])
@@ -30,6 +34,7 @@ export default function AuthorizedApp({ code }) {
         .then(res => res.json())
         .then(user => setUserData({
                 display_name: user.display_name,
+                account_name: user.display_name,
                 email: user.email,
                 spotify_id: user.id,
                 uri: user.uri
@@ -43,7 +48,7 @@ export default function AuthorizedApp({ code }) {
         if (!accessToken) return
 
         fetch(
-            "/sessioncreate", {
+            "/create_user", {
                 method: 'POST',
                 headers: {
                 'Content-type': 'application/json'
@@ -57,23 +62,27 @@ export default function AuthorizedApp({ code }) {
     return (
         <>
                 <NavBar userData={userData}/>
-                <Dashboard 
-                    accessToken={accessToken}
-                    playing={playing}
-                    setPlaying={setPlaying}
-                    selectedPlaylist={selectedPlaylist}
-                    setSelectedPlaylist={setSelectedPlaylist}
-                    playlistTracks={playlistTracks}
-                    setPlaylistTracks={setPlaylistTracks}
-                    players={players} 
-                    setPlayers={setPlayers}
-                    />
-                <PlayerHUD 
-                    players={players} 
-                    setPlayers={setPlayers}
-                    playing={playing}
-                    setPlaying={setPlaying}
-                    />
+                {currentGame!==""
+                ? <CreateGame />
+                : <>
+                    <Dashboard 
+                        accessToken={accessToken}
+                        playing={playing}
+                        setPlaying={setPlaying}
+                        selectedPlaylist={selectedPlaylist}
+                        setSelectedPlaylist={setSelectedPlaylist}
+                        playlistTracks={playlistTracks}
+                        setPlaylistTracks={setPlaylistTracks}
+                        players={players} 
+                        setPlayers={setPlayers}
+                        />
+                    <PlayerHUD 
+                        players={players} 
+                        setPlayers={setPlayers}
+                        playing={playing}
+                        setPlaying={setPlaying}
+                        />)
+                </>}
         </>
     )
 }
