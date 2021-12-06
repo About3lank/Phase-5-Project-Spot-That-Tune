@@ -15,18 +15,15 @@ const spotifyApi = new SpotifyWebApi({
 
 // console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
-export default function Dashboard({ accessToken, playing, currentGame, setCurrentGame,setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers }) {
+export default function Dashboard({ accessToken, playing, currentGame, setCurrentGame,setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong }) {
 
-        const [ trackSearch, setTrackSearch ] = useState("")
-        const [ trackResults, setTrackResults ] = useState([])
 
-        const [ playlistSearch, setPlaylistSearch ] = useState("")
-        const [ playlistResults, setPlaylistResults ] = useState([])
 
-        const [ currentSong, setCurrentSong ] = useState()
     
 
             const [ lyrics, setLyrics ] = useState("")
+
+
 
 
     // set access token for Spotify API (package: 'spotify-web-api-node')
@@ -35,6 +32,7 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
     }, [accessToken])
+
 
     function handlePlay() {
 

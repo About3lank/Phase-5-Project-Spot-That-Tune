@@ -30,6 +30,13 @@ export default function AuthorizedApp({ code }) {
         const [ showPlaylistSelector, setShowPlaylistSelector ] = useState(false)
         const [ showCreateGame, setShowCreateGame ] = useState(true)
 
+        const [ trackSearch, setTrackSearch ] = useState("")
+        const [ trackResults, setTrackResults ] = useState([])
+        const [ playlistSearch, setPlaylistSearch ] = useState("")
+        const [ playlistResults, setPlaylistResults ] = useState([])
+
+        const [ currentSong, setCurrentSong ] = useState()
+
 
     // useEffect(() => {
     //     setCurrentGame(null)
@@ -79,6 +86,16 @@ export default function AuthorizedApp({ code }) {
     }, [userData.display_name])
 
     // console.log("TESTTTTTTTTTTTT")
+    
+    // new game clears playlist selection and tracks
+    useEffect(() => {
+        setSelectedPlaylist()
+        setPlaylistTracks([])
+        setTrackSearch("")
+        setTrackResults([])
+        setPlaylistSearch("")
+        setPlaylistResults([])
+    }, [currentGame])
 
     cLog("USER DATA", "Authorized App", userData)
 
@@ -108,6 +125,18 @@ export default function AuthorizedApp({ code }) {
                         setPlaylistTracks={setPlaylistTracks}
                         players={players} 
                         setPlayers={setPlayers}
+
+                        trackSearch={trackSearch}
+                        setTrackSearch={setTrackSearch}
+                        trackResults={trackResults}
+                        setTrackResults={setTrackResults}
+                        playlistSearch={playlistSearch}
+                        setPlaylistSearch={setPlaylistSearch}
+                        playlistResults={playlistResults}
+                        setPlaylistResults={setPlaylistResults}
+
+                        currentSong={currentSong}
+                        setCurrentSong={setCurrentSong}
                         />
                     <PlayerHUD 
                         players={players} 
