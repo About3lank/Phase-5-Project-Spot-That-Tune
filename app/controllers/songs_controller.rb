@@ -3,7 +3,6 @@ class SongsController < ApplicationController
     def create
        song_query = Song.where(spotify_id: params[:spotify_id])
 
-   
        if song_query.length>0
            song = song_query[0]
        else

@@ -43,7 +43,7 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
             player.eliminated = false
             return player
         })
-        setPlayers(updatedPlayers)
+        // setPlayers(updatedPlayers)
         console.log("PLAYLIST TRACKS @button: ", playlistTracks)
         console.log("PLAYING TRACK @button: ", currentSong)
         // setPlaying(true)
@@ -52,7 +52,6 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
 
     function playTrack(track) {
         setCurrentSong(track)
-        // setTrackSearch("")
     }
 
     function randomNewTrack() {
@@ -130,7 +129,8 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
         // .then(res => {
         //     setLyrics(res.data.lyrics)
         // })
-    }, [currentSong])
+        cLog("CURRENT SONG", "DASHBOARD WITHIN useEffect", currentSong)
+    }, [currentSong?.spotify_id])
 
     // Song search
     useEffect(() => {
