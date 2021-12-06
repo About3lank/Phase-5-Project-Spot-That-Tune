@@ -11,7 +11,7 @@ export default function PlaylistSearchResult({ playlist, choosePlaylist }) {
             onClick={handleChoice}
             >
             <img
-                src={playlist.imageUrl} 
+                src={playlist.image_url} 
                 style={{ height: "64px", width: "64px" }}
                 />
             <div className="ml-3">{playlist.name}</div>

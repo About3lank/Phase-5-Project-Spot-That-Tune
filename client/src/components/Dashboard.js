@@ -15,7 +15,7 @@ const spotifyApi = new SpotifyWebApi({
 
 // console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
-export default function Dashboard({ accessToken, playing, setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers }) {
+export default function Dashboard({ accessToken, playing, currentGame, setCurrentGame,setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers }) {
 
         const [ trackSearch, setTrackSearch ] = useState("")
         const [ trackResults, setTrackResults ] = useState([])
@@ -23,7 +23,7 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
         const [ playlistSearch, setPlaylistSearch ] = useState("")
         const [ playlistResults, setPlaylistResults ] = useState([])
 
-        const [ playingTrack, setPlayingTrack ] = useState()
+        const [ currentSong, setCurrentSong ] = useState()
     
 
             const [ lyrics, setLyrics ] = useState("")
@@ -45,13 +45,13 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
         })
         setPlayers(updatedPlayers)
         console.log("PLAYLIST TRACKS @button: ", playlistTracks)
-        console.log("PLAYING TRACK @button: ", playingTrack)
+        console.log("PLAYING TRACK @button: ", currentSong)
         // setPlaying(true)
         
     }
 
     function playTrack(track) {
-        setPlayingTrack(track)
+        setCurrentSong(track)
         // setTrackSearch("")
     }
 
@@ -99,7 +99,8 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
                     title: item.track.name,
                     artist: item.track.artists[0].name,
                     uri: item.track.uri,
-                    albumUrl: smallestAlbumImage.url
+                    image_url: smallestAlbumImage.url,
+                    spotify_id: item.track.id
                 })
             }))
             console.log("DATA ITEMS: ", data.items)})
@@ -108,18 +109,28 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
 
     // retrieve lyrics
     useEffect(() => {
-        if (!playingTrack) return
-        axios.get('http://localhost:3002/lyrics', {
-            params: {
-                track: playingTrack.title,
-                artist: playingTrack.artist
-            }
-        })
-        .then(res => {
-            setLyrics(res.data.lyrics)
-        })
+        if (!currentSong) return
 
-    }, [playingTrack])
+        fetch(
+            "/songs", {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(currentSong)
+            })
+            .then(res => res.json())
+            .then(data => setCurrentSong(data))
+        // axios.get('http://localhost:3002/lyrics', {
+        //     params: {
+        //         track: currentSong.title,
+        //         artist: currentSong.artist
+        //     }
+        // })
+        // .then(res => {
+        //     setLyrics(res.data.lyrics)
+        // })
+    }, [currentSong])
 
     // Song search
     useEffect(() => {
@@ -142,7 +153,8 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
                         title: track.name,
                         artist: track.artists[0].name,
                         uri: track.uri,
-                        albumUrl: smallestAlbumImage.url
+                        image_url: smallestAlbumImage.url,
+                        spotify_id: track.id
                     }
                 }))
             })
@@ -174,7 +186,7 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
                         description: playlist.description,
                         tracks: playlist.tracks.href,
                         uri: playlist.uri,
-                        imageUrl: smallestPlaylistImage.url
+                        image_url: smallestPlaylistImage.url
                     }
                 }))
             })
@@ -246,11 +258,12 @@ export default function Dashboard({ accessToken, playing, setPlaying, selectedPl
                     </button>
                 }
                 <button type="button" onClick={() => setPlaying(true)}> RESUME PLAYING </button>
+                <button type="button" onClick={() => setCurrentGame(null)}> END GAME </button>
                 
                 <div>
                     <Playback
                         accessToken={accessToken}
-                        trackUri={playingTrack?.uri}
+                        trackUri={currentSong?.uri}
                         playing={playing}
                         setPlaying={setPlaying}
                         />

@@ -1,13 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Form } from 'react-bootstrap'
 
-export default function PlayerAdder({ players, setPlayers, number }) {
+import cLog from '../functions/ConsoleLogger'
+
+export default function PlayerAdder({ players, setPlayers, number, userData, setUserData }) {
         const [ playerName, setPlayerName ] = useState("")
+        const [ buildUser, setBuildUser ] = useState(null)
         const [ showForm, setShowForm ] = useState(false)
 
     // function handleAddPlayer() {
 
     // }
+
+    useEffect(() => {
+        if (buildUser) {
+            fetch(
+                "/users", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(buildUser),
+                })
+            .then(res => res.json())
+            .then(data => {
+                const updatedPlayers = [...players]
+                updatedPlayers[number - 1].id = data.id
+                setPlayers(updatedPlayers)
+            })
+        }
+
+    }, [buildUser])
 
     if (number > 1) {
         if (players[number - 2].name==="") {
@@ -26,9 +49,16 @@ export default function PlayerAdder({ players, setPlayers, number }) {
 
     function handleSubmitName(e) {
         e.preventDefault()
+
         const updatedPlayers = [...players]
         updatedPlayers[number - 1].name = playerName
         setPlayers(updatedPlayers)
+
+        const buildNewUser = {...userData}
+        buildNewUser.display_name = playerName
+        cLog("BUILD NEW USER", "handleSubmitName", buildNewUser)
+        setUserData(buildNewUser)
+
     }
 
     return (

@@ -4,8 +4,10 @@ import PlayerAdder from './PlayerAdder'
 import { Container } from 'react-bootstrap'
 import cLog from '../functions/ConsoleLogger'
 
-export default function PlayerHUD({ players, setPlayers, playing, setPlaying }) {
+export default function PlayerHUD({ players, setPlayers, playing, setPlaying, userData, setUserData }) {
         const [ whoBuzzed, setWhoBuzzed ] = useState("")
+
+        cLog("USER DATA", "PlayerHUD", userData)
 
     // console.log("PLAYERS @PlayerHUD.js: ", players)
     return (
@@ -25,6 +27,8 @@ export default function PlayerHUD({ players, setPlayers, playing, setPlaying }) 
                         players={players} 
                         setPlayers={setPlayers}
                         number={i+1}
+                        userData={userData}
+                        setUserData={setUserData}
                         />
                     : <Player 
                         className="float-child"

@@ -5,6 +5,7 @@ import CreateGame from './CreateGame'
 import Dashboard from './Dashboard'
 import PlayerHUD from './PlayerHUD'
 
+
 import cLog from '../functions/ConsoleLogger'
 
 
@@ -12,11 +13,27 @@ export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
 
         const [ userData, setUserData ] = useState({})
-        const [ currentGame, setCurrentGame ] = useState("")
+        const [ currentGame, setCurrentGame ] = useState(null)
+        const [ initiateGame, setInitiateGame ] = useState(0)
+        
         const [ selectedPlaylist, setSelectedPlaylist ] = useState()
         const [ playlistTracks, setPlaylistTracks ] = useState([])
-        const [ players, setPlayers ] = useState([{name: "", eliminated: false}, {name: "", eliminated: false}, {name: "", eliminated: false}, {name: "", eliminated: false}])
+        const [ players, setPlayers ] = useState([
+            {id: null, name: "", eliminated: false},
+            {id: null, name: "", eliminated: false},
+            {id: null, name: "", eliminated: false},
+            {id: null, name: "", eliminated: false},
+        ])
+            
         const [ playing, setPlaying ] = useState(false)
+
+        const [ showPlaylistSelector, setShowPlaylistSelector ] = useState(false)
+        const [ showCreateGame, setShowCreateGame ] = useState(true)
+
+
+    // useEffect(() => {
+    //     setCurrentGame(null)
+    // }, [])
 
     // call Spotify API for User Data, then store that in state
     useEffect(() => {
@@ -46,6 +63,8 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!userData) return
         if (!accessToken) return
+// 
+        cLog("USER DATA", "Authorized App, within useEffect", userData)
 
         fetch(
             "/create_user", {
@@ -57,13 +76,20 @@ export default function AuthorizedApp({ code }) {
             })
         .then(res => res.json())
         .then(data => setUserData(data))
-    }, [userData])
+    }, [userData.display_name])
+
+    // console.log("TESTTTTTTTTTTTT")
+
+    cLog("USER DATA", "Authorized App", userData)
 
     return (
         <>
-                <NavBar userData={userData}/>
-                {currentGame!==""
-                ? <CreateGame />
+                <NavBar
+                    userData={userData}
+                    currentGame={currentGame}/>
+                {!currentGame
+                ? <CreateGame 
+                    setCurrentGame={setCurrentGame} />
                 : <>
                     <Dashboard 
                         accessToken={accessToken}
@@ -71,6 +97,13 @@ export default function AuthorizedApp({ code }) {
                         setPlaying={setPlaying}
                         selectedPlaylist={selectedPlaylist}
                         setSelectedPlaylist={setSelectedPlaylist}
+
+                        currentGame={currentGame}
+                        setCurrentGame={setCurrentGame}
+
+                        showPlaylistSelector={showPlaylistSelector}
+                        setShowPlaylistSelector={setShowPlaylistSelector}
+
                         playlistTracks={playlistTracks}
                         setPlaylistTracks={setPlaylistTracks}
                         players={players} 
@@ -81,7 +114,9 @@ export default function AuthorizedApp({ code }) {
                         setPlayers={setPlayers}
                         playing={playing}
                         setPlaying={setPlaying}
-                        />)
+                        userData={userData}
+                        setUserData={setUserData}
+                        />
                 </>}
         </>
     )

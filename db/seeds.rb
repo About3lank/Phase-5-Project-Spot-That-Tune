@@ -7,7 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 puts "Destroying everything..."
-User.destroy_all 
+    User.destroy_all 
+    Playlist.destroy_all
+    Game.destroy_all
 
 puts "Creating user(s)..."
 User.create([
@@ -36,6 +38,13 @@ User.create([
 ])
 
 puts "Creating playlist(s)..."
+null_playlist = Playlist.create({
+    name: "",
+    description: "",
+    tracks: "",
+    imageUrl: "",
+    uri: "null_playlist"
+})
 Playlist.create([
     {
         name: "Emo Forever",
@@ -45,5 +54,7 @@ Playlist.create([
         uri: "spotify:playlist:37i9dQZF1DX9wa6XirBPv8"
     }
 ])
+
+# puts "Creating games..."
 
 puts "Done!!!"

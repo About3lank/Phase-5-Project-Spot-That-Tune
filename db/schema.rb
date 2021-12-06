@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_02_102354) do
+ActiveRecord::Schema.define(version: 2021_12_06_212436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "games", force: :cascade do |t|
+    t.string "code"
+    t.bigint "playlist_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["playlist_id"], name: "index_games_on_playlist_id"
+  end
 
   create_table "playlists", force: :cascade do |t|
     t.string "name"
@@ -23,6 +31,28 @@ ActiveRecord::Schema.define(version: 2021_12_02_102354) do
     t.string "uri"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.string "title"
+    t.string "artist"
+    t.string "image_url"
+    t.string "uri"
+    t.string "spotify_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tokens", force: :cascade do |t|
+    t.string "title"
+    t.string "artist"
+    t.string "imageUrl"
+    t.bigint "users_id"
+    t.bigint "games_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["games_id"], name: "index_tokens_on_games_id"
+    t.index ["users_id"], name: "index_tokens_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -35,4 +65,7 @@ ActiveRecord::Schema.define(version: 2021_12_02_102354) do
     t.string "account_name"
   end
 
+  add_foreign_key "games", "playlists"
+  add_foreign_key "tokens", "games", column: "games_id"
+  add_foreign_key "tokens", "users", column: "users_id"
 end
