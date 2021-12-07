@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Buzzer({ drill, number }) {
-    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed } = drill
+    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, showTrackSearch, setShowTrackSearch } = drill
     function amIStillIn() {
         return !players[number-1].eliminated
     }
@@ -10,14 +10,13 @@ export default function Buzzer({ drill, number }) {
         console.log("clicked BUZZ")
         console.log("isPlaying??: ", isPlaying)
         if (isPlaying) {
-            console.log("doing BUZZ stuff...")
-
+                // console.log("doing BUZZ stuff...")
             setIsPlaying(false)
             setWhoBuzzed(number)
-
             const updatedPlayers = [...players]
-            updatedPlayers[number-1].eliminated = true
-            setPlayers(updatedPlayers)
+                updatedPlayers[number-1].eliminated = true
+                setPlayers(updatedPlayers)
+            setShowTrackSearch(true)
         }
     }
 

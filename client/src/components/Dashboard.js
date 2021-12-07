@@ -17,7 +17,7 @@ const spotifyApi = new SpotifyWebApi({
 
 export default function Dashboard({ drill }) {
 
-    const { accessToken, isPlaying, currentGame, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong } = drill
+    const { accessToken, isPlaying, currentGame, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
@@ -87,6 +87,7 @@ export default function Dashboard({ drill }) {
                         if (image.height < smallest.height) return image
                         return smallest
                     }, item.track.album.images[0])
+                setShowPlaylistSearch(false)
                 return({
                     title: item.track.name,
                     artist: item.track.artists[0].name,
@@ -187,55 +188,65 @@ export default function Dashboard({ drill }) {
             className="d-flex flex-column py-2"
             style={{height: "50vh" }}
             >
-                {/* <Form.Control 
-                    type="search" 
-                    placeholder="Search Songs"
-                    value={trackSearch}
-                    onChange={e => setTrackSearch(e.target.value)}
-                    />
-                <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-                    {trackResults.map(track => (
-                        <TrackSearchResult
-                            track={track}
-                            key={track.url} 
-                            playTrack={playTrack}
+                {showTrackSearch
+                    ? <>
+                        <Form.Control 
+                            type="search" 
+                            placeholder="Search Songs"
+                            value={trackSearch}
+                            onChange={e => setTrackSearch(e.target.value)}
                             />
-                    ))}
-                    {trackResults.length === 0 && (
-                        <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
-                    )}
-                </div> */}
-                <Form.Control 
-                    type="search" 
-                    placeholder="Search Playlists"
-                    value={playlistSearch}
-                    onChange={e => handlePlaylistSearch(e)}
-                    />
-                <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-                    {playlistResults.map(playlist => (
-                        <PlaylistSearchResult
-                            playlist={playlist}
-                            key={playlist.uri} 
-                            choosePlaylist={choosePlaylist}
-                            />
-                    ))}
-                    {playlistTracks.map(track => (
-                        <TrackSearchResult
-                            track={track}
-                            key={track.uri} 
-                            playTrack={playTrack}
-                            />
-                    ))}
+                        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
+                            {trackResults.map(track => (
+                                <TrackSearchResult
+                                    drill={drill}
+                                    track={track}
+                                    key={track.url} 
+                                    playTrack={playTrack}
+                                    />
+                            ))}
+                            {/* {trackResults.length === 0 && (
+                                <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
+                            )} */}
+                        </div>
+                    </>
+                    : null }
+                {showPlaylistSearch
+                ? <>
+                    <Form.Control 
+                        type="search" 
+                        placeholder="Search Playlists"
+                        value={playlistSearch}
+                        onChange={e => handlePlaylistSearch(e)}
+                        />
+                    <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
+                        {playlistResults.map(playlist => (
+                            <PlaylistSearchResult
+                                playlist={playlist}
+                                key={playlist.uri} 
+                                choosePlaylist={choosePlaylist}
+                                />
+                        ))}
+                        {playlistTracks.map(track => (
+                            <TrackSearchResult
+                                drill={drill}
+                                track={track}
+                                key={track.uri} 
+                                playTrack={playTrack}
+                                />
+                        ))}
 
-                    {/* 
-                    // show lyrics
-                    {playlistResults.length === 0 && (
-                        <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
-                    )} 
-                    */}
+                        {/* 
+                        // show lyrics
+                        {playlistResults.length === 0 && (
+                            <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
+                        )} 
+                        */}
 
 
-                </div>
+                    </div>
+                </>
+                : null}
                 
                 {// prototype for BUZZ and NEW-ROUND buttons
                 isPlaying===true

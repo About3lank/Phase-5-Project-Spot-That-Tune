@@ -1,15 +1,21 @@
 import React from 'react'
+import cLog from '../functions/ConsoleLogger'
 
-export default function TrackSearchResult({ track, playTrack }) {
-    function handlePlay() {
-        console.log("TRACK @tracksearchresult _onClick_: ", track)
-        playTrack(track)
+export default function TrackSearchResult({ drill, track }) {
+
+    const { songGuess, setSongGuess } = drill
+    // console.log("TRACK @tracksearchresult _onClick_: ", track)
+
+    function handleGuess() {
+        setSongGuess(track)
+        cLog("SONG GUESS", "TRACK SEARCH RESULT, after handleGuess", songGuess)
     }
+    
     return (
         <div
             className="d-flex m-2 align-items-center"
             style={{ cursor: "pointer" }}
-            onClick={handlePlay}
+            onClick={handleGuess}
         >
             <img
                 src={track.image_url} 

@@ -4,34 +4,31 @@ import { Container, Form } from 'react-bootstrap'
 import cLog from '../functions/ConsoleLogger'
 
 export default function PlayerAdder({ drill, number }) {
-    const { players, setPlayers, currentUser, setCurrentUser } = drill
+    const { players, setPlayers, currentUser, setCurrentUser, buildPlayer, setBuildPlayer } = drill
         const [ playerName, setPlayerName ] = useState("")
-        const [ buildUser, setBuildUser ] = useState(null)
+
         const [ showForm, setShowForm ] = useState(false)
 
     // function handleAddPlayer() {
 
     // }
 
-    useEffect(() => {
-        if (buildUser) {
-            fetch(
-                "/users", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(buildUser),
-                })
-            .then(res => res.json())
-            .then(data => {
-                const updatedPlayers = [...players]
-                updatedPlayers[number - 1].id = data.id
-                setPlayers(updatedPlayers)
-            })
-        }
+    // useEffect(() => {
+    //     if (!buildPlayer) return
+    //     console.log("ACTIVATED USE EFFECT BUILDPLAYER")
+    //     cLog("CURRENT USER", "PlayerAdder useEffect", currentUser)
 
-    }, [buildUser])
+        
+
+    //     cLog("UPDATED PLAYERS", "INSIDE FETCH DATA", updatedPlayers)
+
+    //     setPlayers(updatedPlayers)
+
+    //     cLog("PLAYERS", "PlayerAdder after POST fetch", players)
+
+        
+
+    //     }, [currentUser])
 
     if (number > 1) {
         if (players[number - 2].name==="") {
@@ -53,14 +50,12 @@ export default function PlayerAdder({ drill, number }) {
 
         cLog("PLAYERS", "HANDLE SUBMIT NAME top", players)
 
-        const updatedPlayers = [...players]
-        updatedPlayers[number - 1].name = playerName
-        setPlayers(updatedPlayers)
-
         const buildNewUser = {...currentUser}
         buildNewUser.display_name = playerName
         cLog("BUILD NEW USER", "handleSubmitName", buildNewUser)
+        setBuildPlayer(number)
         setCurrentUser(buildNewUser)
+
 
     }
 
