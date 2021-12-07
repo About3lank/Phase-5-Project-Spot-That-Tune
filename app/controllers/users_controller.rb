@@ -1,7 +1,14 @@
 class UsersController < ApplicationController
     
     # skip_before_action :confirm_authentication
-
+    def show
+        user = User.find_by(id: params[:id])
+        if user
+            render json: user, status: :ok
+        else
+            render json: {error: user.errors}, status: :unprocessable_entity
+        end
+    end
  #'/login'
  def create
     user_query = User.where(spotify_id: params[:spotify_id], display_name: params[:display_name])
@@ -17,6 +24,8 @@ class UsersController < ApplicationController
         puts "User created"
 
     end
+
+
 
     
     # if user
@@ -44,6 +53,5 @@ end
     def user_params
         params.permit(:account_name, :display_name, :email, :spotify_id, :uri)
     end
-
 
 end

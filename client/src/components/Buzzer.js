@@ -1,4 +1,5 @@
 import React from 'react'
+import cLog from '../functions/ConsoleLogger'
 
 export default function Buzzer({ drill, number }) {
     const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, showTrackSearch, setShowTrackSearch } = drill
@@ -12,12 +13,17 @@ export default function Buzzer({ drill, number }) {
         if (isPlaying) {
                 // console.log("doing BUZZ stuff...")
             setIsPlaying(false)
-            setWhoBuzzed(number)
+
             const updatedPlayers = [...players]
                 updatedPlayers[number-1].eliminated = true
                 setPlayers(updatedPlayers)
+                setWhoBuzzed(players[number-1].id)
             setShowTrackSearch(true)
+
         }
+        cLog("PLAYERS", "Buzzer@handleBuzz", players)
+        cLog("WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
+        
     }
 
     return (

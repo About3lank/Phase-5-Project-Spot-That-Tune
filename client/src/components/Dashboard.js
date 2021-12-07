@@ -213,6 +213,9 @@ export default function Dashboard({ drill }) {
                     : null }
                 {showPlaylistSearch
                 ? <>
+                <h1>Choose a playlist:</h1>
+                <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p>
+                <h2>Or search Spotify!</h2>
                     <Form.Control 
                         type="search" 
                         placeholder="Search Playlists"

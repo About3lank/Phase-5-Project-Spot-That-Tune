@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users 
   resources :playlists
   resources :games
   resources :tokens

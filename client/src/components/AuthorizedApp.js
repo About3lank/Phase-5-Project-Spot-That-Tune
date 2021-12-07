@@ -13,6 +13,7 @@ export default function AuthorizedApp({ code }) {
         const [ currentGame, setCurrentGame ] = useState(null)
         const [ currentPlaylist, setCurrentPlaylist ] = useState()
         const [ currentSong, setCurrentSong ] = useState()
+        const [ currentRound, setCurrentRound ] = useState(0)
 
         const [ playlistTracks, setPlaylistTracks ] = useState([])
         const [ players, setPlayers ] = useState([
@@ -44,6 +45,7 @@ export default function AuthorizedApp({ code }) {
                 currentGame: currentGame, setCurrentGame: setCurrentGame,
                 currentPlaylist: currentPlaylist, setCurrentPlaylist: setCurrentPlaylist,
                 currentSong: currentSong, setCurrentSong: setCurrentSong,
+                currentRound: currentRound, setCurrentRound: setCurrentRound,
                 playlistTracks: playlistTracks, setPlaylistTracks: setPlaylistTracks,
                 players: players, setPlayers: setPlayers,
                 buildPlayer: buildPlayer, setBuildPlayer: setBuildPlayer,
@@ -118,6 +120,7 @@ export default function AuthorizedApp({ code }) {
         setTrackResults([])
         setPlaylistSearch("")
         setPlaylistResults([])
+        setShowPlaylistSearch(true)
     }, [currentGame])
 
     useEffect(() => {
@@ -130,9 +133,25 @@ export default function AuthorizedApp({ code }) {
 
         if (reduced(songGuess.title)===reduced(currentSong.title)
             && reduced(songGuess.artist)===reduced(currentSong.artist)) {
+            cLog("WHO BUZZED?", "AuthorizdApp136", whoBuzzed)
             console.log("song playing is: ", currentSong)
             console.log("CORRECT! The song is: ", currentSong)
             console.log("create a token")
+            const token = {
+                user_id: whoBuzzed,
+                song_id: currentSong.id,
+                game_id: currentGame.id
+            }
+            fetch(
+                "/tokens", {
+                    method: 'POST',
+                    headers: {
+                    'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(token)
+                })
+                .then(res => res.json())
+                .then(data => console.log("TOKEN POST DATA: ", data))
         } else {
             console.log("song playing is: ", currentSong)
             console.log("SORRY! The song was: ", currentSong)

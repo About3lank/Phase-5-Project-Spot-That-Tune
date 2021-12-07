@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_06_212436) do
+ActiveRecord::Schema.define(version: 2021_12_07_041321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,15 +44,14 @@ ActiveRecord::Schema.define(version: 2021_12_06_212436) do
   end
 
   create_table "tokens", force: :cascade do |t|
-    t.string "title"
-    t.string "artist"
-    t.string "imageUrl"
-    t.bigint "users_id"
-    t.bigint "games_id"
+    t.bigint "user_id"
+    t.bigint "game_id"
+    t.bigint "song_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["games_id"], name: "index_tokens_on_games_id"
-    t.index ["users_id"], name: "index_tokens_on_users_id"
+    t.index ["game_id"], name: "index_tokens_on_game_id"
+    t.index ["song_id"], name: "index_tokens_on_song_id"
+    t.index ["user_id"], name: "index_tokens_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,6 +65,7 @@ ActiveRecord::Schema.define(version: 2021_12_06_212436) do
   end
 
   add_foreign_key "games", "playlists"
-  add_foreign_key "tokens", "games", column: "games_id"
-  add_foreign_key "tokens", "users", column: "users_id"
+  add_foreign_key "tokens", "games"
+  add_foreign_key "tokens", "songs"
+  add_foreign_key "tokens", "users"
 end

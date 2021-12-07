@@ -6,7 +6,7 @@ export default function PlaylistSearchResult({ playlist, choosePlaylist }) {
     }
     return (
         <div
-            className="d-flex m-2 align-items-center"
+            className="d-flex m-1 align-items-center"
             style={{ cursor: "pointer" }}
             onClick={handleChoice}
             >
