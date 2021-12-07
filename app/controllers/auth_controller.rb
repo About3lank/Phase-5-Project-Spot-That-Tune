@@ -9,13 +9,15 @@ class AuthController < ApplicationController
           redirect_uri: 'http://localhost:3001',
           scope: "streaming 
           user-read-email
-          user-read-private
-          user-library-read
-          user-library-modify
           user-read-playback-state
           user-modify-playback-state",
          show_dialog: true
         }
         redirect_to "#{url}?#{query_params.to_query}"
       end
+
+    #   removed
+    #   user-read-private
+    #   user-library-read
+    #   user-library-modify
 end

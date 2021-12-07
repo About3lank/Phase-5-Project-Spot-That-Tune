@@ -6,12 +6,13 @@ import Dashboard from './Dashboard'
 import PlayerHUD from './PlayerHUD'
 import cLog from '../functions/ConsoleLogger'
 
+
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
 
         const [ currentUser, setCurrentUser ] = useState({})
         const [ currentGame, setCurrentGame ] = useState(null)
-        const [ currentPlaylist, setCurrentPlaylist ] = useState()
+        const [ currentPlaylist, setCurrentPlaylist ] = useState(null)
         const [ currentSong, setCurrentSong ] = useState()
         const [ currentRound, setCurrentRound ] = useState(0)
 
@@ -22,10 +23,10 @@ export default function AuthorizedApp({ code }) {
             {id: null, name: "", eliminated: false},
             {id: null, name: "", eliminated: false},
         ])
+        const [ gameInit, setGameInit ] = useState(false)
         const [ buildPlayer, setBuildPlayer ] = useState(0)
         const [ whoBuzzed, setWhoBuzzed ] = useState("")
         const [ songGuess, setSongGuess ] = useState(null)
-            
         const [ isPlaying, setIsPlaying ] = useState(false)
 
         const [ showPlaylistSearch, setShowPlaylistSearch ] = useState(true)
@@ -48,6 +49,7 @@ export default function AuthorizedApp({ code }) {
                 currentRound: currentRound, setCurrentRound: setCurrentRound,
                 playlistTracks: playlistTracks, setPlaylistTracks: setPlaylistTracks,
                 players: players, setPlayers: setPlayers,
+                gameInit: gameInit, setGameInit: setGameInit,
                 buildPlayer: buildPlayer, setBuildPlayer: setBuildPlayer,
                 whoBuzzed: whoBuzzed, setWhoBuzzed: setWhoBuzzed,
                 songGuess: songGuess, setSongGuess: setSongGuess,
@@ -82,7 +84,24 @@ export default function AuthorizedApp({ code }) {
         }))
     }, [accessToken])
 
-    // cLog("USER_DATA", 'AuthorizedApp.js', currentUser)
+    // initiate game
+    useEffect(() => {
+        if (gameInit) {
+            fetch(
+                "/games", {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+            })
+            .then(res => res.json())
+            .then(data => {
+                setCurrentGame({id: data.id, code: data.code})
+            })
+        }
+    }, [gameInit])
+
+    // cLog(                                          "USER_DATA", 'AuthorizedApp.js', currentUser)
     
     // on display_name change --> POST to Rails API --> set currentUser
     useEffect(() => {

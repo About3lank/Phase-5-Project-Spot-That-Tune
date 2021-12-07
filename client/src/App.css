@@ -1,8 +1,33 @@
+:root {
+  --spotify-green: #1ed760;
+  --red: #e46262;
+}
 
+
+
+button {
+  font-weight: bold;
+  line-height: 1;
+  letter-spacing: .2vh;
+}
+
+.btn-green {
+  background-color: var(--spotify-green);
+  color: white;
+}
+
+.btn-red {
+  background-color: var(--red);
+  color: white;
+}
+
+.btn-gray {
+  color: rgb(53, 53, 53);
+}
 
 
 .float-container {
-  border: 3px solid #fff;
+  /* border: 3px solid #fff; */
   padding: 20px;
   width: 120vh;
   margin: auto;
@@ -22,10 +47,11 @@
 
 
 
-
-
-
-
+html, #root {
+  color: white;
+  background-color: black;
+  font-family: Helvetica, sans-serif
+}
 
 
 

@@ -1,32 +1,19 @@
 import { useState, useEffect } from 'react'
+import Button from './Button'
 
 function CreateGame({ drill }) {
-    const { setCurrentGame } = drill
-    const [ gameInit, setGameInit ] = useState(false)
-
-    useEffect(() => {
-        if (gameInit) {
-            fetch(
-                "/games", {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json'
-                    }
-            })
-            .then(res => res.json())
-            .then(data => {
-                setCurrentGame({id: data.id, code: data.code})
-            })
-        }
-    }, [gameInit])
-
+    const { setCurrentGame, gameInit, setGameInit } = drill
     return (
         <div>
             <h1>NO GAME YET - CREATE ONE! </h1>
-            <button type="button" 
-                    onClick={() => setGameInit(true)} 
-                >LET'S PLAY!
-            </button>
+            <Button 
+                action={() => setGameInit(true)}
+                text="LET'S PLAY!"
+                color="green"
+                style={{ 
+                    minWidth: "40vh", 
+                    height: "8vh", 
+                    fontSize: "3.8vh" }}/>
         </div>
     )
 }

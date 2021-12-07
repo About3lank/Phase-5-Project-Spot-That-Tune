@@ -4,6 +4,9 @@ import SpotifyWebApi from 'spotify-web-api-node'
 
 import TrackSearchResult from './TrackSearchResult'
 import PlaylistSearchResult from './PlaylistSearchResult'
+import GuessSong from './GuessSong'
+import Buzzer from './Buzzer'
+import Button from './Button'
 import Playback from './Playback'
 
 import axios from 'axios'
@@ -17,12 +20,11 @@ const spotifyApi = new SpotifyWebApi({
 
 export default function Dashboard({ drill }) {
 
-    const { accessToken, isPlaying, currentGame, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess } = drill
+    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
-
-
+    cLog("CURRENT ROUND", "DASHBOARD.js _top_", currentRound)
 
     // set access token for Spotify API (package: 'spotify-web-api-node')
     // replace with rails API when possible/practical?
@@ -31,10 +33,11 @@ export default function Dashboard({ drill }) {
         spotifyApi.setAccessToken(accessToken)
     }, [accessToken])
 
-
-    function handlePlay() {
-
+    function handleNewRound() {
         playTrack(randomNewTrack());
+        let newRound = currentRound
+        newRound = newRound + 1
+        setCurrentRound(newRound)
         const updatedPlayers = players.map((player) => {
             player.eliminated = false
             return player
@@ -60,6 +63,10 @@ export default function Dashboard({ drill }) {
         setCurrentPlaylist(playlist)
         console.log("CURRENT PLAYLIST: ", playlist)
         setPlaylistSearch("")
+    }
+
+    function playlistPlayersExist() {
+        return currentPlaylist && players[0].id && players[1].id
     }
 
     function handlePlaylistSearch(e) {
@@ -99,7 +106,7 @@ export default function Dashboard({ drill }) {
             console.log("DATA ITEMS: ", data.items)})
     }, [currentPlaylist])
 
-    // retrieve lyrics
+    // retrieve lyrics -- not currently in use
     useEffect(() => {
         if (!currentSong) return
         fetch(
@@ -189,27 +196,7 @@ export default function Dashboard({ drill }) {
             style={{height: "50vh" }}
             >
                 {showTrackSearch
-                    ? <>
-                        <Form.Control 
-                            type="search" 
-                            placeholder="Search Songs"
-                            value={trackSearch}
-                            onChange={e => setTrackSearch(e.target.value)}
-                            />
-                        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-                            {trackResults.map(track => (
-                                <TrackSearchResult
-                                    drill={drill}
-                                    track={track}
-                                    key={track.url} 
-                                    playTrack={playTrack}
-                                    />
-                            ))}
-                            {/* {trackResults.length === 0 && (
-                                <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
-                            )} */}
-                        </div>
-                    </>
+                    ? <GuessSong drill={drill} />
                     : null }
                 {showPlaylistSearch
                 ? <>
@@ -251,23 +238,53 @@ export default function Dashboard({ drill }) {
                 </>
                 : null}
                 
-                {// prototype for BUZZ and NEW-ROUND buttons
-                isPlaying===true
-                    ? <button type="button" onClick={() => setIsPlaying(false)}> TEST BUZZ</button>
-                    : <button type="button" onClick={handlePlay}>
-                        NEW ROUND
-                    </button>
-                }
-                <button type="button" onClick={() => setIsPlaying(true)}> RESUME PLAYING </button>
-                <button type="button" onClick={() => setCurrentGame(null)}> END GAME </button>
-                
+                {playlistPlayersExist()
+                    ?   isPlaying
+                            ?   <>
+                                    <Buzzer 
+                                        drill={drill}
+                                        number={1} />
+                                    <p> ^ TEST BUZZER P1 ^</p>
+                                </>
+                            :   <>
+                                    <Button
+                                        action={handleNewRound}
+                                        text={currentRound===0 ? "START!" : "NEW ROUND"}
+                                        color="green"
+                                        style={{
+                                            minWidth: "60vh",
+                                            width: "60vh",
+                                            height: "6vh",
+                                            borderRadius: ".3vh"
+                                        }} />
+                            
+                                    <Button 
+                                        action={() => setIsPlaying(true)} 
+                                        text="RESUME PLAYING"
+                                        color="gray"
+                                        style={{
+                                            minWidth: "60vh",
+                                            width: "60vh",
+                                            height: "6vh",
+                                            borderRadius: ".3vh"
+                                        }} />
+                                    <Button
+                                        action={() => setCurrentGame(null)}
+                                        text="END GAME"
+                                        color="red"
+                                        style={{
+                                            minWidth: "60vh",
+                                            width: "60vh",
+                                            height: "6vh",
+                                            borderRadius: ".3vh"
+                                        }} />
+                                </>
+                    :   null}
+
                 <div>
-                    <Playback drill={drill}
-                        // accessToken={accessToken}
-                        trackUri={currentSong?.uri}
-                        // isPlaying={isPlaying}
-                        // setIsPlaying={setIsPlaying}
-                        />
+                    <Playback 
+                        drill={drill}
+                        trackUri={currentSong?.uri} />
                 </div>
         </Container>
     )

@@ -8,29 +8,25 @@ export default function Buzzer({ drill, number }) {
     }
 
     function handleBuzz() {
-        console.log("clicked BUZZ")
-        console.log("isPlaying??: ", isPlaying)
-        if (isPlaying) {
-                // console.log("doing BUZZ stuff...")
-            setIsPlaying(false)
-
-            const updatedPlayers = [...players]
-                updatedPlayers[number-1].eliminated = true
-                setPlayers(updatedPlayers)
-                setWhoBuzzed(players[number-1].id)
-            setShowTrackSearch(true)
-
-        }
-        cLog("PLAYERS", "Buzzer@handleBuzz", players)
-        cLog("WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
+        if (players[number - 1].eliminated) { return }
+        if (!isPlaying) { return }
+        setIsPlaying(false)
+        const updatedPlayers = [...players]
+            updatedPlayers[number-1].eliminated = true
+            setPlayers(updatedPlayers)
+            setWhoBuzzed(players[number-1].id)
+        setShowTrackSearch(true)
+        cLog(                                   "PLAYERS", "Buzzer@handleBuzz", players)
+        cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
         
     }
 
     return (
-        <button 
+        <button
             type="button" 
+            className = "buzzer"
             onClick={handleBuzz} 
-            style={{borderRadius: "50px"}}
+            style={{borderRadius: "50px", backgroundColor: "yellow"}}
             >
                 {(isPlaying && amIStillIn())? "BUZZZZ" : "..."}
         </button>
