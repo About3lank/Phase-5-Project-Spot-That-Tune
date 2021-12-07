@@ -26,11 +26,10 @@ export default function Buzzer({ drill, number }) {
         // const buzzerUrl = "http://soundbible.com/grab.php?id=1501&type=mp3"
         // const buzzerUrl = "http://soundbible.com/grab.php?id=1495&type=mp3"
         // const buzzerUrl = "https://notification-sounds.com/soundsfiles/Game-show-buzzer-sound.mp3"
+        
         const buzzerUrl = "https://notification-sounds.com/soundsfiles/Good-idea-bell.mp3"
         let audio = new Audio(buzzerUrl);
         audio.play();
-
-        console.log("bzzz")
     }
 
     return (
