@@ -8,10 +8,10 @@ export default function Player({ drill, player, number }) {
         <div className="float-child">
             <h3>{player.name}</h3>
             <p><em>Player #{number}</em></p>
-            <Buzzer drill={drill}
+            <Buzzer drill={drill} number={number}
                 // players={players}
                 // setPlayers={setPlayers}
-                // number={number}
+                // 
                 // isPlaying={isPlaying}
                 // setIsPlaying={setIsPlaying}
                 // whoBuzzed={whoBuzzed}

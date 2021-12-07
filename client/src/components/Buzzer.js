@@ -1,25 +1,24 @@
 import React from 'react'
 
-export default function Buzzer({ players, setPlayers, number, playing, setPlaying, whoBuzzed, setWhoBuzzed }) {
+export default function Buzzer({ drill, number }) {
+    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed } = drill
     function amIStillIn() {
         return !players[number-1].eliminated
     }
 
     function handleBuzz() {
         console.log("clicked BUZZ")
-        console.log("playing??: ", playing)
-        if (playing) {
+        console.log("isPlaying??: ", isPlaying)
+        if (isPlaying) {
             console.log("doing BUZZ stuff...")
 
-            setPlaying(false)
+            setIsPlaying(false)
             setWhoBuzzed(number)
 
             const updatedPlayers = [...players]
             updatedPlayers[number-1].eliminated = true
             setPlayers(updatedPlayers)
-
         }
-
     }
 
     return (
@@ -28,7 +27,7 @@ export default function Buzzer({ players, setPlayers, number, playing, setPlayin
             onClick={handleBuzz} 
             style={{borderRadius: "50px"}}
             >
-                {(playing && amIStillIn())? "BUZZZZ" : "..."}
+                {(isPlaying && amIStillIn())? "BUZZZZ" : "..."}
         </button>
     )
 }

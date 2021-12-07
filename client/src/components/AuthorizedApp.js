@@ -57,7 +57,6 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!currentUser) return
         if (!accessToken) return
-
         const authHeader = `Bearer ${accessToken}`
         fetch(
             "https://api.spotify.com/v1/me", {
