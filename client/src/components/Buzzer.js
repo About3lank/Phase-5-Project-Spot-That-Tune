@@ -10,6 +10,7 @@ export default function Buzzer({ drill, number }) {
     function handleBuzz() {
         if (players[number - 1].eliminated) { return }
         if (!isPlaying) { return }
+        // playBuzzAudio()
         setIsPlaying(false)
         const updatedPlayers = [...players]
             updatedPlayers[number-1].eliminated = true
@@ -20,6 +21,15 @@ export default function Buzzer({ drill, number }) {
         cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
         
     }
+
+    // function playBuzzAudio() {
+    //     let audio = new Audio(
+    //         './Basketball-Buzzer.mp3'
+    //         );
+    //     audio.play();
+
+    //     console.log("bzzz")
+    // }
 
     return (
         <button

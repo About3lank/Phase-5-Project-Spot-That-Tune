@@ -196,47 +196,49 @@ export default function Dashboard({ drill }) {
             style={{height: "50vh" }}
             >
                 {showTrackSearch
-                    ? <GuessSong drill={drill} />
-                    : null }
+                    ?   <GuessSong drill={drill} />
+                    :   null }
                 {showPlaylistSearch
-                ? <>
-                <h1>Choose a playlist:</h1>
-                <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p>
-                <h2>Or search Spotify!</h2>
-                    <Form.Control 
-                        type="search" 
-                        placeholder="Search Playlists"
-                        value={playlistSearch}
-                        onChange={e => handlePlaylistSearch(e)}
-                        />
-                    <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-                        {playlistResults.map(playlist => (
-                            <PlaylistSearchResult
-                                playlist={playlist}
-                                key={playlist.uri} 
-                                choosePlaylist={choosePlaylist}
-                                />
-                        ))}
-                        {playlistTracks.map(track => (
-                            <TrackSearchResult
-                                drill={drill}
-                                track={track}
-                                key={track.uri} 
-                                playTrack={playTrack}
-                                />
-                        ))}
+                ?   <>
+                        <h1>Choose a playlist:</h1>
+                        <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p>
+                        <h2>Or search Spotify!</h2>
+                        <Form.Control 
+                            type="search" 
+                            placeholder="Search Playlists"
+                            value={playlistSearch}
+                            onChange={e => handlePlaylistSearch(e)}
+                            />
+                        <div 
+                            className="flex-grow-1 my-2" 
+                            style={{ overflowY: "auto" }}>
+                                {playlistResults.map(playlist => (
+                                    <PlaylistSearchResult
+                                        playlist={playlist}
+                                        key={playlist.uri} 
+                                        choosePlaylist={choosePlaylist}
+                                        />
+                                ))}
+                                {playlistTracks.map(track => (
+                                    <TrackSearchResult
+                                        drill={drill}
+                                        track={track}
+                                        key={track.uri} 
+                                        playTrack={playTrack}
+                                        />
+                                ))}
 
-                        {/* 
-                        // show lyrics
-                        {playlistResults.length === 0 && (
-                            <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
-                        )} 
-                        */}
+                            {/* 
+                            // show lyrics
+                            {playlistResults.length === 0 && (
+                                <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
+                            )} 
+                            */}
 
 
-                    </div>
-                </>
-                : null}
+                        </div>
+                    </>
+                :   null}
                 
                 {playlistPlayersExist()
                     ?   isPlaying

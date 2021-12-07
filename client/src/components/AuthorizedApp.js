@@ -62,6 +62,7 @@ export default function AuthorizedApp({ code }) {
                 playlistResults: playlistResults, setPlaylistResults: setPlaylistResults
             }
 
+            cLog("ACCESS TOKEN", "App.js", accessToken)
     // call Spotify API for User Data, then store that in state
     useEffect(() => {
         if (!currentUser) return
