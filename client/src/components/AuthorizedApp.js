@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import SpotifyWebApi from 'spotify-web-api-node'
 import useAuth from '../hooks/useAuth'
 import NavBar from './NavBar'
 import CreateGame from './CreateGame'
@@ -38,10 +40,13 @@ export default function AuthorizedApp({ code }) {
         const [ trackResults, setTrackResults ] = useState([])
         const [ playlistSearch, setPlaylistSearch ] = useState("")
         const [ playlistResults, setPlaylistResults ] = useState([])
-
+        const spotifyApi = new SpotifyWebApi({
+            clientId: "0c9faf3864844c4eb5607e934c7b90a4"
+        })
             // package state to one object for prop drilling
             let drill = {
                 accessToken: accessToken,
+                spotifyApi: spotifyApi,
                 currentUser: currentUser, setCurrentUser: setCurrentUser,
                 currentGame: currentGame, setCurrentGame: setCurrentGame,
                 currentPlaylist: currentPlaylist, setCurrentPlaylist: setCurrentPlaylist,
@@ -115,6 +120,37 @@ export default function AuthorizedApp({ code }) {
             })
         }
     }, [gameInit])
+
+    // Playlist search
+    useEffect(() => {
+        if (!playlistSearch) return setPlaylistResults([])
+        if (!accessToken) return
+        let cancel = false
+        spotifyApi
+            .searchPlaylists(playlistSearch)
+            .then(res => {
+                if (cancel) return
+                // log results to console for development
+                console.log(`Searching for "${playlistSearch}"`)
+                console.log("RAW SEARCH RESULTS: ", res.body.playlists)
+                setPlaylistResults(res.body.playlists.items.map(playlist => {
+                    const smallestPlaylistImage = playlist.images.reduce(
+                        (smallest, image) => {
+                            if (image.height < smallest.height) return image
+                            return smallest
+                        }, playlist.images[0])
+                    return {
+                        name: playlist.name,
+                        description: playlist.description,
+                        tracks: playlist.tracks.href,
+                        uri: playlist.uri,
+                        image_url: smallestPlaylistImage.url
+                    }
+                }))
+            })
+            console.log("FORMATTED PLAYLIST_RESULTS @ dashboard_search: ", playlistResults)
+            return () => cancel = true
+    }, [playlistSearch, accessToken])
 
     // cLog(                                          "USER_DATA", 'AuthorizedApp.js', currentUser)
     

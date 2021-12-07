@@ -12,15 +12,11 @@ import Playback from './Playback'
 import axios from 'axios'
 import cLog from '../functions/ConsoleLogger'
 
-const spotifyApi = new SpotifyWebApi({
-    clientId: "0c9faf3864844c4eb5607e934c7b90a4"
-})
-
 // console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
 export default function Dashboard({ drill }) {
 
-    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess } = drill
+    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
@@ -157,38 +153,6 @@ export default function Dashboard({ drill }) {
             })
             return () => cancel = true
     }, [trackSearch, accessToken])
-
-    // Playlist search
-    useEffect(() => {
-        if (!playlistSearch) return setPlaylistResults([])
-        if (!accessToken) return
-        let cancel = false
-        spotifyApi
-            .searchPlaylists(playlistSearch)
-            .then(res => {
-                if (cancel) return
-                // log results to console for development
-                console.log(`Searching for "${playlistSearch}"`)
-                console.log("RAW SEARCH RESULTS: ", res.body.playlists)
-                setPlaylistResults(res.body.playlists.items.map(playlist => {
-                    const smallestPlaylistImage = playlist.images.reduce(
-                        (smallest, image) => {
-                            if (image.height < smallest.height) return image
-                            return smallest
-                        }, playlist.images[0])
-                    return {
-                        name: playlist.name,
-                        description: playlist.description,
-                        tracks: playlist.tracks.href,
-                        uri: playlist.uri,
-                        image_url: smallestPlaylistImage.url
-                    }
-                }))
-            })
-            console.log("FORMATTED PLAYLIST_RESULTS @ dashboard_search: ", playlistResults)
-            return () => cancel = true
-    }, [playlistSearch, accessToken])
-
 
     return (
         <Container 
