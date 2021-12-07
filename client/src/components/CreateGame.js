@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
-function CreateGame({ setCurrentGame }) {
+function CreateGame({ drill }) {
+    const { setCurrentGame } = drill
     const [ gameInit, setGameInit ] = useState(false)
 
     useEffect(() => {

@@ -4,19 +4,16 @@ import NavBar from './NavBar'
 import CreateGame from './CreateGame'
 import Dashboard from './Dashboard'
 import PlayerHUD from './PlayerHUD'
-
-
 import cLog from '../functions/ConsoleLogger'
-
 
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
 
-        const [ userData, setUserData ] = useState({})
+        const [ currentUser, setCurrentUser ] = useState({})
         const [ currentGame, setCurrentGame ] = useState(null)
-        const [ initiateGame, setInitiateGame ] = useState(0)
-        
-        const [ selectedPlaylist, setSelectedPlaylist ] = useState()
+        const [ currentPlaylist, setCurrentPlaylist ] = useState()
+        const [ currentSong, setCurrentSong ] = useState()
+
         const [ playlistTracks, setPlaylistTracks ] = useState([])
         const [ players, setPlayers ] = useState([
             {id: null, name: "", eliminated: false},
@@ -24,10 +21,13 @@ export default function AuthorizedApp({ code }) {
             {id: null, name: "", eliminated: false},
             {id: null, name: "", eliminated: false},
         ])
+        const [ whoBuzzed, setWhoBuzzed ] = useState("")
             
-        const [ playing, setPlaying ] = useState(false)
+        const [ isPlaying, setIsPlaying ] = useState(false)
 
         const [ showPlaylistSelector, setShowPlaylistSelector ] = useState(false)
+
+        // do i need showCreateGame?
         const [ showCreateGame, setShowCreateGame ] = useState(true)
 
         const [ trackSearch, setTrackSearch ] = useState("")
@@ -35,16 +35,27 @@ export default function AuthorizedApp({ code }) {
         const [ playlistSearch, setPlaylistSearch ] = useState("")
         const [ playlistResults, setPlaylistResults ] = useState([])
 
-        const [ currentSong, setCurrentSong ] = useState()
-
-
-    // useEffect(() => {
-    //     setCurrentGame(null)
-    // }, [])
+            // package state to one object for prop drilling
+            let drill = {
+                accessToken: accessToken,
+                currentUser: currentUser, setCurrentUser: setCurrentUser,
+                currentGame: currentGame, setCurrentGame: setCurrentGame,
+                currentPlaylist: currentPlaylist, setCurrentPlaylist: setCurrentPlaylist,
+                currentSong: currentSong, setCurrentSong: setCurrentSong,
+                playlistTracks: playlistTracks, setPlaylistTracks: setPlaylistTracks,
+                players: players, setPlayers: setPlayers,
+                whoBuzzed: whoBuzzed, setWhoBuzzed: setWhoBuzzed,
+                isPlaying: isPlaying, setIsPlaying: setIsPlaying,
+                showPlaylistSelector: showPlaylistSelector, setShowPlaylistSelector: setShowPlaylistSelector,
+                trackSearch: trackSearch, setTrackSearch: setTrackSearch,
+                trackResults: trackResults, setTrackResults: setTrackResults,
+                playlistSearch: playlistSearch, setPlaylistSearch: setPlaylistSearch,
+                playlistResults: playlistResults, setPlaylistResults: setPlaylistResults
+            }
 
     // call Spotify API for User Data, then store that in state
     useEffect(() => {
-        if (!userData) return
+        if (!currentUser) return
         if (!accessToken) return
 
         const authHeader = `Bearer ${accessToken}`
@@ -56,7 +67,7 @@ export default function AuthorizedApp({ code }) {
             }
         })
         .then(res => res.json())
-        .then(user => setUserData({
+        .then(user => setCurrentUser({
                 display_name: user.display_name,
                 account_name: user.display_name,
                 email: user.email,
@@ -64,14 +75,14 @@ export default function AuthorizedApp({ code }) {
                 uri: user.uri
         }))
     }, [accessToken])
-        // cLog("USER_DATA", 'AuthorizedApp.js', userData)
+             // cLog("USER_DATA", 'AuthorizedApp.js', currentUser)
     
-    // call Rails API for matching User
+    // on display_name change --> POST to Rails API --> set currentUser
     useEffect(() => {
-        if (!userData) return
+        if (!currentUser) return
         if (!accessToken) return
 // 
-        cLog("USER DATA", "Authorized App, within useEffect", userData)
+        cLog("USER DATA", "Authorized App, within useEffect", currentUser)
 
         fetch(
             "/create_user", {
@@ -79,17 +90,15 @@ export default function AuthorizedApp({ code }) {
                 headers: {
                 'Content-type': 'application/json'
                 },
-                body: JSON.stringify(userData)
+                body: JSON.stringify(currentUser)
             })
         .then(res => res.json())
-        .then(data => setUserData(data))
-    }, [userData.display_name])
-
-    // console.log("TESTTTTTTTTTTTT")
+        .then(data => setCurrentUser(data))
+    }, [currentUser.display_name])
     
-    // new game clears playlist selection and tracks
+    // new game --> clears playlist selection and tracks
     useEffect(() => {
-        setSelectedPlaylist()
+        setCurrentPlaylist()
         setPlaylistTracks([])
         setTrackSearch("")
         setTrackResults([])
@@ -97,55 +106,16 @@ export default function AuthorizedApp({ code }) {
         setPlaylistResults([])
     }, [currentGame])
 
-    cLog("USER DATA", "Authorized App", userData)
+    cLog("USER DATA", "Authorized App", currentUser)
 
     return (
         <>
-                <NavBar
-                    userData={userData}
-                    currentGame={currentGame}/>
+                <NavBar drill={drill} />
                 {!currentGame
-                ? <CreateGame 
-                    setCurrentGame={setCurrentGame} />
+                ? <CreateGame drill={drill} />
                 : <>
-                    <Dashboard 
-                        accessToken={accessToken}
-                        playing={playing}
-                        setPlaying={setPlaying}
-                        selectedPlaylist={selectedPlaylist}
-                        setSelectedPlaylist={setSelectedPlaylist}
-
-                        currentGame={currentGame}
-                        setCurrentGame={setCurrentGame}
-
-                        showPlaylistSelector={showPlaylistSelector}
-                        setShowPlaylistSelector={setShowPlaylistSelector}
-
-                        playlistTracks={playlistTracks}
-                        setPlaylistTracks={setPlaylistTracks}
-                        players={players} 
-                        setPlayers={setPlayers}
-
-                        trackSearch={trackSearch}
-                        setTrackSearch={setTrackSearch}
-                        trackResults={trackResults}
-                        setTrackResults={setTrackResults}
-                        playlistSearch={playlistSearch}
-                        setPlaylistSearch={setPlaylistSearch}
-                        playlistResults={playlistResults}
-                        setPlaylistResults={setPlaylistResults}
-
-                        currentSong={currentSong}
-                        setCurrentSong={setCurrentSong}
-                        />
-                    <PlayerHUD 
-                        players={players} 
-                        setPlayers={setPlayers}
-                        playing={playing}
-                        setPlaying={setPlaying}
-                        userData={userData}
-                        setUserData={setUserData}
-                        />
+                    <Dashboard drill={drill} />
+                    <PlayerHUD drill={drill} />
                 </>}
         </>
     )

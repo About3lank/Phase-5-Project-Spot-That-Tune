@@ -4,10 +4,11 @@ import PlayerAdder from './PlayerAdder'
 import { Container } from 'react-bootstrap'
 import cLog from '../functions/ConsoleLogger'
 
-export default function PlayerHUD({ players, setPlayers, playing, setPlaying, userData, setUserData }) {
-        const [ whoBuzzed, setWhoBuzzed ] = useState("")
+export default function PlayerHUD({ drill }) {
+    const { players, setPlayers, isPlaying, setIsPlaying, currentUser, setCurrentUser, whoBuzzed, setWhoBuzzed } = drill
 
-        cLog("USER DATA", "PlayerHUD", userData)
+
+        cLog("USER DATA", "PlayerHUD", currentUser)
 
     // console.log("PLAYERS @PlayerHUD.js: ", players)
     return (
@@ -22,24 +23,24 @@ export default function PlayerHUD({ players, setPlayers, playing, setPlaying, us
             {players.map((player, i) => 
 
                     player.name===""
-                    ? <PlayerAdder 
-                        className="float-child"
-                        players={players} 
-                        setPlayers={setPlayers}
-                        number={i+1}
-                        userData={userData}
-                        setUserData={setUserData}
+                    ? <PlayerAdder drill={drill} number={i+1}
+                        // className="float-child"
+                        // players={players} 
+                        // setPlayers={setPlayers}
+                        // number={i+1}
+                        // currentUser={currentUser}
+                        // setCurrentUser={setCurrentUser}
                         />
-                    : <Player 
-                        className="float-child"
-                        player={player} 
-                        players={players}
-                        setPlayers={setPlayers}
-                        number={i+1}
-                        playing={playing}
-                        setPlaying={setPlaying}
-                        whoBuzzed={whoBuzzed}
-                        setWhoBuzzed={setWhoBuzzed}
+                    : <Player drill={drill} player={player} number={i+1}
+                        // className="float-child"
+                        // 
+                        // players={players}
+                        // setPlayers={setPlayers}
+                        // number={i+1}
+                        // isPlaying={isPlaying}
+                        // setIsPlaying={setIsPlaying}
+                        // whoBuzzed={whoBuzzed}
+                        // setWhoBuzzed={setWhoBuzzed}
                         />
             )}
         </div>

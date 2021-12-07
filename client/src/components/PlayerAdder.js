@@ -3,7 +3,8 @@ import { Container, Form } from 'react-bootstrap'
 
 import cLog from '../functions/ConsoleLogger'
 
-export default function PlayerAdder({ players, setPlayers, number, userData, setUserData }) {
+export default function PlayerAdder({ drill, number }) {
+    const { players, setPlayers, currentUser, setCurrentUser } = drill
         const [ playerName, setPlayerName ] = useState("")
         const [ buildUser, setBuildUser ] = useState(null)
         const [ showForm, setShowForm ] = useState(false)
@@ -50,14 +51,16 @@ export default function PlayerAdder({ players, setPlayers, number, userData, set
     function handleSubmitName(e) {
         e.preventDefault()
 
+        cLog("PLAYERS", "HANDLE SUBMIT NAME top", players)
+
         const updatedPlayers = [...players]
         updatedPlayers[number - 1].name = playerName
         setPlayers(updatedPlayers)
 
-        const buildNewUser = {...userData}
+        const buildNewUser = {...currentUser}
         buildNewUser.display_name = playerName
         cLog("BUILD NEW USER", "handleSubmitName", buildNewUser)
-        setUserData(buildNewUser)
+        setCurrentUser(buildNewUser)
 
     }
 

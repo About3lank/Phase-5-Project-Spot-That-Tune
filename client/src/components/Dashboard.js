@@ -15,11 +15,9 @@ const spotifyApi = new SpotifyWebApi({
 
 // console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
 
-export default function Dashboard({ accessToken, playing, currentGame, setCurrentGame,setPlaying, selectedPlaylist, setSelectedPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong }) {
+export default function Dashboard({ drill }) {
 
-
-
-    
+    const { accessToken, isPlaying, currentGame, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
@@ -58,10 +56,9 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
         return randomTrack
     } 
 
-    function choosePlaylist(playlist) {
-        
-        setSelectedPlaylist(playlist)
-        console.log("SELECTED PLAYLIST: ", playlist)
+    function choosePlaylist(playlist) { 
+        setCurrentPlaylist(playlist)
+        console.log("CURRENT PLAYLIST: ", playlist)
         setPlaylistSearch("")
     }
 
@@ -72,12 +69,10 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
 
     // retrieve playlist items
     useEffect(() => {
-        if (!selectedPlaylist) return
+        if (!currentPlaylist) return
         if (!accessToken) return
-
         const authHeader = `Bearer ${accessToken}`
-
-        fetch(selectedPlaylist.tracks, {
+        fetch(currentPlaylist.tracks, {
             headers: {
                 'Authorization': authHeader,
                 'Content-type': 'application/json'
@@ -101,13 +96,11 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
                 })
             }))
             console.log("DATA ITEMS: ", data.items)})
-
-    }, [selectedPlaylist])
+    }, [currentPlaylist])
 
     // retrieve lyrics
     useEffect(() => {
         if (!currentSong) return
-
         fetch(
             "/songs", {
                 method: 'POST',
@@ -134,9 +127,7 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
     useEffect(() => {
         if (!trackSearch) return setTrackResults([])
         if (!accessToken) return
-
         let cancel = false
-
         spotifyApi
             .searchTracks(trackSearch)
             .then(res => {
@@ -163,9 +154,7 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
     useEffect(() => {
         if (!playlistSearch) return setPlaylistResults([])
         if (!accessToken) return
-
         let cancel = false
-
         spotifyApi
             .searchPlaylists(playlistSearch)
             .then(res => {
@@ -249,21 +238,21 @@ export default function Dashboard({ accessToken, playing, currentGame, setCurren
                 </div>
                 
                 {// prototype for BUZZ and NEW-ROUND buttons
-                playing===true
-                    ? <button type="button" onClick={() => setPlaying(false)}> TEST BUZZ</button>
+                isPlaying===true
+                    ? <button type="button" onClick={() => setIsPlaying(false)}> TEST BUZZ</button>
                     : <button type="button" onClick={handlePlay}>
                         NEW ROUND
                     </button>
                 }
-                <button type="button" onClick={() => setPlaying(true)}> RESUME PLAYING </button>
+                <button type="button" onClick={() => setIsPlaying(true)}> RESUME PLAYING </button>
                 <button type="button" onClick={() => setCurrentGame(null)}> END GAME </button>
                 
                 <div>
-                    <Playback
-                        accessToken={accessToken}
+                    <Playback drill={drill}
+                        // accessToken={accessToken}
                         trackUri={currentSong?.uri}
-                        playing={playing}
-                        setPlaying={setPlaying}
+                        // isPlaying={isPlaying}
+                        // setIsPlaying={setIsPlaying}
                         />
                 </div>
         </Container>
