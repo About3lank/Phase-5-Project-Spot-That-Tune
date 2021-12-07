@@ -63,6 +63,20 @@ export default function AuthorizedApp({ code }) {
             }
 
             cLog("ACCESS TOKEN", "App.js", accessToken)
+
+    // define functions to play audio cues for correct/incorrect guesses
+    function playWrongAudio() {
+        const wrongUrl = "https://notification-sounds.com/soundsfiles/Family-feud-buzzer.mp3"
+        let audio = new Audio(wrongUrl);
+        audio.play();
+    }
+
+    function playCorrectAudio() {
+        const correctUrl = "https://notification-sounds.com/soundsfiles/Quiz-correct-sound-with-applause.mp3"
+        let audio = new Audio(correctUrl);
+        audio.play();
+            }
+
     // call Spotify API for User Data, then store that in state
     useEffect(() => {
         if (!currentUser) return
@@ -143,6 +157,7 @@ export default function AuthorizedApp({ code }) {
         setShowPlaylistSearch(true)
     }, [currentGame])
 
+    // evaluate song guess
     useEffect(() => {
         if (!songGuess) return
 
@@ -156,6 +171,7 @@ export default function AuthorizedApp({ code }) {
             cLog("WHO BUZZED?", "AuthorizdApp136", whoBuzzed)
             console.log("song playing is: ", currentSong)
             console.log("CORRECT! The song is: ", currentSong)
+            playCorrectAudio()
             console.log("create a token")
             const token = {
                 user_id: whoBuzzed,
@@ -175,6 +191,7 @@ export default function AuthorizedApp({ code }) {
         } else {
             console.log("song playing is: ", currentSong)
             console.log("SORRY! The song was: ", currentSong)
+            playWrongAudio()
             console.log("no token")
         }
 

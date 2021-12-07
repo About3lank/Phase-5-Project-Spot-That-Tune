@@ -10,7 +10,7 @@ export default function Buzzer({ drill, number }) {
     function handleBuzz() {
         if (players[number - 1].eliminated) { return }
         if (!isPlaying) { return }
-        // playBuzzAudio()
+        playBuzzAudio()
         setIsPlaying(false)
         const updatedPlayers = [...players]
             updatedPlayers[number-1].eliminated = true
@@ -22,14 +22,16 @@ export default function Buzzer({ drill, number }) {
         
     }
 
-    // function playBuzzAudio() {
-    //     let audio = new Audio(
-    //         './Basketball-Buzzer.mp3'
-    //         );
-    //     audio.play();
+    function playBuzzAudio() {
+        // const buzzerUrl = "http://soundbible.com/grab.php?id=1501&type=mp3"
+        // const buzzerUrl = "http://soundbible.com/grab.php?id=1495&type=mp3"
+        // const buzzerUrl = "https://notification-sounds.com/soundsfiles/Game-show-buzzer-sound.mp3"
+        const buzzerUrl = "https://notification-sounds.com/soundsfiles/Good-idea-bell.mp3"
+        let audio = new Audio(buzzerUrl);
+        audio.play();
 
-    //     console.log("bzzz")
-    // }
+        console.log("bzzz")
+    }
 
     return (
         <button
