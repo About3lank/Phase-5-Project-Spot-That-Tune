@@ -23,7 +23,7 @@ function App() {
             <h1>TEST ROUTE</h1>
           </Route>
           <Route path="/">
-            <div>{code? <AuthorizedApp code={code} /> : <Login />}</div>
+            {code? <AuthorizedApp code={code} /> : <Login />}
           </Route>
         </Switch>
       </div>
