@@ -161,9 +161,11 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!songGuess) return
 
-        function reduced(title) {
+        function reduced(str) {
             // const rTitle = title.slice(0, Math.floor(title.length()/2))
-            return title.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g," ").toLowerCase()
+            str = str.split("(")[0]
+            str = str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g," ").toLowerCase()
+            return str
         }
 
         if (reduced(songGuess.title)===reduced(currentSong.title)
@@ -194,6 +196,10 @@ export default function AuthorizedApp({ code }) {
             playWrongAudio()
             console.log("no token")
         }
+
+        setShowTrackSearch(false)
+        setTrackSearch("")
+        setTrackResults([])
 
     }, [songGuess])
 
