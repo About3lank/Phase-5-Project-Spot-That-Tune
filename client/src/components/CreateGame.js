@@ -23,12 +23,10 @@ function CreateGame({ drill }) {
     return (
         <div>
             <h1>NO GAME YET - CREATE ONE! </h1>
-            <button 
-            type="button" 
-            onClick={() => setGameInit(true)} 
-            >
-                NEW GAME
-        </button>
+            <button type="button" 
+                    onClick={() => setGameInit(true)} 
+                >NEW GAME
+            </button>
         </div>
     )
 }
