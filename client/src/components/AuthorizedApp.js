@@ -80,14 +80,14 @@ export default function AuthorizedApp({ code }) {
         }))
     }, [accessToken])
 
-// cLog("USER_DATA", 'AuthorizedApp.js', currentUser)
+    // cLog("USER_DATA", 'AuthorizedApp.js', currentUser)
     
     // on display_name change --> POST to Rails API --> set currentUser
     useEffect(() => {
         if (!currentUser) return
         if (!accessToken) return
 
-cLog("USER DATA", "Authorized App, within useEffect", currentUser)
+        // cLog("USER DATA", "Authorized App, within useEffect", currentUser)
 
         fetch(
             "/create_user", {

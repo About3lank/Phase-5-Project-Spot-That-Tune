@@ -25,7 +25,7 @@ function CreateGame({ drill }) {
             <h1>NO GAME YET - CREATE ONE! </h1>
             <button type="button" 
                     onClick={() => setGameInit(true)} 
-                >NEW GAME
+                >LET'S PLAY!
             </button>
         </div>
     )
