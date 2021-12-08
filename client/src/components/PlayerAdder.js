@@ -134,7 +134,7 @@ export default function PlayerAdder({ drill, number }) {
                     color="translucent"
                     style={{
                         width: "100%",
-                        minWidth: "90%",
+                        minWidth: "100%",
                         borderRadius: ".3vh",
                         height: "100%",
                         margin: ".2vh auto",

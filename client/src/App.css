@@ -29,7 +29,7 @@ button {
 .type-name {
   height: 6vh;
 }
-
+/* 
 .pulse:hover {
   animation: pulse 1s;
   box-shadow: 0 0 0 2em rgba(#fff,0);
@@ -37,7 +37,7 @@ button {
 
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 var(--hover); }
-}
+} */
 
 .player {
   color: black;
