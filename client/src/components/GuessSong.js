@@ -7,6 +7,7 @@ export default function GuessSong({ drill }) {
     return (
         <>
             <Form.Control 
+                className="form-control search-box"
                 type="search" 
                 placeholder="Search Songs"
                 value={trackSearch}

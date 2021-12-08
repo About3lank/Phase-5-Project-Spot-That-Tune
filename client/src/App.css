@@ -1,18 +1,88 @@
 :root {
   --spotify-green: #1ed760;
+  --spotify-green-pale: #1b7e3e;
   --red: #e46262;
+  --orange: rgb(255, 208, 0);
+
+  --p1: rgb(107, 129, 255);
+  --p2: rgb(255, 107, 139);
+  --p3: rgb(107, 255, 164);
+  --p4: rgb(255, 233, 107);
+  --brighten: rgba(255, 255, 255, 0.582);
+  --darken: rgba(0, 0, 0, 0.5);
+  --translucent: rgba(0, 0, 0, 0);
 }
-
-
 
 button {
   font-weight: bold;
   line-height: 1;
   letter-spacing: .2vh;
+
+  justify-content: middle;
+
+}
+
+.search-box {
+  height: 9vh;
+}
+
+.type-name {
+  height: 6vh;
+}
+
+.pulse:hover {
+  animation: pulse 1s;
+  box-shadow: 0 0 0 2em rgba(#fff,0);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 var(--hover); }
+}
+
+.player {
+  color: black;
+}
+.p-1 {
+  background-image: linear-gradient(var(--p1), var(--translucent)) ;
+}
+.p-2 {
+  background-image: linear-gradient(var(--p2), var(--translucent));
+}
+.p-3 {
+  background-image: linear-gradient(var(--p3), var(--translucent));
+}
+.p-4{
+  background-image: linear-gradient(var(--p4), var(--translucent));
+}
+
+.plus {
+  font-size: 8vh;
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 1vh;
+
+}
+.text {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 2.5vh;
+}
+
+.text-wrapper {
+  width: fit-content;
+  height: 100vh;
+  margin: auto;
+  margin-top: 0px;
+
 }
 
 .btn-green {
   background-color: var(--spotify-green);
+  color: white;
+}
+
+.btn-pale-green {
+  background-color: var(--spotify-green-pale);
   color: white;
 }
 
@@ -21,24 +91,60 @@ button {
   color: white;
 }
 
+.btn-orange {
+  background-color: var(--orange);
+  color: rgb(53, 53, 53);
+}
+
 .btn-gray {
   color: rgb(53, 53, 53);
 }
 
+.btn-brighten {
+  background-color: var(--brighten);
+  color: black;
+}
+
+.btn-darken {
+  background-color: var(--darken);
+  color: white;
+}
+
+.btn-translucent {
+  background-color: var(--translucent);
+  color: black;
+  border: none;
+}
+
+.hiding {
+  margin-top: 30vh;
+}
+
+.hiding:hover {
+  margin-top: 0vh;
+  transition: margin-top 0.25s ease-in;
+}
 
 .float-container {
   /* border: 3px solid #fff; */
   padding: 20px;
-  width: 120vh;
+  min-width: 25%;
+  width: fit-content;
+  max-width: 100%;
   margin: auto;
+  /* justify-content: center; */
 }
 
 .float-child {
-  width: 25%;
+  min-width: 23%;
+  max-width: 100%;
+  width: 30vh;
   height: 60vh;
-  float: left;
+  float:left;
   padding: 20px;
-  border: 2px solid red;
+  border-radius: .3vh;
+  /* border: 2px solid red; */
+  /* margin: 0 auto; */
 }  
 
 .PlayerRSWP {
@@ -53,16 +159,10 @@ html, #root {
   font-family: Helvetica, sans-serif
 }
 
-
-
-
-
-
-
-
-
 .App {
   text-align: center;
+  width: 140vh;
+  margin: 0 auto;
 }
 
 .App-logo {

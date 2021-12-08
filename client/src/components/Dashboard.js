@@ -16,7 +16,7 @@ import cLog from '../functions/ConsoleLogger'
 
 export default function Dashboard({ drill }) {
 
-    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, setCurrentGame, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi } = drill
+    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
@@ -24,12 +24,9 @@ export default function Dashboard({ drill }) {
 
     // set access token for Spotify API (package: 'spotify-web-api-node')
     // replace with rails API when possible/practical?
-    useEffect(() => {
-        if (!accessToken) return
-        spotifyApi.setAccessToken(accessToken)
-    }, [accessToken])
 
     function handleNewRound() {
+        setRoundComplete(false)
         playTrack(randomNewTrack());
         let newRound = currentRound
         newRound = newRound + 1
@@ -62,12 +59,30 @@ export default function Dashboard({ drill }) {
     }
 
     function playlistPlayersExist() {
-        return currentPlaylist && players[0].id && players[1].id
+        const filteredList = players.filter((player) => player.id)
+        // return currentPlaylist && players[0].id && players[1].id
+        return currentPlaylist && filteredList.length>=2
     }
 
     function handlePlaylistSearch(e) {
         setPlaylistSearch(e.target.value)
         setPlaylistTracks([])
+    }
+
+    function handleResume () {
+        setIsPlaying(true)
+        setShowTrackSearch(false)
+        setTrackSearch("")
+        setTrackResults([])
+    }
+
+    function handleEndGame() {
+        setCurrentGame(null)
+        setGameInit(false)
+        setShowTrackSearch(false)
+        setTrackSearch("")
+        setTrackResults([])
+
     }
 
     // retrieve playlist items
@@ -159,17 +174,21 @@ export default function Dashboard({ drill }) {
             className="d-flex flex-column py-2"
             style={{height: "50vh" }}
             >
+                {playlistPlayersExist()
+                    ?   null
+                    : <h3>To begin, choose a Playlist and add 2 or more Players</h3>}
                 {showTrackSearch
                     ?   <GuessSong drill={drill} />
                     :   null }
                 {showPlaylistSearch
                 ?   <>
-                        <h1>Choose a playlist:</h1>
+                        {/* <h1>Choose a playlist:</h1> */}
                         <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p>
-                        <h2>Or search Spotify!</h2>
+                        {/* <h2>Or search Spotify!</h2> */}
                         <Form.Control 
+                            className="form-control search-box"
                             type="search" 
-                            placeholder="Search Playlists"
+                            placeholder="Not seeing your favorites? Search Spotify here!"
                             value={playlistSearch}
                             onChange={e => handlePlaylistSearch(e)}
                             />
@@ -206,44 +225,44 @@ export default function Dashboard({ drill }) {
                 
                 {playlistPlayersExist()
                     ?   isPlaying
-                            ?   <>
-                                    <Buzzer 
-                                        drill={drill}
-                                        number={1} />
-                                    <p> ^ TEST BUZZER P1 ^</p>
-                                </>
+                            ?   null
                             :   <>
-                                    <Button
-                                        action={handleNewRound}
-                                        text={currentRound===0 ? "START!" : "NEW ROUND"}
-                                        color="green"
-                                        style={{
-                                            minWidth: "60vh",
-                                            width: "60vh",
-                                            height: "6vh",
-                                            borderRadius: ".3vh"
-                                        }} />
-                            
-                                    <Button 
-                                        action={() => setIsPlaying(true)} 
-                                        text="RESUME PLAYING"
-                                        color="gray"
-                                        style={{
-                                            minWidth: "60vh",
-                                            width: "60vh",
-                                            height: "6vh",
-                                            borderRadius: ".3vh"
-                                        }} />
-                                    <Button
-                                        action={() => setCurrentGame(null)}
-                                        text="END GAME"
-                                        color="red"
-                                        style={{
-                                            minWidth: "60vh",
-                                            width: "60vh",
-                                            height: "6vh",
-                                            borderRadius: ".3vh"
-                                        }} />
+                                    {roundComplete
+                                        ?   <Button
+                                            action={handleNewRound}
+                                            text={currentRound===0 ? "START!" : "NEW ROUND"}
+                                            color="green"
+                                            style={{
+                                                minWidth: "60vh",
+                                                width: "60vh",
+                                                height: "6vh",
+                                                borderRadius: ".3vh"
+                                            }} />
+                                        : null}
+                                    {(currentRound>0 && !roundComplete)
+                                        ?   <Button 
+                                                action={handleResume} 
+                                                text="RESUME PLAYING"
+                                                color="gray"
+                                                style={{
+                                                    minWidth: "60vh",
+                                                    width: "60vh",
+                                                    height: "6vh",
+                                                    borderRadius: ".3vh"
+                                                }} />
+                                        :   null}
+                                    {currentRound>0
+                                        ? <Button
+                                            action={handleEndGame}
+                                            text="END GAME"
+                                            color="red"
+                                            style={{
+                                                minWidth: "60vh",
+                                                width: "60vh",
+                                                height: "6vh",
+                                                borderRadius: ".3vh"
+                                            }} />
+                                        : null}
                                 </>
                     :   null}
 

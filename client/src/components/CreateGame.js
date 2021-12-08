@@ -8,12 +8,13 @@ function CreateGame({ drill }) {
             <h1>NO GAME YET - CREATE ONE! </h1>
             <Button 
                 action={() => setGameInit(true)}
-                text="LET'S PLAY!"
-                color="green"
+                // text="LET'S PLAY!"
+                text={"NEW GAME"}
+                color="orange"
                 style={{ 
                     minWidth: "40vh", 
-                    height: "8vh", 
-                    fontSize: "3.8vh" }}/>
+                    height: "22vh", 
+                    fontSize: "5vh" }}/>
         </div>
     )
 }

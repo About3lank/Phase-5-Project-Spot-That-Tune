@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Buzzer from './Buzzer'
 
 export default function Player({ drill, player, number }) {
     const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed } = drill
 
     return (
-        <div className="float-child">
-            <h3>{player.name}</h3>
+        <div className={`float-child player p-${number}`}>
+            <h1>{player.name}</h1>
             <p><em>Player #{number}</em></p>
             <Buzzer drill={drill} number={number}
                 // players={players}

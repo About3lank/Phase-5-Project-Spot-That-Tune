@@ -7,6 +7,7 @@ export default function TrackSearchResult({ drill, track }) {
     // console.log("TRACK @tracksearchresult _onClick_: ", track)
 
     function handleGuess() {
+        cLog("TRACK", "HANDLE GUESS", track)
         setSongGuess(track)
         cLog("SONG GUESS", "TRACK SEARCH RESULT, after handleGuess", songGuess)
     }

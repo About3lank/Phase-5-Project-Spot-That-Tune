@@ -15,8 +15,8 @@ export default function PlayerHUD({ drill }) {
             className="float-container" >              
             {players.map((player, i) => 
                     player.name===""
-                    ? <PlayerAdder className="float-child" drill={drill} number={i+1} />
-                    : <Player className="float-child" drill={drill} player={player} number={i+1} />
+                    ? <PlayerAdder drill={drill} number={i+1} />
+                    : <Player drill={drill} player={player} number={i+1} />
             )}
         </div>
     )

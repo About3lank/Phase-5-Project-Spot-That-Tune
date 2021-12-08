@@ -10,16 +10,21 @@ const AUTH_URL = "http://localhost:3000/login"
 
 export default function Login() {
     return (
-        <a href={AUTH_URL}>
-            <Button 
-                action={null}
-                text="LOGIN WITH SPOTIFY"
-                color="green"
-                style={{ 
-                    height: "22vh",
-                    fontSize: "5vh" }}
-                />
-        </a>
+        <>
+            <div style={{fontSize: "14vh", fontWeight: "bolder", marginTop: "15vh", letterSpacing: ".2vh"}}>Spot That Tune</div>
+            <div style={{fontSize: "4vh", color: "rgb(173, 173, 173)", letterSpacing: ".25vh"}}>Name That Tune, powered by <span style={{fontWeight: "bolder"}}>Spotify</span></div>
+            <a href={AUTH_URL}>
+                <Button 
+                    action={null}
+                    text="LOGIN WITH SPOTIFY"
+                    color="green"
+                    style={{ 
+                        height: "22vh",
+                        fontSize: "5vh",
+                        marginTop: "14vh" }}
+                    />
+            </a>
+        </>
 
         // <Container>
         //     <a 
