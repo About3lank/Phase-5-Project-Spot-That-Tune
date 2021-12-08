@@ -183,7 +183,7 @@ export default function Dashboard({ drill }) {
                 {showPlaylistSearch
                 ?   <>
                         {/* <h1>Choose a playlist:</h1> */}
-                        <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p>
+                        {playlistSearch===""? <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p> : null}
                         {/* <h2>Or search Spotify!</h2> */}
                         <Form.Control 
                             className="form-control search-box"
