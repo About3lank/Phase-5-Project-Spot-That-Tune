@@ -7,7 +7,7 @@ export default function PlayerAdder({ drill, number }) {
     // const [ hiding, setHiding ] = useState(true)
     const { players, setPlayers, currentUser, setCurrentUser, buildPlayer, setBuildPlayer } = drill
         const [ playerName, setPlayerName ] = useState("")
-        const [ showForm, setShowForm ] = useState(false)
+        // const [ showForm, setShowForm ] = useState(false)
 
     // if (number > 1) {
     //     if (players[number - 2].name==="") {
@@ -37,17 +37,17 @@ export default function PlayerAdder({ drill, number }) {
             // console.log(node.current.contains(e.target))
             console.log("PLAYERS", "inside handleDeClick", players)
             let updatedPlayers = players.map((player) => 
-            !player.id? {...player, hiding: true} : player
+            !player.id? {...player, hiding: true, showForm: false} : player
             )
             setPlayers(updatedPlayers)
-            if (players[number-1].id) {return} else {setShowForm(false)}
-
         }
     }
 
     function handleShowForm() {
-        setShowForm(true)
         let updatedPlayers = [...players]
+        updatedPlayers[number-1].showForm=true
+        // setShowForm(true)
+        // let updatedPlayers = [...players]
         updatedPlayers[number-1].hiding = false
         setPlayers(updatedPlayers)
     }
@@ -104,7 +104,7 @@ export default function PlayerAdder({ drill, number }) {
 
     return (
         <div ref={node} className={`player float-child p-${number} ${isHiding()}`}>
-            {showForm
+            {players[number-1].showForm
                 ? <div>
                     <Form.Control 
                         className="player form-control type-name"
@@ -113,11 +113,6 @@ export default function PlayerAdder({ drill, number }) {
                         value={playerName}
                         onChange={e => handleFormChange(e)}
                         />
-                    {/* <Form.Control style={{width: "10vh" }}
-                        type="button"
-                        value="Ready?"
-                        onClick={handleSubmitName}
-                    /> */}
                     <Button 
                         cName="player"
                         style={{

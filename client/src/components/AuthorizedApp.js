@@ -21,10 +21,10 @@ export default function AuthorizedApp({ code }) {
 
         const [ playlistTracks, setPlaylistTracks ] = useState([])
         const [ players, setPlayers ] = useState([
-            {id: null, name: "", eliminated: false, hiding: true},
-            {id: null, name: "", eliminated: false, hiding: true},
-            {id: null, name: "", eliminated: false, hiding: true},
-            {id: null, name: "", eliminated: false, hiding: true},
+            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
+            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
+            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
+            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
         ])
         const [ gameInit, setGameInit ] = useState(false)
         const [ buildPlayer, setBuildPlayer ] = useState(0)

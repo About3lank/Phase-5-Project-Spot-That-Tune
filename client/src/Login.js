@@ -12,7 +12,7 @@ export default function Login() {
     return (
         <>
             <div style={{fontSize: "14vh", fontWeight: "bolder", marginTop: "15vh", letterSpacing: ".2vh"}}>Spot That Tune</div>
-            <div style={{fontSize: "4vh", color: "rgb(173, 173, 173)", letterSpacing: ".25vh"}}>Name That Tune, powered by <span style={{fontWeight: "bolder"}}>Spotify</span></div>
+            <div style={{fontSize: "4vh", color: "rgb(173, 173, 173)", letterSpacing: ".1vh"}}>Name That Tune, powered by <span style={{fontWeight: "bolder", letterSpacing: ".25vh"}}>Spotify</span></div>
             <a href={AUTH_URL}>
                 <Button 
                     action={null}
