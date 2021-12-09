@@ -17,7 +17,7 @@ export default function PlaylistSearchResult({ playlist, choosePlaylist }) {
             <div className="ml-3" style={{ paddingLeft: "2vh", fontWeight: "bold" }}>{playlist.name}</div>
             <div className="text-muted">&nbsp;{
                 (playlist.description.length>0 && playlist.description!=="description")
-                    ? ` ${playlist.description.slice(0, 120)}` 
+                    ? ` ${playlist.description.slice(0, 120).replace(/<.*>/, '<>')}`
                     : "" }
             </div>
             

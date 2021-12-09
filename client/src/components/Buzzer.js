@@ -2,7 +2,7 @@ import React from 'react'
 import cLog from '../functions/ConsoleLogger'
 
 export default function Buzzer({ drill, number }) {
-    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, showTrackSearch, setShowTrackSearch, currentSong } = drill
+    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, showTrackSearch, setShowTrackSearch, currentSong} = drill
     function amIStillIn() {
         return !players[number-1].eliminated
     }
@@ -18,8 +18,8 @@ export default function Buzzer({ drill, number }) {
             setPlayers(updatedPlayers)
             setWhoBuzzed(players[number-1].id)
         setShowTrackSearch(true)
-        cLog(                                   "PLAYERS", "Buzzer@handleBuzz", players)
-        cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
+        // cLog(                                   "PLAYERS", "Buzzer@handleBuzz", players)
+        // cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
         
     }
 
@@ -33,12 +33,27 @@ export default function Buzzer({ drill, number }) {
         audio.play();
     }
 
+    const color = () => amIStillIn()? "#1ed760" : "rgb(255, 233, 167)"
+
     return (
         <button
             type="button" 
             className = "buzzer"
             onClick={handleBuzz} 
-            style={{borderRadius: "50px", backgroundColor: "yellow"}}
+            style={( amIStillIn())
+                    ?   {
+                            width: "100%", 
+                            borderRadius: "50px", 
+                            backgroundColor: "#1ed760",
+                            margin: "1vh 0"
+                        }
+                    :   {
+                        width: "100%", 
+                        borderRadius: "50px", 
+                        backgroundColor: "rgb(255, 233, 167)",
+                        margin: "1vh 0"
+                    }
+            }
             >
                 {(isPlaying && amIStillIn())? "BUZZZZ" : "..."}
         </button>

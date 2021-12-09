@@ -6,8 +6,9 @@ class TokensController < ApplicationController
     
     def create
         token = Token.create(token_params)
+        user = User.find_by(id: params[:user_id])
         if token
-            render json: token, status: :ok
+            render json: user, status: :ok
         else
             render json: {error: 'unprocessable entity'},
             status: :unprocessable_entity

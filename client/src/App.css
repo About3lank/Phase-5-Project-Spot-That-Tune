@@ -17,9 +17,7 @@ button {
   font-weight: bold;
   line-height: 1;
   letter-spacing: .2vh;
-
   justify-content: middle;
-
 }
 
 .search-box {
@@ -40,18 +38,18 @@ button {
 } */
 
 .player {
-  color: black;
+  color: black;   
 }
-.p-1 {
+.ply-1 {
   background-image: linear-gradient(var(--p1), var(--translucent)) ;
 }
-.p-2 {
+.ply-2 {
   background-image: linear-gradient(var(--p2), var(--translucent));
 }
-.p-3 {
+.ply-3 {
   background-image: linear-gradient(var(--p3), var(--translucent));
 }
-.p-4{
+.ply-4{
   background-image: linear-gradient(var(--p4), var(--translucent));
 }
 
@@ -117,7 +115,7 @@ button {
 }
 
 .hiding {
-  margin-top: 30vh;
+  margin-top: 25vh;
 }
 
 .hiding:hover {
@@ -125,9 +123,96 @@ button {
   transition: margin-top 0.25s ease-in;
 }
 
+.header-container {
+  width: fit-content;
+  /* max-width: 100%; */
+}
+
+.header {
+  display: inline-block;
+  /* margin-left: 0vh;
+  margin-right: auto; */
+  margin-left: 0px;
+}
+
+.score {
+  border: solid .1vh black;
+  line-height: 7vh;
+  text-align: center;
+  margin-right: 2vh;
+  width: 9vh;
+  height: 7vh;
+  font-size: 6vh;
+  float: left;
+}
+
+.name-container {
+  width: 15.5vh;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 3vh;
+  float: left;
+}
+
+.player-num {
+  font-size: 1.5vh;
+}
+
+.token-container {
+  width: 100%;
+  /* max-width: 100%;*/ 
+  height: 8vh;
+  float: left;
+  /* margin-top: 2vh;  */
+
+}
+
+/* .past-tokens {
+  border-top: solid 1px black;
+} */
+
+.token {
+  display: inline-block;
+  /* float: left; */
+  width: 6vh;
+  height: auto;
+  margin: 1vh .6vh;
+}
+
+.token-img {
+  border-radius: 10vh;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+.token-label {
+  margin: 0;
+  width: 100%;
+  font-style:italic;
+  letter-spacing: .2vh;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+#navbar {
+  font-size: 2.6vh;
+  width: 100%;
+  float: center;
+  margin-bottom: 6vh;
+  border-bottom: solid .1vh rgba(255, 255, 255, 0.568);
+}
+
+.nav-item {
+  display: inline-block;
+  margin: 0 10vh;
+  width: fit-content;
+}
+
 .float-container {
   /* border: 3px solid #fff; */
-  padding: 20px;
+  padding: 2vh;
   min-width: 25%;
   width: fit-content;
   max-width: 100%;
@@ -141,7 +226,7 @@ button {
   width: 30vh;
   height: 60vh;
   float:left;
-  padding: 20px;
+  padding: 1vh;
   border-radius: .3vh;
   /* border: 2px solid red; */
   /* margin: 0 auto; */

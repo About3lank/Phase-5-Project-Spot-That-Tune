@@ -7,7 +7,7 @@ export default function Playback({ drill, trackUri }) {
 
     useEffect(() => setIsPlaying(true), [trackUri])
 
-    cLog("ACCESS TOKEN", "Playback.js", accessToken)
+    // cLog("ACCESS TOKEN", "Playback.js", accessToken)
 
     if (!accessToken) return null
     return( 

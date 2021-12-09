@@ -1,31 +1,31 @@
 import { useState, useEffect } from 'react'
 import { Container, Form } from 'react-bootstrap'
 import SpotifyWebApi from 'spotify-web-api-node'
-
+import axios from 'axios'
 import TrackSearchResult from './TrackSearchResult'
 import PlaylistSearchResult from './PlaylistSearchResult'
 import GuessSong from './GuessSong'
+import Guessed from './Guessed'
 import Buzzer from './Buzzer'
 import Button from './Button'
 import Playback from './Playback'
-
-import axios from 'axios'
 import cLog from '../functions/ConsoleLogger'
 
-// console.log("PROPERTY NAMES FOR SpotifyWebApi", Object.getOwnPropertyNames(spotifyApi))
+
 
 export default function Dashboard({ drill }) {
 
-    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi } = drill
+    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi, showGuess, setShowGuess } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
-    cLog("CURRENT ROUND", "DASHBOARD.js _top_", currentRound)
+    // cLog("CURRENT ROUND", "DASHBOARD.js _top_", currentRound)
 
     // set access token for Spotify API (package: 'spotify-web-api-node')
     // replace with rails API when possible/practical?
 
     function handleNewRound() {
+        setShowGuess(false)
         setRoundComplete(false)
         playTrack(randomNewTrack());
         let newRound = currentRound
@@ -70,6 +70,7 @@ export default function Dashboard({ drill }) {
     }
 
     function handleResume () {
+        setShowGuess(false)
         setIsPlaying(true)
         setShowTrackSearch(false)
         setTrackSearch("")
@@ -77,6 +78,7 @@ export default function Dashboard({ drill }) {
     }
 
     function handleEndGame() {
+        setShowGuess(false)
         setCurrentGame(null)
         setGameInit(false)
         setShowTrackSearch(false)
@@ -176,10 +178,13 @@ export default function Dashboard({ drill }) {
             >
                 {playlistPlayersExist()
                     ?   null
-                    : <h3>To begin, choose a Playlist and add 2 or more Players</h3>}
+                    : <><h3>To begin, choose a Playlist and add 2 or more Players</h3><h4>The first player to guess 6 songs correctly wins!</h4></>}
                 {showTrackSearch
                     ?   <GuessSong drill={drill} />
                     :   null }
+                {showGuess
+                    ?   <Guessed drill={drill} />
+                    :   null}
                 {showPlaylistSearch
                 ?   <>
                         {/* <h1>Choose a playlist:</h1> */}
@@ -242,7 +247,7 @@ export default function Dashboard({ drill }) {
                                     {(currentRound>0 && !roundComplete)
                                         ?   <Button 
                                                 action={handleResume} 
-                                                text="RESUME PLAYING"
+                                                text={showGuess? "RESUME PLAYING" : "PASS"}
                                                 color="gray"
                                                 style={{
                                                     minWidth: "60vh",
@@ -265,7 +270,6 @@ export default function Dashboard({ drill }) {
                                         : null}
                                 </>
                     :   null}
-
                 <div>
                     <Playback 
                         drill={drill}

@@ -4,9 +4,9 @@ export default function NavBar({ drill }) {
     const {currentUser, currentGame} = drill
     return (
         <div id="navbar">
-            <div>Welcome, {currentUser.account_name}</div>
+            <div className="nav-item">Welcome, {currentUser.account_name}</div>
             {currentGame
-            ? <div>Current Game: {currentGame.code}</div>
+            ? <div className="nav-item">Current Game: {currentGame.code}</div>
             : null }
         </div>
     )

@@ -8,6 +8,7 @@ export default function useAuth(code) {
         const [ expiresIn, setExpiresIn] = useState()
 
     useEffect(() => {
+        if (!code) {return}
         axios
             .post('http://localhost:3002/login', {
                 code,
@@ -26,7 +27,7 @@ export default function useAuth(code) {
     }, [code])
 
     useEffect(() => {
-        if (!refreshToken || !expiresIn) return
+        if (!code || !refreshToken || !expiresIn) return
         const interval = setInterval(() => {
             axios
             .post('http://localhost:3002/refresh', {

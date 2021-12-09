@@ -15,7 +15,6 @@ function App() {
   console.log("WINDOW LOCATION SEARCH: ", window.location.search)
 
   return (
-
     <BrowserRouter>
       <div className="App">
         <Switch>

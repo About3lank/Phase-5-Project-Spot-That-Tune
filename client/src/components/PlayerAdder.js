@@ -65,7 +65,7 @@ export default function PlayerAdder({ drill, number }) {
                     // cLog("BUILD NEW USER", "handleSubmitName", buildNewUser)
         setBuildPlayer(number)
         setCurrentUser(buildNewUser)
-        cLog("PLAYERS", "_end_ of NAME SUBMIT", players)
+        // cLog("PLAYERS", "_end_ of NAME SUBMIT", players)
 
 
     // function handleAddPlayer() {
@@ -103,7 +103,7 @@ export default function PlayerAdder({ drill, number }) {
       }, [players]);
 
     return (
-        <div ref={node} className={`player float-child p-${number} ${isHiding()}`}>
+        <div ref={node} className={`player float-child ply-${number} ${isHiding()}`}>
             {players[number-1].showForm
                 ? <div>
                     <Form.Control 

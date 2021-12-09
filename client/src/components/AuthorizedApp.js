@@ -11,68 +11,66 @@ import cLog from '../functions/ConsoleLogger'
 
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
+    const [ currentUser, setCurrentUser ] = useState({})
+    const [ currentGame, setCurrentGame ] = useState(null)
+    const [ currentPlaylist, setCurrentPlaylist ] = useState(null)
+    const [ currentSong, setCurrentSong ] = useState()
+    const [ currentRound, setCurrentRound ] = useState(0)
+    const [ currentToken, setCurrentToken ] = useState({})
+    const [ roundComplete, setRoundComplete ] = useState(true)
+    const [ playlistTracks, setPlaylistTracks ] = useState([])
+    const [ players, setPlayers ] = useState([{},{},{},{}].map(() => ({
+        id: null, 
+        name: "", 
+        tokens: [],
+        eliminated: false, 
+        hiding: true, 
+        showForm: false}
+    )))
+    const [ gameInit, setGameInit ] = useState(false)
+    const [ buildPlayer, setBuildPlayer ] = useState(0)
+    const [ whoBuzzed, setWhoBuzzed ] = useState("")
+    const [ songGuess, setSongGuess ] = useState(null)
+    const [ isPlaying, setIsPlaying ] = useState(false)
+    const [ showPlaylistSearch, setShowPlaylistSearch ] = useState(true)
+    const [ showTrackSearch, setShowTrackSearch ] = useState(false)
+    const [ showGuess, setShowGuess ] = useState(false)
+    const [ trackSearch, setTrackSearch ] = useState("")
+    const [ trackResults, setTrackResults ] = useState([])
+    const [ playlistSearch, setPlaylistSearch ] = useState("")
+    const [ playlistResults, setPlaylistResults ] = useState([])
 
-        const [ currentUser, setCurrentUser ] = useState({})
-        const [ currentGame, setCurrentGame ] = useState(null)
-        const [ currentPlaylist, setCurrentPlaylist ] = useState(null)
-        const [ currentSong, setCurrentSong ] = useState()
-        const [ currentRound, setCurrentRound ] = useState(0)
-        const [ roundComplete, setRoundComplete ] = useState(true)
-
-        const [ playlistTracks, setPlaylistTracks ] = useState([])
-        const [ players, setPlayers ] = useState([
-            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
-            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
-            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
-            {id: null, name: "", eliminated: false, hiding: true, showForm: false},
-        ])
-        const [ gameInit, setGameInit ] = useState(false)
-        const [ buildPlayer, setBuildPlayer ] = useState(0)
-        const [ whoBuzzed, setWhoBuzzed ] = useState("")
-        const [ songGuess, setSongGuess ] = useState(null)
-        const [ isPlaying, setIsPlaying ] = useState(false)
-
-        const [ showPlaylistSearch, setShowPlaylistSearch ] = useState(true)
-        const [ showTrackSearch, setShowTrackSearch ] = useState(false)
-        // do i need showCreateGame?
-        const [ showCreateGame, setShowCreateGame ] = useState(true)
-
-        const [ trackSearch, setTrackSearch ] = useState("")
-        const [ trackResults, setTrackResults ] = useState([])
-        const [ playlistSearch, setPlaylistSearch ] = useState("")
-        const [ playlistResults, setPlaylistResults ] = useState([])
-
-        const spotifyApi = new SpotifyWebApi({
-            clientId: "0c9faf3864844c4eb5607e934c7b90a4"
-        })
-        spotifyApi.setAccessToken(accessToken)
-            // package state to one object for prop drilling
-
-            cLog("ACCESS TOKEN", "App.js", accessToken)
-
-        let drill = {
-            accessToken: accessToken,
-            spotifyApi, spotifyApi,
-            currentUser: currentUser, setCurrentUser: setCurrentUser,
-            currentGame: currentGame, setCurrentGame: setCurrentGame,
-            currentPlaylist: currentPlaylist, setCurrentPlaylist: setCurrentPlaylist,
-            currentSong: currentSong, setCurrentSong: setCurrentSong,
-            currentRound: currentRound, setCurrentRound: setCurrentRound,
-            roundComplete: roundComplete, setRoundComplete: setRoundComplete,
-            playlistTracks: playlistTracks, setPlaylistTracks: setPlaylistTracks,
-            players: players, setPlayers: setPlayers,
-            gameInit: gameInit, setGameInit: setGameInit,
-            buildPlayer: buildPlayer, setBuildPlayer: setBuildPlayer,
-            whoBuzzed: whoBuzzed, setWhoBuzzed: setWhoBuzzed,
-            songGuess: songGuess, setSongGuess: setSongGuess,
-            isPlaying: isPlaying, setIsPlaying: setIsPlaying,
-            showPlaylistSearch: showPlaylistSearch, setShowPlaylistSearch: setShowPlaylistSearch,
-            showTrackSearch: showTrackSearch, setShowTrackSearch: setShowTrackSearch,
-            trackSearch: trackSearch, setTrackSearch: setTrackSearch,
-            trackResults: trackResults, setTrackResults: setTrackResults,
-            playlistSearch: playlistSearch, setPlaylistSearch: setPlaylistSearch,
-            playlistResults: playlistResults, setPlaylistResults: setPlaylistResults
-        }
+    const spotifyApi = new SpotifyWebApi({
+        clientId: "0c9faf3864844c4eb5607e934c7b90a4"
+    })
+    spotifyApi.setAccessToken(accessToken)
+    
+    // package state to one object for prop drilling
+    let drill = {
+        accessToken: accessToken,
+        spotifyApi, spotifyApi,
+        currentUser: currentUser, setCurrentUser: setCurrentUser,
+        currentGame: currentGame, setCurrentGame: setCurrentGame,
+        currentPlaylist: currentPlaylist, setCurrentPlaylist: setCurrentPlaylist,
+        currentSong: currentSong, setCurrentSong: setCurrentSong,
+        currentRound: currentRound, setCurrentRound: setCurrentRound,
+        currentToken: currentToken, setCurrentToken: setCurrentToken,
+        roundComplete: roundComplete, setRoundComplete: setRoundComplete,
+        playlistTracks: playlistTracks, setPlaylistTracks: setPlaylistTracks,
+        players: players, setPlayers: setPlayers,
+        gameInit: gameInit, setGameInit: setGameInit,
+        buildPlayer: buildPlayer, setBuildPlayer: setBuildPlayer,
+        whoBuzzed: whoBuzzed, setWhoBuzzed: setWhoBuzzed,
+        songGuess: songGuess, setSongGuess: setSongGuess,
+        isPlaying: isPlaying, setIsPlaying: setIsPlaying,
+        showPlaylistSearch: showPlaylistSearch, setShowPlaylistSearch: setShowPlaylistSearch,
+        showTrackSearch: showTrackSearch, setShowTrackSearch: setShowTrackSearch,
+        showGuess: showGuess, setShowGuess: setShowGuess,
+        trackSearch: trackSearch, setTrackSearch: setTrackSearch,
+        trackResults: trackResults, setTrackResults: setTrackResults,
+        playlistSearch: playlistSearch, setPlaylistSearch: setPlaylistSearch,
+        playlistResults: playlistResults, setPlaylistResults: setPlaylistResults
+    }
 
     // define functions to play audio cues for correct/incorrect guesses
     function playWrongAudio() {
@@ -91,17 +89,6 @@ export default function AuthorizedApp({ code }) {
         spotifyApi.setAccessToken(accessToken)
     }
 
-    // function handleHidePlayers(e) {
-
-    //     console.log("clicked... would hide now")
-    //     let updatedPlayers = players.map((player) => 
-    //         !player.id? {...player, hiding: true} : player
-    //     )
-    //     cLog("UPDATED PLAYERS", "handHidePlayers", updatedPlayers)
-    //     setPlayers(updatedPlayers)
-        
-    // }
-
     // set accessToken for web api
     useEffect(() => {
         if (!accessToken) return
@@ -110,10 +97,8 @@ export default function AuthorizedApp({ code }) {
         cLog("SPOTIFY API", "AuthApp in useEffect123", spotifyApi)
         // console.log(spotifyApi)
     }, [accessToken])
-
-    cLog("SPOTIFY API", "AuthApp", spotifyApi)
     
-            // call Spotify API for User Data, then store that in state
+    // call Spotify API for User Data, then store that in state
     useEffect(() => {
         if (!currentUser) return
         if (!accessToken) return
@@ -156,10 +141,8 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!playlistSearch) return setPlaylistResults([])
         if (!accessToken) return
-        cLog("SPOTIFY API", "AuthApp within searchPlaylist useEffect", spotifyApi)
-        
-        cLog("SPOTIFY API", "AuthApp within searchPlaylist useEffect AFTER MANUAL SET", spotifyApi)
-
+        // cLog("SPOTIFY API", "AuthApp within searchPlaylist useEffect", spotifyApi)
+        // cLog("SPOTIFY API", "AuthApp within searchPlaylist useEffect AFTER MANUAL SET", spotifyApi)
         let cancel = false
         spotifyApi
             .searchPlaylists(playlistSearch)
@@ -179,23 +162,18 @@ export default function AuthorizedApp({ code }) {
                         description: playlist.description,
                         tracks: playlist.tracks.href,
                         uri: playlist.uri,
-                        image_url: smallestPlaylistImage.url
+                        image_url: smallestPlaylistImage?.url
                     }
                 }))
             })
             console.log("FORMATTED PLAYLIST_RESULTS @ dashboard_search: ", playlistResults)
             return () => cancel = true
     }, [playlistSearch])
-
-    // cLog(                                          "USER_DATA", 'AuthorizedApp.js', currentUser)
     
     // on display_name change --> POST to Rails API --> set currentUser
     useEffect(() => {
         if (!currentUser) return
         if (!accessToken) return
-
-        // cLog("USER DATA", "Authorized App, within useEffect", currentUser)
-
         fetch(
             "/create_user", {
                 method: 'POST',
@@ -211,12 +189,27 @@ export default function AuthorizedApp({ code }) {
                 const updatedPlayers = [...players]
                 updatedPlayers[buildPlayer - 1].id = data.id
                 updatedPlayers[buildPlayer - 1].name = data.display_name
+                updatedPlayers[buildPlayer - 1].tokens = data.tokens
                 setPlayers(updatedPlayers)
                 setBuildPlayer(0)
-                cLog("PLAYERS", "AuthApp display_name_change useEffect", players)
+                // cLog("PLAYERS", "AuthApp display_name_change useEffect", players)
             }
         })
     }, [currentUser.display_name])
+
+    // update tokens when round complete
+    useEffect(() => {
+        const userUrl = `/users/${whoBuzzed}`
+        fetch(userUrl)
+            .then(res => res.json())
+            .then(data => {
+                const updatePlayers = [...players].map(player => {
+                    if (player.id===whoBuzzed) return {...player, tokens: data.tokens}
+                    else {return player}
+                })
+                setPlayers(updatePlayers)
+                })
+    }, [showGuess, songGuess])
     
     // new game --> clears playlist selection and tracks
     useEffect(() => {
@@ -232,17 +225,16 @@ export default function AuthorizedApp({ code }) {
     // evaluate song guess
     useEffect(() => {
         if (!songGuess) return
-
         function reduced(str) {
             // const rTitle = title.slice(0, Math.floor(title.length()/2))
-            str = str.split("(")[0]
+            str = str.split("(")[0].split("-")[0]
             str = str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g," ").toLowerCase()
             return str
         }
-
+        setShowGuess(true)
         if (reduced(songGuess.title)===reduced(currentSong.title)
             && reduced(songGuess.artist)===reduced(currentSong.artist)) {
-            cLog("WHO BUZZED?", "AuthorizdApp136", whoBuzzed)
+            // cLog("WHO BUZZED?", "AuthorizdApp136", whoBuzzed)
             console.log("song playing is: ", currentSong)
             console.log("CORRECT! The song is: ", currentSong)
             playCorrectAudio()
@@ -252,7 +244,6 @@ export default function AuthorizedApp({ code }) {
                 song_id: currentSong.id,
                 game_id: currentGame.id
             }
-            setRoundComplete(true)
             fetch(
                 "/tokens", {
                     method: 'POST',
@@ -262,7 +253,8 @@ export default function AuthorizedApp({ code }) {
                     body: JSON.stringify(token)
                 })
                 .then(res => res.json())
-                .then(data => console.log("TOKEN POST DATA: ", data))
+                .then(data => console.log(data))
+                setRoundComplete(true)
         } else {
             console.log("song playing is: ", currentSong)
             console.log("SORRY! The song was: ", currentSong)
@@ -272,14 +264,10 @@ export default function AuthorizedApp({ code }) {
             if (filteredPlayers.length>0) {return}
             else {setRoundComplete(true)}
         }
-
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
-
     }, [songGuess])
-
-    cLog("USER DATA", "Authorized App", currentUser)
 
     return (
         <div>
