@@ -276,6 +276,7 @@ export default function AuthorizedApp({ code }) {
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
+        setIsGuessing(false)
     }, [songGuess])
 
     // Evaluate if all players eliminated

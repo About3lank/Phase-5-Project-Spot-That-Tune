@@ -50,12 +50,12 @@ export default function Player({ drill, player, number }) {
                 <p className="token-label"></p>
                 <div className="token-container current-tokens">
                     {currentGameTokens.map((token) => 
-                        <Token token={token} drill={drill} />
+                        <Token token={token} drill={drill} number={number} />
                     )}
                 </div>
                 <p className="token-label">....................................</p>
                 <div className="token-container past-tokens">                  
-                    {pastGameTokens.slice(0,24).map((token) => 
+                    {pastGameTokens.slice(0,24).reverse().map((token) => 
                         <Token token={token} drill={drill} number={number} />
                     )}
                 </div>

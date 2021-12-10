@@ -3,7 +3,7 @@ import Button from './Button'
 import cLog from '../functions/ConsoleLogger'
 
 export default function TokenPage({ drill, number }) {
-    const { currentToken, players, selectedPlayer, setShowTokenPage } = drill
+    const { currentToken, setCurrentToken, players, selectedPlayer, setShowTokenPage } = drill
 
     function formatDate(datetime) {
         let y = datetime.slice(0,4)
@@ -21,13 +21,18 @@ export default function TokenPage({ drill, number }) {
     }
 
     const myIndex = () => {
-        return players[selectedPlayer-1].tokens.findIndex(t => t.id===currentToken.id)
+        return players[selectedPlayer-1].tokens?.findIndex(t => t.id===currentToken.id)
     }
 
-    // const index = myIndex()
+    const index = myIndex()
 
     function handleBackToGame() {
         setShowTokenPage(false)
+    }
+
+    function handleScroll(index) {
+        setCurrentToken(players[selectedPlayer-1].tokens[index])
+        console.log("INDEX ", index, "PLAYERS", players)
     }
 
 
@@ -50,19 +55,27 @@ export default function TokenPage({ drill, number }) {
                     <h1 className="song-details" style={{fontWeight: "bold"}}>{currentToken.song.title}</h1>
                     <h3 className="song-details" >{currentToken.song.artist}</h3>
                     <h4>{}</h4>
+                </div>     
+                <div className="metadata-container">
                     <h4 className="token-details" ><em>{formatDate(currentToken.created_at)}</em></h4>
-                </div>                
+                </div>           
             </div>
             <div className="scroll-container">
-                {myIndex===0
+                {index===0
                     ?   null 
                     :   <div className="left-scroller" >
-                            <button className="scroll-btn">{"<"}</button>
+                            <button
+                                onClick={() => handleScroll(index-1)} 
+                                className="scroll-btn">{"<"}
+                            </button>
                         </div>}
-                {myIndex===players[selectedPlayer-1].tokens.length-1
+                {index===players[selectedPlayer-1].tokens?.length-1
                     ?   null 
                     :   <div className="right-scroller" >
-                            <button className="scroll-btn">{">"}</button>
+                            <button 
+                                className="scroll-btn"
+                                onClick={() => handleScroll(index+1)}>{">"}
+                            </button>
                         </div>
                 }
             </div>
