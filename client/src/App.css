@@ -258,6 +258,10 @@ h3, h1 {
   height: 100%;
 }
 
+.return-btn {
+  margin-bottom: 4vh;
+}
+
 .song-details {
   text-align: left;
 }

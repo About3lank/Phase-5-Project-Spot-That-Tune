@@ -93,6 +93,12 @@ export default function AuthorizedApp({ code }) {
         audio.play();
             }
 
+    function playPassAudio() {
+        const passUrl = "https://notification-sounds.com/soundsfiles/Sad-trombone.mp3"
+        let audio = new Audio(passUrl);
+        audio.play();
+    }
+
     // set spotify web api access token
     function handleSetAccess() {
         spotifyApi.setAccessToken(accessToken)
@@ -243,10 +249,10 @@ export default function AuthorizedApp({ code }) {
         if (reduced(songGuess.title)===reduced(currentSong.title)
             && reduced(songGuess.artist)===reduced(currentSong.artist)) {
             // cLog("WHO BUZZED?", "AuthorizdApp136", whoBuzzed)
-            console.log("song playing is: ", currentSong)
-            console.log("CORRECT! The song is: ", currentSong)
+            // console.log("song playing is: ", currentSong)
+            // console.log("CORRECT! The song is: ", currentSong)
             playCorrectAudio()
-            console.log("create a token")
+            // console.log("create a token")
             const token = {
                 user_id: whoBuzzed.id,
                 song_id: currentSong.id,
@@ -264,14 +270,14 @@ export default function AuthorizedApp({ code }) {
                 .then(data => console.log(data))
                 setRoundComplete(true)
         } else {
-            console.log("song playing is: ", currentSong)
-            console.log("SORRY! The song was: ", currentSong)
+            // console.log("song playing is: ", currentSong)
+            // console.log("SORRY! The song was: ", currentSong)
             playWrongAudio()
             const updatedPlayers = [...players]
             updatedPlayers[whoBuzzed.num-1].eliminated = true
             setPlayers(updatedPlayers)
 
-            console.log("no token")
+            // console.log("no token")
         }
         setShowTrackSearch(false)
         setTrackSearch("")
@@ -301,7 +307,7 @@ export default function AuthorizedApp({ code }) {
                         {showTokenPage
                             ?   <TokenPage drill={drill}/>
                             :   <>
-                                    <Dashboard drill={drill} />
+                                    <Dashboard drill={drill} playPassAudio={playPassAudio} />
                                     <PlayerHUD drill={drill} />
                                 </>
                         }

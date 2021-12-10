@@ -5,6 +5,7 @@ import axios from 'axios'
 import TrackSearchResult from './TrackSearchResult'
 import PlaylistGrid from './PlaylistGrid'
 import PlaylistSearchResult from './PlaylistSearchResult'
+import ChosenPlaylist from './ChosenPlaylist'
 import GuessSong from './GuessSong'
 import Guessed from './Guessed'
 import Buzzer from './Buzzer'
@@ -14,7 +15,7 @@ import cLog from '../functions/ConsoleLogger'
 
 
 
-export default function Dashboard({ drill }) {
+export default function Dashboard({ drill, playPassAudio }) {
 
     const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi, showGuess, setShowGuess, isGuessing, setIsGuessing } = drill
 
@@ -87,6 +88,7 @@ export default function Dashboard({ drill }) {
     }
 
     function handlePass() {
+        playPassAudio()
         setShowGuess(false)
         const updatedPlayers = [...players]
         updatedPlayers[whoBuzzed.num-1].eliminated = true
@@ -206,16 +208,13 @@ export default function Dashboard({ drill }) {
 
     }, [roundComplete])
 
-    cLog("ROUND COMPLETE", "DASHBOARD right beforee return", roundComplete)
+    // cLog("ROUND COMPLETE", "DASHBOARD right beforee return", roundComplete)
 
     return (
         <Container 
             className="d-flex flex-column py-2"
             style={{height: "50vh" }}
             >
-                {playlistPlayersExist()
-                    ?   null
-                    : <><h3>To begin, choose a Playlist and add 2 or more Players</h3><h4>The first player to guess 6 songs correctly wins!</h4></>}
                 {showTrackSearch
                     ?   <GuessSong drill={drill} />
                     :   null }
@@ -242,6 +241,7 @@ export default function Dashboard({ drill }) {
                                         playlist={playlist}
                                         key={playlist.uri} 
                                         choosePlaylist={choosePlaylist}
+                                        drill={drill}
                                         />
                                 ))}
                                 {playlistTracks.map(track => (
@@ -263,7 +263,9 @@ export default function Dashboard({ drill }) {
 
                         </div>
                     </>
-                :   null}
+                :   (currentRound===0 && currentPlaylist)
+                    ?   <ChosenPlaylist drill={drill} />
+                    :   null }
                 
                 {playlistPlayersExist()
                     ?   isPlaying
@@ -320,7 +322,16 @@ export default function Dashboard({ drill }) {
                                                 }} />
                                         : null}
                                 </>
-                    :   null}
+                    :   <Button
+                    action={null}
+                    text="Choose a playlist and add 2+ players to begin"
+                    color="gray"
+                    style={{
+                        minWidth: "60vh",
+                        width: "60vh",
+                        height: "11vh",
+                        borderRadius: ".3vh"
+                    }} />}
                 <div>
                     <Playback 
                         drill={drill}

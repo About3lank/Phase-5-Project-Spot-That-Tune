@@ -22,7 +22,7 @@ export default function TrackSearchResult({ drill, track }) {
                 src={track.image_url} 
                 style={{ height: "64px", width: "64px" }}
             />
-            <div className="ml-3">{track.title}</div>
+            <div className="ml-3" style={{paddingLeft: "2vh"}}>{track.title}</div>
             <div className="text-muted">&nbsp;- {track.artist}</div>
             
         </div>

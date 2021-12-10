@@ -36,10 +36,10 @@ export default function TokenPage({ drill, number }) {
     }
 
 
-    cLog("MY INDEX", "TOKEN PAGE", myIndex())
-    cLog("SELECTED PLAYER", "TOKENPAGE", selectedPlayer)
-    cLog("PLAYERS", "TOKENPAGE", players)
-    cLog("CURRENT TOKEN", "TOKENPAGE", currentToken)
+    // cLog("MY INDEX", "TOKEN PAGE", myIndex())
+    // cLog("SELECTED PLAYER", "TOKENPAGE", selectedPlayer)
+    // cLog("PLAYERS", "TOKENPAGE", players)
+    // cLog("CURRENT TOKEN", "TOKENPAGE", currentToken)
     return (
         <>
             <h1>Viewing {players[selectedPlayer-1].name}'s Tokens</h1>
