@@ -5,7 +5,3 @@ class UserSerializer < ActiveModel::Serializer
     ActiveModel::SerializableResource.new(object.tokens,  each_serializer: TokenSerializer)
   end
 end
-# app/serializers/book_serializer.rb
-  
-  # has_many :tokens
-  # accepts_nested_attributes_for :tokens, allow_destroy: true

@@ -3,7 +3,6 @@
   --spotify-green-pale: #1b7e3e;
   --red: #e46262;
   --orange: rgb(255, 208, 0);
-
   --p1: rgb(107, 129, 255);
   --p2: rgb(255, 107, 139);
   --p3: rgb(107, 255, 164);
@@ -35,15 +34,6 @@ button {
 .type-name {
   height: 6vh;
 }
-/* 
-.pulse:hover {
-  animation: pulse 1s;
-  box-shadow: 0 0 0 2em rgba(#fff,0);
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 var(--hover); }
-} */
 
 .player {
   color: black;   
@@ -145,21 +135,15 @@ button {
 
 .header-container {
   width: 100%;
-  /* max-width: 100%; */
 }
 
 .header {
   width: 100%;
-  /* display: inline-block; */
-  /* margin-left: 0vh;
-  margin-right: auto; */
-  /* margin-left: 0px; */
 }
 
 .score {
   line-height: 7vh;
   text-align: center;
-  /* margin-right: 2vh; */
   width: 28%;
   height: 6vh;
   font-size: 5vh;
@@ -198,17 +182,14 @@ h3, h1 {
 }
 
 .token-container {
-  width: 100%;
-  /* max-width: 100%;*/ 
+  width: 100%; 
   min-height: 8vh;
   float: left;
-  /* margin-top: 2vh;  */
 
 }
 
 .token {
   display: inline-block;
-  /* float: left; */
   width: 6vh;
   height: auto;
   margin: 1vh .6vh;
@@ -216,7 +197,6 @@ h3, h1 {
 
 .playlist-box {
   display: inline-block;
-  /* float: left; */
   width: 10%;
   height: auto;
   margin: 2vh 1vh;
@@ -349,13 +329,11 @@ h3, h1 {
 }
 
 .float-container {
-  /* border: 3px solid #fff; */
   padding: 2vh;
   min-width: 25%;
   width: fit-content;
   max-width: 100%;
   margin: auto;
-  /* justify-content: center; */
 }
 
 .float-child {
@@ -366,8 +344,6 @@ h3, h1 {
   float:left;
   padding: 1vh;
   border-radius: .3vh;
-  /* border: 2px solid red; */
-  /* margin: 0 auto; */
 }  
 
 .PlayerRSWP {

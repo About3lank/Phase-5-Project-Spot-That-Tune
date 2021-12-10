@@ -9,7 +9,6 @@ import TokenPage from './TokenPage';
 import PlayerHUD from './PlayerHUD'
 import cLog from '../functions/ConsoleLogger'
 
-
 export default function AuthorizedApp({ code }) {
     const accessToken = useAuth(code)
     const [ currentUser, setCurrentUser ] = useState({})
