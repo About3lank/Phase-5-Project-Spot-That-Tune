@@ -1,8 +1,8 @@
-import React from 'react'
+import { useEffect } from 'react'
 import cLog from '../functions/ConsoleLogger'
 
 export default function Guessed({ drill }) {
-    const { songGuess, currentSong } = drill
+    const { songGuess, currentSong, message, setMessage } = drill
 
     // cLog("SONG GUESS", "Guessed.js", songGuess)
     // cLog("CURRENTLY PLAYING SONG", "Guessed.js", currentSong)
@@ -34,19 +34,21 @@ export default function Guessed({ drill }) {
             && reduced(songGuess.artist)===reduced(currentSong.artist))
 
     const formattedGuess = `${songGuess.title} - ${songGuess.artist}`
+    useEffect(() => {
+        isCorrect()
+        ?   setMessage(randomMessage(winningMessages))
+        :   setMessage(randomMessage(losingMessages))
+    }, [songGuess])
     return (
         <div>
+            <h3>You guessed: <span style={{fontWeight: "bold"}}>{formattedGuess}</span></h3>
             {isCorrect()
                 ?   <>
-                        <h3>You guessed: {formattedGuess}</h3>
-                        <h1 style={{color: "#1ed760"}}>That's correct! {randomMessage(winningMessages)}</h1>
-
+                        <h1 style={{color: "#1ed760"}}>That's correct! {message}</h1>
                     </>
                 :   <>
-                        <h3>You guessed: {formattedGuess}</h3>
-                        <h1 style={{color: "#e46262"}}>Sorry, but that's incorrect. {randomMessage(losingMessages)}</h1>
+                        <h1 style={{color: "#e46262"}}>Sorry, but that's incorrect. {message}</h1>
                     </>}
-            
         </div>
     )
 }

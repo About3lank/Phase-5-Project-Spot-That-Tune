@@ -3,6 +3,7 @@ import { Container, Form } from 'react-bootstrap'
 import SpotifyWebApi from 'spotify-web-api-node'
 import axios from 'axios'
 import TrackSearchResult from './TrackSearchResult'
+import PlaylistGrid from './PlaylistGrid'
 import PlaylistSearchResult from './PlaylistSearchResult'
 import GuessSong from './GuessSong'
 import Guessed from './Guessed'
@@ -39,6 +40,8 @@ export default function Dashboard({ drill }) {
         console.log("PLAYLIST TRACKS @button: ", playlistTracks)
         console.log("PLAYING TRACK @button: ", currentSong)
         // setPlaying(true)
+
+        
         
     }
 
@@ -54,7 +57,7 @@ export default function Dashboard({ drill }) {
 
     function choosePlaylist(playlist) { 
         setCurrentPlaylist(playlist)
-        console.log("CURRENT PLAYLIST: ", playlist)
+        // console.log("CURRENT PLAYLIST: ", playlist)
         setPlaylistSearch("")
     }
 
@@ -69,12 +72,16 @@ export default function Dashboard({ drill }) {
         setPlaylistTracks([])
     }
 
-    function handleResume () {
+    function handleResume() {
         setShowGuess(false)
-        setIsPlaying(true)
+        const updatedPlayers = [...players]
+        updatedPlayers[whoBuzzed.num-1].eliminated = true
+        setPlayers(updatedPlayers)
+        if (!roundComplete) { setIsPlaying(true) } 
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
+
     }
 
     function handleEndGame() {
@@ -116,7 +123,8 @@ export default function Dashboard({ drill }) {
                     spotify_id: item.track.id
                 })
             }))
-            console.log("DATA ITEMS: ", data.items)})
+            // console.log("DATA ITEMS: ", data.items)
+        })
     }, [currentPlaylist])
 
     // retrieve lyrics -- not currently in use
@@ -188,7 +196,9 @@ export default function Dashboard({ drill }) {
                 {showPlaylistSearch
                 ?   <>
                         {/* <h1>Choose a playlist:</h1> */}
-                        {playlistSearch===""? <p>[[[[[[[[[PLAYLIST GRID HERE]]]]]]]]]]</p> : null}
+                        {playlistSearch===""
+                            ?   <PlaylistGrid /> 
+                            :   null}
                         {/* <h2>Or search Spotify!</h2> */}
                         <Form.Control 
                             className="form-control search-box"
@@ -232,10 +242,12 @@ export default function Dashboard({ drill }) {
                     ?   isPlaying
                             ?   null
                             :   <>
-                                    {roundComplete
+                                    {(roundComplete && !showTrackSearch)
                                         ?   <Button
                                             action={handleNewRound}
-                                            text={currentRound===0 ? "START!" : "NEW ROUND"}
+                                            text={currentRound===0 
+                                                ?   "START!" 
+                                                :   "NEW ROUND"}
                                             color="green"
                                             style={{
                                                 minWidth: "60vh",
@@ -244,7 +256,7 @@ export default function Dashboard({ drill }) {
                                                 borderRadius: ".3vh"
                                             }} />
                                         : null}
-                                    {(currentRound>0 && !roundComplete)
+                                    {(!roundComplete)
                                         ?   <Button 
                                                 action={handleResume} 
                                                 text={showGuess? "RESUME PLAYING" : "PASS"}

@@ -13,12 +13,9 @@ export default function Buzzer({ drill, number }) {
         playBuzzAudio()
         cLog("CURRENT SONG", "handleBuzz", currentSong)
         setIsPlaying(false)
-        const updatedPlayers = [...players]
-            updatedPlayers[number-1].eliminated = true
-            setPlayers(updatedPlayers)
-            setWhoBuzzed(players[number-1].id)
+        setWhoBuzzed({num: number, id: players[number-1].id})
         setShowTrackSearch(true)
-        // cLog(                                   "PLAYERS", "Buzzer@handleBuzz", players)
+        cLog("PLAYERS", "Buzzer@handleBuzz", players)
         // cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
         
     }

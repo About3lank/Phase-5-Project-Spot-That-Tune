@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap'
 import cLog from '../functions/ConsoleLogger'
 
 export default function PlayerHUD({ drill }) {
-    const { players, setPlayers, isPlaying, setIsPlaying, currentUser, setCurrentUser, whoBuzzed, setWhoBuzzed } = drill
+    const { players, setPlayers, isPlaying, setIsPlaying, currentUser, setCurrentUser, whoBuzzed, setWhoBuzzed, currentRound } = drill
         // cLog("USER DATA", "PlayerHUD", currentUser)
         // cLog("PLAYERS", "PlayerHUD.js", players)
     return (
@@ -15,8 +15,10 @@ export default function PlayerHUD({ drill }) {
             className="float-container" >              
             {players.map((player, i) => 
                     player.name===""
-                    ? <PlayerAdder drill={drill} number={i+1} />
-                    : <Player drill={drill} player={player} number={i+1} />
+                    ?   currentRound===0
+                        ?   <PlayerAdder drill={drill} number={i+1} />
+                        :   null
+                    :   <Player drill={drill} player={player} number={i+1} />
             )}
         </div>
     )

@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import Button from './Button'
 
 function CreateGame({ drill }) {
-    const { setCurrentGame, gameInit, setGameInit } = drill
+    const { setCurrentGame, gameInit, setGameInit, setCurrentRound } = drill
+    function handleNewGame() {
+        setCurrentRound(0)
+        setGameInit(true)
+    }
     return (
         <div>
             {/* <h1>NO GAME YET - CREATE ONE! </h1> */}
             <Button 
-                action={() => setGameInit(true)}
+                action={handleNewGame}
                 // text="LET'S PLAY!"
                 text={"NEW GAME"}
                 color="orange"

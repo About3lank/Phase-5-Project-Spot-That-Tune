@@ -236,6 +236,10 @@ button {
   display: none;
 }
 
+.unvisible {
+  display: none;
+}
+
 
 
 html, #root {

@@ -15,27 +15,20 @@ export default function PlayerAdder({ drill, number }) {
     //     }
     // }
 
-
-
-
-
-
-
-
     function handleDeClick(e) {
         // e.preventDefault()
         if (e.target.className.split(" ")[0]=="player") {
-            console.log("check....")
+            // console.log("check....")
             // setShowForm(!showForm)
             // let updatedPlayers = [...players]
             // updatedPlayers[number-1].hiding = false
             // setPlayers(updatedPlayers)
             return;
         } else {
-            console.log("CLASSNAME ", e.target.className)
+            // console.log("CLASSNAME ", e.target.className)
             // console.log(node.current)
             // console.log(node.current.contains(e.target))
-            console.log("PLAYERS", "inside handleDeClick", players)
+            // console.log("PLAYERS", "inside handleDeClick", players)
             let updatedPlayers = players.map((player) => 
             !player.id? {...player, hiding: true, showForm: false} : player
             )
@@ -58,6 +51,8 @@ export default function PlayerAdder({ drill, number }) {
     }
 
     function handleSubmitName(e) {
+        if (playerName==="") return
+        if (players.filter((player) => player.name===playerName).length>0) return
         e.preventDefault()
                     // cLog("PLAYERS", "HANDLE SUBMIT NAME top", players)
         const buildNewUser = {...currentUser}

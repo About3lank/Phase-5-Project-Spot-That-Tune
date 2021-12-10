@@ -27,9 +27,9 @@ export default function AuthorizedApp({ code }) {
         hiding: true, 
         showForm: false}
     )))
-    const [ gameInit, setGameInit ] = useState(false)
+    const [ gameInit, setGameInit ] = useState(true)
     const [ buildPlayer, setBuildPlayer ] = useState(0)
-    const [ whoBuzzed, setWhoBuzzed ] = useState("")
+    const [ whoBuzzed, setWhoBuzzed ] = useState({})
     const [ songGuess, setSongGuess ] = useState(null)
     const [ isPlaying, setIsPlaying ] = useState(false)
     const [ showPlaylistSearch, setShowPlaylistSearch ] = useState(true)
@@ -39,7 +39,7 @@ export default function AuthorizedApp({ code }) {
     const [ trackResults, setTrackResults ] = useState([])
     const [ playlistSearch, setPlaylistSearch ] = useState("")
     const [ playlistResults, setPlaylistResults ] = useState([])
-
+    const [ message, setMessage ] = useState("")
     const spotifyApi = new SpotifyWebApi({
         clientId: "0c9faf3864844c4eb5607e934c7b90a4"
     })
@@ -69,7 +69,8 @@ export default function AuthorizedApp({ code }) {
         trackSearch: trackSearch, setTrackSearch: setTrackSearch,
         trackResults: trackResults, setTrackResults: setTrackResults,
         playlistSearch: playlistSearch, setPlaylistSearch: setPlaylistSearch,
-        playlistResults: playlistResults, setPlaylistResults: setPlaylistResults
+        playlistResults: playlistResults, setPlaylistResults: setPlaylistResults,
+        message: message, setMessage: setMessage,
     }
 
     // define functions to play audio cues for correct/incorrect guesses
@@ -92,10 +93,8 @@ export default function AuthorizedApp({ code }) {
     // set accessToken for web api
     useEffect(() => {
         if (!accessToken) return
-        console.log("GOT HERE!")
         spotifyApi.setAccessToken(accessToken)
-        cLog("SPOTIFY API", "AuthApp in useEffect123", spotifyApi)
-        // console.log(spotifyApi)
+        // cLog("SPOTIFY API", "AuthApp in useEffect123", spotifyApi)
     }, [accessToken])
     
     // call Spotify API for User Data, then store that in state
@@ -149,8 +148,8 @@ export default function AuthorizedApp({ code }) {
             .then(res => {
                 if (cancel) return
                 // log results to console for development
-                console.log(`Searching for "${playlistSearch}"`)
-                console.log("RAW SEARCH RESULTS: ", res.body.playlists)
+                // console.log(`Searching for "${playlistSearch}"`)
+                // console.log("RAW SEARCH RESULTS: ", res.body.playlists)
                 setPlaylistResults(res.body.playlists.items.map(playlist => {
                     const smallestPlaylistImage = playlist.images.reduce(
                         (smallest, image) => {
@@ -166,13 +165,14 @@ export default function AuthorizedApp({ code }) {
                     }
                 }))
             })
-            console.log("FORMATTED PLAYLIST_RESULTS @ dashboard_search: ", playlistResults)
+            // console.log("FORMATTED PLAYLIST_RESULTS @ dashboard_search: ", playlistResults)
             return () => cancel = true
     }, [playlistSearch])
     
     // on display_name change --> POST to Rails API --> set currentUser
     useEffect(() => {
         if (!currentUser) return
+        if (currentUser.display_name==="") return
         if (!accessToken) return
         fetch(
             "/create_user", {
@@ -199,12 +199,12 @@ export default function AuthorizedApp({ code }) {
 
     // update tokens when round complete
     useEffect(() => {
-        const userUrl = `/users/${whoBuzzed}`
+        const userUrl = `/users/${whoBuzzed.id}`
         fetch(userUrl)
             .then(res => res.json())
             .then(data => {
                 const updatePlayers = [...players].map(player => {
-                    if (player.id===whoBuzzed) return {...player, tokens: data.tokens}
+                    if (player.id===whoBuzzed.id) return {...player, tokens: data.tokens}
                     else {return player}
                 })
                 setPlayers(updatePlayers)
@@ -240,7 +240,7 @@ export default function AuthorizedApp({ code }) {
             playCorrectAudio()
             console.log("create a token")
             const token = {
-                user_id: whoBuzzed,
+                user_id: whoBuzzed.id,
                 song_id: currentSong.id,
                 game_id: currentGame.id
             }
@@ -259,15 +259,26 @@ export default function AuthorizedApp({ code }) {
             console.log("song playing is: ", currentSong)
             console.log("SORRY! The song was: ", currentSong)
             playWrongAudio()
+            const updatedPlayers = [...players]
+            updatedPlayers[whoBuzzed.num-1].eliminated = true
+            setPlayers(updatedPlayers)
+
             console.log("no token")
-            let filteredPlayers = players.filter((player) => (!player.eliminated && player.id))
-            if (filteredPlayers.length>0) {return}
-            else {setRoundComplete(true)}
         }
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
     }, [songGuess])
+
+    // check if all players eliminated
+    useEffect(() => {
+        let filteredPlayers = players.filter((player) => (!player.eliminated && player.id))
+        if (filteredPlayers.length>0) {return}
+        else {
+            setRoundComplete(true)
+            setIsPlaying(false)
+        }
+    }, [players])
 
     return (
         <div>
