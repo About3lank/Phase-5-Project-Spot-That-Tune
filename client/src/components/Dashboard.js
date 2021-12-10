@@ -30,8 +30,8 @@ export default function Dashboard({ drill, playPassAudio }) {
         setShowGuess(false)
         setRoundComplete(false)
         playTrack(randomNewTrack());
-        let newRound = currentRound
-        newRound = newRound + 1
+        let newRound = currentRound+1
+        // newRound = newRound + 1
         setCurrentRound(newRound)
         const updatedPlayers = players.map((player) => {
             player.eliminated = false
