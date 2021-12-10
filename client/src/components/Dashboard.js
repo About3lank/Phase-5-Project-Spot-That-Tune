@@ -72,7 +72,7 @@ export default function Dashboard({ drill }) {
         setPlaylistTracks([])
     }
 
-    function handleResume() {
+    function handleResumePass() {
         setShowGuess(false)
         const updatedPlayers = [...players]
         updatedPlayers[whoBuzzed.num-1].eliminated = true
@@ -86,12 +86,12 @@ export default function Dashboard({ drill }) {
 
     function handleEndGame() {
         setShowGuess(false)
+        setRoundComplete(true)
         setCurrentGame(null)
         setGameInit(false)
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
-
     }
 
     // retrieve playlist items
@@ -195,11 +195,9 @@ export default function Dashboard({ drill }) {
                     :   null}
                 {showPlaylistSearch
                 ?   <>
-                        {/* <h1>Choose a playlist:</h1> */}
                         {playlistSearch===""
                             ?   <PlaylistGrid /> 
                             :   null}
-                        {/* <h2>Or search Spotify!</h2> */}
                         <Form.Control 
                             className="form-control search-box"
                             type="search" 
@@ -252,19 +250,19 @@ export default function Dashboard({ drill }) {
                                             style={{
                                                 minWidth: "60vh",
                                                 width: "60vh",
-                                                height: "6vh",
+                                                height: "11vh",
                                                 borderRadius: ".3vh"
                                             }} />
                                         : null}
                                     {(!roundComplete)
                                         ?   <Button 
-                                                action={handleResume} 
+                                                action={handleResumePass} 
                                                 text={showGuess? "RESUME PLAYING" : "PASS"}
                                                 color="gray"
                                                 style={{
                                                     minWidth: "60vh",
                                                     width: "60vh",
-                                                    height: "6vh",
+                                                    height: "11vh",
                                                     borderRadius: ".3vh"
                                                 }} />
                                         :   null}
@@ -276,7 +274,7 @@ export default function Dashboard({ drill }) {
                                             style={{
                                                 minWidth: "60vh",
                                                 width: "60vh",
-                                                height: "6vh",
+                                                height: "4vh",
                                                 borderRadius: ".3vh"
                                             }} />
                                         : null}

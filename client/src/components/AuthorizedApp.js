@@ -86,6 +86,7 @@ export default function AuthorizedApp({ code }) {
         audio.play();
             }
 
+    // set spotify web api access token
     function handleSetAccess() {
         spotifyApi.setAccessToken(accessToken)
     }
@@ -197,7 +198,7 @@ export default function AuthorizedApp({ code }) {
         })
     }, [currentUser.display_name])
 
-    // update tokens when round complete
+    // Check for updated tokens when round complete or song is guessed
     useEffect(() => {
         const userUrl = `/users/${whoBuzzed.id}`
         fetch(userUrl)
@@ -211,7 +212,7 @@ export default function AuthorizedApp({ code }) {
                 })
     }, [showGuess, songGuess])
     
-    // new game --> clears playlist selection and tracks
+    // Create new game --> clears playlist selection and tracks
     useEffect(() => {
         setCurrentPlaylist()
         setPlaylistTracks([])
@@ -222,7 +223,7 @@ export default function AuthorizedApp({ code }) {
         setShowPlaylistSearch(true)
     }, [currentGame])
 
-    // evaluate song guess
+    // Evaluate song guess
     useEffect(() => {
         if (!songGuess) return
         function reduced(str) {
@@ -270,7 +271,7 @@ export default function AuthorizedApp({ code }) {
         setTrackResults([])
     }, [songGuess])
 
-    // check if all players eliminated
+    // Evaluate if all players eliminated
     useEffect(() => {
         let filteredPlayers = players.filter((player) => (!player.eliminated && player.id))
         if (filteredPlayers.length>0) {return}

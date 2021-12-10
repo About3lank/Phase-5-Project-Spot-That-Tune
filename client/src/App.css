@@ -24,6 +24,7 @@ button {
   height: 9vh;
 }
 
+
 .type-name {
   height: 6vh;
 }
@@ -136,7 +137,6 @@ button {
 }
 
 .score {
-  border: solid .1vh black;
   line-height: 7vh;
   text-align: center;
   margin-right: 2vh;
@@ -144,6 +144,10 @@ button {
   height: 7vh;
   font-size: 6vh;
   float: left;
+}
+
+.bordered {
+  border: solid .1vh black;
 }
 
 .name-container {
@@ -236,9 +240,6 @@ button {
   display: none;
 }
 
-.unvisible {
-  display: none;
-}
 
 
 

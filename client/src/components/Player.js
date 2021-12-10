@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { CloseButton } from 'react-bootstrap'
 import cLog from '../functions/ConsoleLogger'
 import Button from './Button'
 import Buzzer from './Buzzer'
@@ -32,30 +33,22 @@ export default function Player({ drill, player, number }) {
     return (
         <div className={`float-child player ply-${number}`}>
             <div className="header-container">
-            <div className="header score">
+            <div className={`header score ${currentRound>0? "bordered" : ""}`}>
                 {currentRound>0
                     ?   <>{currentGameTokens.length}</>
-                    :   <button
-                            onClick={handleRemovePlayer}
-                            style={{
-                                width: "100%", 
-                                height: "100%", 
-                                backgroundColor: "#e46262",
-                                color: "rgba(255,255,255,.5)",
-                                border: "solid .1vh rgba(255,255,255,.5)"}} >X</button>
+                    :   <CloseButton onClick={handleRemovePlayer}/>
                 }</div>
                 <div className="header name-container">
                     <div className="player-num"><em>Player #{number}</em></div>
                     <div className="player-name">{player.name}</div>
                 </div>
             </div>
-
-            <Buzzer drill={drill} number={number} />
+            {currentRound>0              
+                ?   <Buzzer drill={drill} number={number} />
+                :   null}
             <div className="token-wrapper">
                 <p className="token-label"></p>
                 <div className="token-container current-tokens">
-                    {/* <p>{player.tokens}</p> */}
-                    
                     {currentGameTokens.slice(0,16).map((token) => 
                         <Token token={token} drill={drill} />
                     )}
