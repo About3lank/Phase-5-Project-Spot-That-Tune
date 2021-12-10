@@ -16,7 +16,7 @@ import cLog from '../functions/ConsoleLogger'
 
 export default function Dashboard({ drill }) {
 
-    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi, showGuess, setShowGuess } = drill
+    const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi, showGuess, setShowGuess, isGuessing, setIsGuessing } = drill
 
             const [ lyrics, setLyrics ] = useState("")
 
@@ -36,9 +36,10 @@ export default function Dashboard({ drill }) {
             player.eliminated = false
             return player
         })
+
         // setPlayers(updatedPlayers)
-        console.log("PLAYLIST TRACKS @button: ", playlistTracks)
-        console.log("PLAYING TRACK @button: ", currentSong)
+        // console.log("PLAYLIST TRACKS @button: ", playlistTracks)
+        // console.log("PLAYING TRACK @button: ", currentSong)
         // setPlaying(true)
 
         
@@ -72,16 +73,30 @@ export default function Dashboard({ drill }) {
         setPlaylistTracks([])
     }
 
-    function handleResumePass() {
+    function handleResume() {
         setShowGuess(false)
-        const updatedPlayers = [...players]
-        updatedPlayers[whoBuzzed.num-1].eliminated = true
-        setPlayers(updatedPlayers)
-        if (!roundComplete) { setIsPlaying(true) } 
+        // const updatedPlayers = [...players]
+        // updatedPlayers[whoBuzzed.num-1].eliminated = true
+        // setPlayers(updatedPlayers)
+        
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
 
+        if (!roundComplete) { setIsPlaying(true) } 
+    }
+
+    function handlePass() {
+        setShowGuess(false)
+        const updatedPlayers = [...players]
+        updatedPlayers[whoBuzzed.num-1].eliminated = true
+        setPlayers(updatedPlayers)
+        setIsGuessing(false)
+        setShowTrackSearch(false)
+        setTrackSearch("")
+        setTrackResults([])
+
+        // if (!roundComplete) { setIsPlaying(true) } 
     }
 
     function handleEndGame() {
@@ -114,12 +129,18 @@ export default function Dashboard({ drill }) {
                         if (image.height < smallest.height) return image
                         return smallest
                     }, item.track.album.images[0])
+                const largestAlbumImage = item.track.album.images.reduce(
+                    (largest, image) => {
+                        if (image.height > largest.height) return image
+                        return largest
+                    }, item.track.album.images[0])
                 setShowPlaylistSearch(false)
                 return({
                     title: item.track.name,
                     artist: item.track.artists[0].name,
                     uri: item.track.uri,
                     image_url: smallestAlbumImage.url,
+                    high_res_img_url: largestAlbumImage.url,
                     spotify_id: item.track.id
                 })
             }))
@@ -178,6 +199,14 @@ export default function Dashboard({ drill }) {
             })
             return () => cancel = true
     }, [trackSearch, accessToken])
+
+    useEffect(() => {
+        if (!roundComplete) {return}
+        else {setIsPlaying(false)}
+
+    }, [roundComplete])
+
+    cLog("ROUND COMPLETE", "DASHBOARD right beforee return", roundComplete)
 
     return (
         <Container 
@@ -245,7 +274,7 @@ export default function Dashboard({ drill }) {
                                             action={handleNewRound}
                                             text={currentRound===0 
                                                 ?   "START!" 
-                                                :   "NEW ROUND"}
+                                                :   "NEXT ROUND"}
                                             color="green"
                                             style={{
                                                 minWidth: "60vh",
@@ -255,28 +284,40 @@ export default function Dashboard({ drill }) {
                                             }} />
                                         : null}
                                     {(!roundComplete)
-                                        ?   <Button 
-                                                action={handleResumePass} 
-                                                text={showGuess? "RESUME PLAYING" : "PASS"}
-                                                color="gray"
+                                        ?   isGuessing
+                                            ?   <Button 
+                                                    action={handlePass} 
+                                                    text="PASS"
+                                                    color="gray"
+                                                    style={{
+                                                        minWidth: "60vh",
+                                                        width: "60vh",
+                                                        height: "11vh",
+                                                        borderRadius: ".3vh"
+                                                    }} />
+                                            
+                                            :<Button 
+                                                    action={handleResume} 
+                                                    text="RESUME PLAYING"
+                                                    color="gray"
+                                                    style={{
+                                                        minWidth: "60vh",
+                                                        width: "60vh",
+                                                        height: "11vh",
+                                                        borderRadius: ".3vh"
+                                                    }} />
+                                        : null}
+                                    {currentRound>0
+                                        ?   <Button
+                                                action={handleEndGame}
+                                                text="END GAME"
+                                                color="red"
                                                 style={{
                                                     minWidth: "60vh",
                                                     width: "60vh",
-                                                    height: "11vh",
+                                                    height: "4vh",
                                                     borderRadius: ".3vh"
                                                 }} />
-                                        :   null}
-                                    {currentRound>0
-                                        ? <Button
-                                            action={handleEndGame}
-                                            text="END GAME"
-                                            color="red"
-                                            style={{
-                                                minWidth: "60vh",
-                                                width: "60vh",
-                                                height: "4vh",
-                                                borderRadius: ".3vh"
-                                            }} />
                                         : null}
                                 </>
                     :   null}

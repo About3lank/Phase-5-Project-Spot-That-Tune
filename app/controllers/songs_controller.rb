@@ -25,7 +25,7 @@ class SongsController < ApplicationController
     private
 
     def song_params
-        params.permit(:title, :artist, :image_url, :uri, :spotify_id )
+        params.permit(:title, :artist, :image_url, :high_res_img_url, :uri, :spotify_id )
     end
    
    

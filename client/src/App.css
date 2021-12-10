@@ -13,6 +13,14 @@
   --translucent: rgba(0, 0, 0, 0);
 }
 
+a:link {
+  color: white;
+}
+
+a:hover {
+  color: rgb(202, 202, 202);
+}
+
 button {
   font-weight: bold;
   line-height: 1;
@@ -23,7 +31,6 @@ button {
 .search-box {
   height: 9vh;
 }
-
 
 .type-name {
   height: 6vh;
@@ -115,8 +122,20 @@ button {
   border: none;
 }
 
+.sclose---btn {
+  height:1em;
+  width:1em;
+}
+
 .hiding {
   margin-top: 25vh;
+}
+
+#close-b-1 {
+  height: 2px;
+  width: 2px;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .hiding:hover {
@@ -125,25 +144,27 @@ button {
 }
 
 .header-container {
-  width: fit-content;
+  width: 100%;
   /* max-width: 100%; */
 }
 
 .header {
-  display: inline-block;
+  width: 100%;
+  /* display: inline-block; */
   /* margin-left: 0vh;
   margin-right: auto; */
-  margin-left: 0px;
+  /* margin-left: 0px; */
 }
 
 .score {
   line-height: 7vh;
   text-align: center;
-  margin-right: 2vh;
-  width: 9vh;
-  height: 7vh;
-  font-size: 6vh;
-  float: left;
+  /* margin-right: 2vh; */
+  width: 28%;
+  height: 6vh;
+  font-size: 5vh;
+  float: right;
+  padding-bottom: 7vh;
 }
 
 .bordered {
@@ -151,7 +172,7 @@ button {
 }
 
 .name-container {
-  width: 15.5vh;
+  width: 68%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -159,8 +180,21 @@ button {
   float: left;
 }
 
+h3, h1 {
+  margin-top:5em;
+}
+
 .player-num {
   font-size: 1.5vh;
+}
+
+
+.player-num, .player-name {
+  text-align: left;
+}
+
+.message {
+  margin: auto 0 1em auto;
 }
 
 .token-container {
@@ -171,10 +205,6 @@ button {
   /* margin-top: 2vh;  */
 
 }
-
-/* .past-tokens {
-  border-top: solid 1px black;
-} */
 
 .token {
   display: inline-block;
@@ -190,6 +220,12 @@ button {
   max-width: 100%;
   height: auto;
   max-width: 100%;
+}
+
+.big-token {
+  border: solid .1em white;
+  width: 70%;
+  margin: 3em auto 1em;
 }
 
 .token-label {
@@ -208,10 +244,50 @@ button {
   border-bottom: solid .1vh rgba(255, 255, 255, 0.568);
 }
 
+.big-album {
+  margin: 2em auto 2em auto;
+  height: 22em;
+  width: auto;
+
+  display: inline-block;
+}
+
+.details-container {
+  display: inline-block;
+  margin-left: 2.5em;
+  width: 50%;
+  height: 100%;
+}
+
+.song-details {
+  text-align: left;
+}
+
 .nav-item {
   display: inline-block;
   margin: 0 10vh;
   width: fit-content;
+}
+
+.scroll-btn{ 
+  color: white;
+  background-color: black;
+  height: 1.5em;
+  width: 8em;
+  font-size: 4em;
+  border: none;
+}
+
+.left-scroller {
+  float: left;
+}
+
+.right-scroller {
+  float:right;
+}
+
+.token-details {
+  text-align: right;
 }
 
 .float-container {
@@ -239,8 +315,6 @@ button {
 .PlayerRSWP {
   display: none;
 }
-
-
 
 
 html, #root {

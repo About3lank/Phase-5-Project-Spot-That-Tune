@@ -5,6 +5,7 @@ import useAuth from '../hooks/useAuth'
 import NavBar from './NavBar'
 import CreateGame from './CreateGame'
 import Dashboard from './Dashboard'
+import TokenPage from './TokenPage';
 import PlayerHUD from './PlayerHUD'
 import cLog from '../functions/ConsoleLogger'
 
@@ -32,9 +33,12 @@ export default function AuthorizedApp({ code }) {
     const [ whoBuzzed, setWhoBuzzed ] = useState({})
     const [ songGuess, setSongGuess ] = useState(null)
     const [ isPlaying, setIsPlaying ] = useState(false)
+    const [ isGuessing, setIsGuessing ] = useState(false)
     const [ showPlaylistSearch, setShowPlaylistSearch ] = useState(true)
     const [ showTrackSearch, setShowTrackSearch ] = useState(false)
     const [ showGuess, setShowGuess ] = useState(false)
+    const [ showTokenPage, setShowTokenPage ] = useState(false)
+    const [ selectedPlayer, setSelectedPlayer ] = useState(0)
     const [ trackSearch, setTrackSearch ] = useState("")
     const [ trackResults, setTrackResults ] = useState([])
     const [ playlistSearch, setPlaylistSearch ] = useState("")
@@ -62,7 +66,10 @@ export default function AuthorizedApp({ code }) {
         buildPlayer: buildPlayer, setBuildPlayer: setBuildPlayer,
         whoBuzzed: whoBuzzed, setWhoBuzzed: setWhoBuzzed,
         songGuess: songGuess, setSongGuess: setSongGuess,
+        showTokenPage: showTokenPage, setShowTokenPage: setShowTokenPage,
+        selectedPlayer: selectedPlayer, setSelectedPlayer: setSelectedPlayer,
         isPlaying: isPlaying, setIsPlaying: setIsPlaying,
+        isGuessing: isGuessing, setIsGuessing: setIsGuessing,
         showPlaylistSearch: showPlaylistSearch, setShowPlaylistSearch: setShowPlaylistSearch,
         showTrackSearch: showTrackSearch, setShowTrackSearch: setShowTrackSearch,
         showGuess: showGuess, setShowGuess: setShowGuess,
@@ -281,14 +288,23 @@ export default function AuthorizedApp({ code }) {
         }
     }, [players])
 
+    // if round is complete, make sure playback stops
+
+
     return (
         <div>
                 <NavBar drill={drill} />
                 {!currentGame
                     ? <CreateGame drill={drill} />
                     : <>
-                        <Dashboard drill={drill} />
-                        <PlayerHUD drill={drill} />
+                        {showTokenPage
+                            ?   <TokenPage drill={drill}/>
+                            :   <>
+                                    <Dashboard drill={drill} />
+                                    <PlayerHUD drill={drill} />
+                                </>
+                        }
+                        
                 </>}
         </div>
     )

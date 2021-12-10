@@ -10,6 +10,8 @@ puts "Destroying everything..."
     User.destroy_all 
     Playlist.destroy_all
     Game.destroy_all
+    Token.destroy_all
+    Song.destroy_all
 
 puts "Creating user(s)..."
 User.create([

@@ -41,13 +41,13 @@ export default function Guessed({ drill }) {
     }, [songGuess])
     return (
         <div>
-            <h3>You guessed: <span style={{fontWeight: "bold"}}>{formattedGuess}</span></h3>
+            <h3 className="message you-guessed">You guessed: <span style={{fontWeight: "bold"}}>{formattedGuess}</span></h3>
             {isCorrect()
                 ?   <>
-                        <h1 style={{color: "#1ed760"}}>That's correct! {message}</h1>
+                        <h1 className="message" style={{color: "#1ed760"}}>That's correct! {message}</h1>
                     </>
                 :   <>
-                        <h1 style={{color: "#e46262"}}>Sorry, but that's incorrect. {message}</h1>
+                        <h1 className="message" style={{color: "#e46262"}}>Sorry, but that's incorrect. {message}</h1>
                     </>}
         </div>
     )

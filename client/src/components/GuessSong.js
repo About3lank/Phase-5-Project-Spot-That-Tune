@@ -9,7 +9,7 @@ export default function GuessSong({ drill }) {
             <Form.Control 
                 className="form-control search-box"
                 type="search" 
-                placeholder="Search Songs"
+                placeholder="Search Spotify for that tune..."
                 value={trackSearch}
                 onChange={e => setTrackSearch(e.target.value)}
                 />

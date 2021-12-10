@@ -2,7 +2,7 @@ import React from 'react'
 import cLog from '../functions/ConsoleLogger'
 
 export default function Buzzer({ drill, number }) {
-    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, showTrackSearch, setShowTrackSearch, currentSong} = drill
+    const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, showTrackSearch, setShowTrackSearch, currentSong, isGuessing, setIsGuessing} = drill
     function amIStillIn() {
         return !players[number-1].eliminated
     }
@@ -13,6 +13,7 @@ export default function Buzzer({ drill, number }) {
         playBuzzAudio()
         cLog("CURRENT SONG", "handleBuzz", currentSong)
         setIsPlaying(false)
+        setIsGuessing(true)
         setWhoBuzzed({num: number, id: players[number-1].id})
         setShowTrackSearch(true)
         cLog("PLAYERS", "Buzzer@handleBuzz", players)

@@ -3,13 +3,19 @@ import SpotifyPlayer from 'react-spotify-web-playback'
 import cLog from '../functions/ConsoleLogger'
 
 export default function Playback({ drill, trackUri }) {
-    const { accessToken, isPlaying, setIsPlaying } = drill
+    const { accessToken, isPlaying, setIsPlaying, roundComplete } = drill
 
     useEffect(() => setIsPlaying(true), [trackUri])
+    useEffect(() => {
+        if (roundComplete) {
+            setIsPlaying(false)
+        }
+    }, [roundComplete]) 
 
     // cLog("ACCESS TOKEN", "Playback.js", accessToken)
 
     if (!accessToken) return null
+
     return( 
         <SpotifyPlayer
             token={accessToken}
