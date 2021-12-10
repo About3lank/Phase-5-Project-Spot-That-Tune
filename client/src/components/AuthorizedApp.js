@@ -43,6 +43,7 @@ export default function AuthorizedApp({ code }) {
     const [ trackResults, setTrackResults ] = useState([])
     const [ playlistSearch, setPlaylistSearch ] = useState("")
     const [ playlistResults, setPlaylistResults ] = useState([])
+    const [ playlistBank, setPlaylistBank ] = useState([])
     const [ message, setMessage ] = useState("")
     const spotifyApi = new SpotifyWebApi({
         clientId: "0c9faf3864844c4eb5607e934c7b90a4"
@@ -77,6 +78,7 @@ export default function AuthorizedApp({ code }) {
         trackResults: trackResults, setTrackResults: setTrackResults,
         playlistSearch: playlistSearch, setPlaylistSearch: setPlaylistSearch,
         playlistResults: playlistResults, setPlaylistResults: setPlaylistResults,
+        playlistBank: playlistBank, setPlaylistBank: setPlaylistBank,
         message: message, setMessage: setMessage,
     }
 
@@ -102,6 +104,14 @@ export default function AuthorizedApp({ code }) {
     // set spotify web api access token
     function handleSetAccess() {
         spotifyApi.setAccessToken(accessToken)
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array
     }
 
     // set accessToken for web api
@@ -132,6 +142,26 @@ export default function AuthorizedApp({ code }) {
                 uri: user.uri
         }))
     }, [accessToken])
+
+    // fetch preset playlist bank from backend
+    useEffect(() => {
+        fetch("/playlists")
+        .then(res => res.json())
+        .then(data => {
+            let pulled = shuffleArray(data.slice(1))
+            let formatted = pulled.map((p) => (
+                {
+                    name: p.name,
+                    description: p.description,
+                    tracks: p.tracks,
+                    uri: p.uri,
+                    image_url: p.imageUrl
+                }
+            ))
+            setPlaylistBank(formatted)
+        })
+        cLog("PLAYLIST BANK", "AUTH APP", playlistBank)
+    }, [])
 
     // initiate game
     useEffect(() => {

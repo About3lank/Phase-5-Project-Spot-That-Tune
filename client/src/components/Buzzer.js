@@ -16,10 +16,15 @@ export default function Buzzer({ drill, number }) {
         setIsGuessing(true)
         setWhoBuzzed({num: number, id: players[number-1].id})
         setShowTrackSearch(true)
-        cLog("PLAYERS", "Buzzer@handleBuzz", players)
+        // cLog("PLAYERS", "Buzzer@handleBuzz", players)
         // cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
-        
     }
+
+        // handle keystroke events
+        function handleKeystrokeBuzz(e) {
+            // if (e.key='a') {console.log("working a")}
+            console.log("keystroke")
+        }
 
     function playBuzzAudio() {
         // const buzzerUrl = "http://soundbible.com/grab.php?id=1501&type=mp3"
@@ -37,7 +42,8 @@ export default function Buzzer({ drill, number }) {
         <button
             type="button" 
             className = "buzzer"
-            onClick={handleBuzz} 
+            onClick={handleBuzz}
+            onKeyPress={(e) => handleKeystrokeBuzz(e)} 
             style={( amIStillIn())
                     ?   {
                             width: "100%", 

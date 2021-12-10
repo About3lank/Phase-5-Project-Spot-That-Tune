@@ -1,9 +1,18 @@
 import React from 'react'
+import PlaylistBox from './PlaylistBox'
 
-export default function PlaylistGrid() {
+export default function PlaylistGrid({ drill, choosePlaylist }) {
+    const { playlistBank } = drill
+    console.log(playlistBank)
     return (
-        <div>
-            \grid/
-        </div>
+        <>
+
+            <div className="grid-container">
+            {playlistBank.map((playlist) => (
+                <PlaylistBox playlist={playlist} choosePlaylist={choosePlaylist} />
+            ))}
+            
+            </div>
+        </>
     )
 }

@@ -3,9 +3,10 @@ import { Container, Form } from 'react-bootstrap'
 import TrackSearchResult from './TrackSearchResult'
 
 export default function GuessSong({ drill }) {
-    const {trackSearch, setTrackSearch, trackResults, playTrack } = drill
+    const {players, trackSearch, setTrackSearch, trackResults, playTrack, whoBuzzed } = drill
     return (
         <>
+            <h1>{players[whoBuzzed.num-1].name} buzzed in!</h1>
             <Form.Control 
                 className="form-control search-box"
                 type="search" 

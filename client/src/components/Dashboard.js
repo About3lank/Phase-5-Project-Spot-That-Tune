@@ -59,7 +59,7 @@ export default function Dashboard({ drill, playPassAudio }) {
 
     function choosePlaylist(playlist) { 
         setCurrentPlaylist(playlist)
-        // console.log("CURRENT PLAYLIST: ", playlist)
+        console.log("CURRENT PLAYLIST: ", playlist)
         setPlaylistSearch("")
     }
 
@@ -224,7 +224,7 @@ export default function Dashboard({ drill, playPassAudio }) {
                 {showPlaylistSearch
                 ?   <>
                         {playlistSearch===""
-                            ?   <PlaylistGrid /> 
+                            ?   <PlaylistGrid choosePlaylist={choosePlaylist} drill={drill} /> 
                             :   null}
                         <Form.Control 
                             className="form-control search-box"
