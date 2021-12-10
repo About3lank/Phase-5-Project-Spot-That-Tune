@@ -23,7 +23,6 @@ export default function Player({ drill, player, number }) {
         setCurrentUser({...currentUser, display_name:""})
         setPlayers(updatePlayers)
     }
-    
 
     return (
         <div className={`float-child player ply-${number}`}>
@@ -38,9 +37,7 @@ export default function Player({ drill, player, number }) {
                         :   <CloseButton id={`close-b-${number}`} className="close--btn" onClick={handleRemovePlayer}/>}
                 </div>
             </div>
-            {currentRound>0              
-                ?   <Buzzer drill={drill} number={number} />
-                :   null}
+            {currentRound>0? <Buzzer drill={drill} number={number} /> : null}
             <div className="token-wrapper">
                 <p className="token-label"></p>
                 <div className="token-container current-tokens">

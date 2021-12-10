@@ -119,7 +119,6 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
-        // cLog("SPOTIFY API", "AuthApp in useEffect123", spotifyApi)
     }, [accessToken])
     
     // call Spotify API for User Data, then store that in state
@@ -161,7 +160,6 @@ export default function AuthorizedApp({ code }) {
             ))
             setPlaylistBank(formatted)
         })
-        // cLog("PLAYLIST BANK", "AUTH APP", playlistBank)
     }, [])
 
     // initiate game
@@ -190,9 +188,6 @@ export default function AuthorizedApp({ code }) {
             .searchPlaylists(playlistSearch)
             .then(res => {
                 if (cancel) return
-                // log results to console for development
-                // console.log(`Searching for "${playlistSearch}"`)
-                // console.log("RAW SEARCH RESULTS: ", res.body.playlists)
                 setPlaylistResults(res.body.playlists.items.map(playlist => {
                     const smallestPlaylistImage = playlist.images.reduce(
                         (smallest, image) => {
@@ -208,7 +203,6 @@ export default function AuthorizedApp({ code }) {
                     }
                 }))
             })
-            // console.log("FORMATTED PLAYLIST_RESULTS @ dashboard_search: ", playlistResults)
             return () => cancel = true
     }, [playlistSearch])
     
@@ -235,7 +229,6 @@ export default function AuthorizedApp({ code }) {
                 updatedPlayers[buildPlayer - 1].tokens = data.tokens
                 setPlayers(updatedPlayers)
                 setBuildPlayer(0)
-                // cLog("PLAYERS", "AuthApp display_name_change useEffect", players)
             }
         })
     }, [currentUser.display_name])
@@ -269,7 +262,6 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!songGuess) return
         function reduced(str) {
-            // const rTitle = title.slice(0, Math.floor(title.length()/2))
             str = str.split("(")[0].split(" - ")[0]
             str = str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g," ").toLowerCase()
             return str
@@ -277,11 +269,7 @@ export default function AuthorizedApp({ code }) {
         setShowGuess(true)
         if (reduced(songGuess.title)===reduced(currentSong.title)
             && reduced(songGuess.artist)===reduced(currentSong.artist)) {
-            // cLog("WHO BUZZED?", "AuthorizdApp136", whoBuzzed)
-            // console.log("song playing is: ", currentSong)
-            // console.log("CORRECT! The song is: ", currentSong)
             playCorrectAudio()
-            // console.log("create a token")
             const token = {
                 user_id: whoBuzzed.id,
                 song_id: currentSong.id,
@@ -299,14 +287,10 @@ export default function AuthorizedApp({ code }) {
                 .then(data => console.log(data))
                 setRoundComplete(true)
         } else {
-            // console.log("song playing is: ", currentSong)
-            // console.log("SORRY! The song was: ", currentSong)
             playWrongAudio()
             const updatedPlayers = [...players]
             updatedPlayers[whoBuzzed.num-1].eliminated = true
             setPlayers(updatedPlayers)
-
-            // console.log("no token")
         }
         setShowTrackSearch(false)
         setTrackSearch("")
@@ -323,9 +307,6 @@ export default function AuthorizedApp({ code }) {
             setIsPlaying(false)
         }
     }, [players])
-
-    // if round is complete, make sure playback stops
-
 
     return (
         <div>

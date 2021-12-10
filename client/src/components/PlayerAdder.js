@@ -4,31 +4,13 @@ import Button from './Button'
 import cLog from '../functions/ConsoleLogger'
 
 export default function PlayerAdder({ drill, number }) {
-    // const [ hiding, setHiding ] = useState(true)
     const { players, setPlayers, currentUser, setCurrentUser, buildPlayer, setBuildPlayer } = drill
         const [ playerName, setPlayerName ] = useState("")
-        // const [ showForm, setShowForm ] = useState(false)
-
-    // if (number > 1) {
-    //     if (players[number - 2].name==="") {
-    //         return (<div></div>)
-    //     }
-    // }
 
     function handleDeClick(e) {
-        // e.preventDefault()
         if (e.target.className.split(" ")[0]=="player") {
-            // console.log("check....")
-            // setShowForm(!showForm)
-            // let updatedPlayers = [...players]
-            // updatedPlayers[number-1].hiding = false
-            // setPlayers(updatedPlayers)
             return;
         } else {
-            // console.log("CLASSNAME ", e.target.className)
-            // console.log(node.current)
-            // console.log(node.current.contains(e.target))
-            // console.log("PLAYERS", "inside handleDeClick", players)
             let updatedPlayers = players.map((player) => 
             !player.id? {...player, hiding: true, showForm: false} : player
             )
@@ -39,14 +21,11 @@ export default function PlayerAdder({ drill, number }) {
     function handleShowForm() {
         let updatedPlayers = [...players]
         updatedPlayers[number-1].showForm=true
-        // setShowForm(true)
-        // let updatedPlayers = [...players]
         updatedPlayers[number-1].hiding = false
         setPlayers(updatedPlayers)
     }
 
     function handleFormChange(e) {
-        // const currentName = document.getElementById(`player-name-form-${number}`)
         setPlayerName(e.target.value)
     }
 
@@ -54,25 +33,10 @@ export default function PlayerAdder({ drill, number }) {
         if (playerName==="") return
         if (players.filter((player) => player.name===playerName).length>0) return
         e.preventDefault()
-                    // cLog("PLAYERS", "HANDLE SUBMIT NAME top", players)
         const buildNewUser = {...currentUser}
         buildNewUser.display_name = playerName
-                    // cLog("BUILD NEW USER", "handleSubmitName", buildNewUser)
         setBuildPlayer(number)
         setCurrentUser(buildNewUser)
-        // cLog("PLAYERS", "_end_ of NAME SUBMIT", players)
-
-
-    // function handleAddPlayer() {
-    // }
-    // useEffect(() => {
-    //     if (!buildPlayer) return
-    //     console.log("ACTIVATED USE EFFECT BUILDPLAYER")
-    //     cLog("CURRENT USER", "PlayerAdder useEffect", currentUser)
-    //     cLog("UPDATED PLAYERS", "INSIDE FETCH DATA", updatedPlayers)
-    //     setPlayers(updatedPlayers)
-    //     cLog("PLAYERS", "PlayerAdder after POST fetch", players)
-    //     }, [currentUser])
     }
 
     function textGenerate() {
@@ -134,7 +98,6 @@ export default function PlayerAdder({ drill, number }) {
                         height: "100%",
                         margin: ".2vh auto",
                         overflow: "hidden",
-                        // display: "table",
                     }} />}
         </div>
     )
