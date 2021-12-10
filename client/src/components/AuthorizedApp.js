@@ -82,6 +82,15 @@ export default function AuthorizedApp({ code }) {
         message: message, setMessage: setMessage,
     }
 
+    // shuffle array function
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array
+    }
+
     // define functions to play audio cues for correct/incorrect guesses
     function playWrongAudio() {
         const wrongUrl = "https://notification-sounds.com/soundsfiles/Family-feud-buzzer.mp3"
@@ -104,14 +113,6 @@ export default function AuthorizedApp({ code }) {
     // set spotify web api access token
     function handleSetAccess() {
         spotifyApi.setAccessToken(accessToken)
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array
     }
 
     // set accessToken for web api
@@ -184,8 +185,6 @@ export default function AuthorizedApp({ code }) {
     useEffect(() => {
         if (!playlistSearch) return setPlaylistResults([])
         if (!accessToken) return
-        // cLog("SPOTIFY API", "AuthApp within searchPlaylist useEffect", spotifyApi)
-        // cLog("SPOTIFY API", "AuthApp within searchPlaylist useEffect AFTER MANUAL SET", spotifyApi)
         let cancel = false
         spotifyApi
             .searchPlaylists(playlistSearch)

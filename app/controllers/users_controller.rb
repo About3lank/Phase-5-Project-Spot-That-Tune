@@ -9,6 +9,7 @@ class UsersController < ApplicationController
             render json: {error: user.errors}, status: :unprocessable_entity
         end
     end
+    
  #'/login'
  def create
     user_query = User.where(spotify_id: params[:spotify_id], display_name: params[:display_name])
@@ -25,6 +26,15 @@ class UsersController < ApplicationController
 
     end
 
+    render json: user, status: :ok
+end
+
+
+ 
+    def index
+        users = User.all
+        render json: users, status: :ok
+    end
 
 
     
@@ -38,15 +48,8 @@ class UsersController < ApplicationController
 
 
     # session[:user_id] = user.spotify_id
-    render json: user, status: :ok
-end
 
 
- 
-    def index
-        users = User.all
-        render json: users, status: :ok
-    end
 
     private
 

@@ -16,15 +16,8 @@ import cLog from '../functions/ConsoleLogger'
 
 
 export default function Dashboard({ drill, playPassAudio }) {
-
     const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi, showGuess, setShowGuess, isGuessing, setIsGuessing } = drill
-
             const [ lyrics, setLyrics ] = useState("")
-
-    // cLog("CURRENT ROUND", "DASHBOARD.js _top_", currentRound)
-
-    // set access token for Spotify API (package: 'spotify-web-api-node')
-    // replace with rails API when possible/practical?
 
     function handleNewRound() {
         setShowGuess(false)
@@ -37,14 +30,10 @@ export default function Dashboard({ drill, playPassAudio }) {
             player.eliminated = false
             return player
         })
-
         // setPlayers(updatedPlayers)
         // console.log("PLAYLIST TRACKS @button: ", playlistTracks)
         // console.log("PLAYING TRACK @button: ", currentSong)
         // setPlaying(true)
-
-        
-        
     }
 
     function playTrack(track) {
@@ -76,14 +65,9 @@ export default function Dashboard({ drill, playPassAudio }) {
 
     function handleResume() {
         setShowGuess(false)
-        // const updatedPlayers = [...players]
-        // updatedPlayers[whoBuzzed.num-1].eliminated = true
-        // setPlayers(updatedPlayers)
-        
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
-
         if (!roundComplete) { setIsPlaying(true) } 
     }
 
@@ -97,8 +81,6 @@ export default function Dashboard({ drill, playPassAudio }) {
         setShowTrackSearch(false)
         setTrackSearch("")
         setTrackResults([])
-
-        // if (!roundComplete) { setIsPlaying(true) } 
     }
 
     function handleEndGame() {
@@ -146,7 +128,6 @@ export default function Dashboard({ drill, playPassAudio }) {
                     spotify_id: item.track.id
                 })
             }))
-            // console.log("DATA ITEMS: ", data.items)
         })
     }, [currentPlaylist])
 
@@ -172,7 +153,7 @@ export default function Dashboard({ drill, playPassAudio }) {
         // .then(res => {
         //     setLyrics(res.data.lyrics)
         // })
-        cLog("CURRENT SONG", "DASHBOARD WITHIN useEffect", currentSong)
+        // cLog("CURRENT SONG", "DASHBOARD WITHIN useEffect", currentSong)
     }, [currentSong?.spotify_id])
 
     // Song search
@@ -205,10 +186,7 @@ export default function Dashboard({ drill, playPassAudio }) {
     useEffect(() => {
         if (!roundComplete) {return}
         else {setIsPlaying(false)}
-
     }, [roundComplete])
-
-    // cLog("ROUND COMPLETE", "DASHBOARD right beforee return", roundComplete)
 
     return (
         <Container 
@@ -259,8 +237,6 @@ export default function Dashboard({ drill, playPassAudio }) {
                                 <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
                             )} 
                             */}
-
-
                         </div>
                     </>
                 :   (currentRound===0 && currentPlaylist)
@@ -330,7 +306,8 @@ export default function Dashboard({ drill, playPassAudio }) {
                         minWidth: "60vh",
                         width: "60vh",
                         height: "11vh",
-                        borderRadius: ".3vh"
+                        borderRadius: ".3vh",
+                        backgroundColor: "#cccccc"
                     }} />}
                 <div>
                     <Playback 

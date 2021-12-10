@@ -7,11 +7,6 @@ import Token from './Token'
 
 export default function Player({ drill, player, number }) {
     const { players, setPlayers, isPlaying, setIsPlaying, whoBuzzed, setWhoBuzzed, currentGame, currentRound, currentUser, setCurrentUser } = drill
-
-    // cLog("PLAYERS", "Player.js", player)
-    // cLog("PLAYER TOKENS", "Player.js", player.tokens)
-    // cLog("CURRENT GAME", "Player.js", currentGame)
-
     const currentGameTokens = player.tokens.filter((token) => token.game_id===currentGame.id)
     const pastGameTokens = player.tokens.filter((token) => token.game_id!==currentGame.id)
 

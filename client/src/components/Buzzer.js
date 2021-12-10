@@ -43,7 +43,6 @@ export default function Buzzer({ drill, number }) {
             type="button" 
             className = "buzzer"
             onClick={handleBuzz}
-            onKeyPress={(e) => handleKeystrokeBuzz(e)} 
             style={( amIStillIn())
                     ?   {
                             width: "100%", 
