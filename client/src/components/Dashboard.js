@@ -13,27 +13,20 @@ import Button from './Button'
 import Playback from './Playback'
 import cLog from '../functions/ConsoleLogger'
 
-
-
 export default function Dashboard({ drill, playPassAudio }) {
     const { accessToken, isPlaying, currentGame, currentRound, setCurrentRound, roundComplete, setRoundComplete, setCurrentGame, setGameInit, setIsPlaying, currentPlaylist, setCurrentPlaylist, playlistTracks, setPlaylistTracks, players, setPlayers, trackSearch, setTrackSearch, setShowTrackSearch, trackResults, setTrackResults, playlistSearch, setPlaylistSearch, showPlaylistSearch, setShowPlaylistSearch, playlistResults, setPlaylistResults, currentSong, setCurrentSong, showTrackSearch, whoBuzzed, setWhoBuzzed, songGuess, setSongGuess, spotifyApi, showGuess, setShowGuess, isGuessing, setIsGuessing } = drill
-            const [ lyrics, setLyrics ] = useState("")
+    const [ lyrics, setLyrics ] = useState("")
 
     function handleNewRound() {
         setShowGuess(false)
         setRoundComplete(false)
         playTrack(randomNewTrack());
         let newRound = currentRound+1
-        // newRound = newRound + 1
         setCurrentRound(newRound)
         const updatedPlayers = players.map((player) => {
             player.eliminated = false
             return player
         })
-        // setPlayers(updatedPlayers)
-        // console.log("PLAYLIST TRACKS @button: ", playlistTracks)
-        // console.log("PLAYING TRACK @button: ", currentSong)
-        // setPlaying(true)
     }
 
     function playTrack(track) {
@@ -48,13 +41,11 @@ export default function Dashboard({ drill, playPassAudio }) {
 
     function choosePlaylist(playlist) { 
         setCurrentPlaylist(playlist)
-        // console.log("CURRENT PLAYLIST: ", playlist)
         setPlaylistSearch("")
     }
 
     function playlistPlayersExist() {
         const filteredList = players.filter((player) => player.id)
-        // return currentPlaylist && players[0].id && players[1].id
         return currentPlaylist && filteredList.length>=2
     }
 
@@ -106,7 +97,6 @@ export default function Dashboard({ drill, playPassAudio }) {
         })
         .then(res => res.json())
         .then(data => {
-            // console.log(data.items)
             setPlaylistTracks(data.items.map(item => {
                 const smallestAlbumImage = item.track.album.images.reduce(
                     (smallest, image) => {
@@ -153,7 +143,6 @@ export default function Dashboard({ drill, playPassAudio }) {
         // .then(res => {
         //     setLyrics(res.data.lyrics)
         // })
-        // cLog("CURRENT SONG", "DASHBOARD WITHIN useEffect", currentSong)
     }, [currentSong?.spotify_id])
 
     // Song search
@@ -193,17 +182,11 @@ export default function Dashboard({ drill, playPassAudio }) {
             className="d-flex flex-column py-2"
             style={{height: "50vh" }}
             >
-                {showTrackSearch
-                    ?   <GuessSong drill={drill} />
-                    :   null }
-                {showGuess
-                    ?   <Guessed drill={drill} />
-                    :   null}
+                {showTrackSearch? <GuessSong drill={drill} /> : null }
+                {showGuess? <Guessed drill={drill} /> : null}
                 {showPlaylistSearch
                 ?   <>
-                        {playlistSearch===""
-                            ?   <PlaylistGrid choosePlaylist={choosePlaylist} drill={drill} /> 
-                            :   null}
+                        {playlistSearch===""? <PlaylistGrid choosePlaylist={choosePlaylist} drill={drill} /> : null}
                         <Form.Control 
                             className="form-control search-box"
                             type="search" 
@@ -233,16 +216,11 @@ export default function Dashboard({ drill, playPassAudio }) {
 
                             {/* 
                             // show lyrics
-                            {playlistResults.length === 0 && (
-                                <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
-                            )} 
+                            {playlistResults.length === 0 && (<div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>)} 
                             */}
                         </div>
                     </>
-                :   (currentRound===0 && currentPlaylist)
-                    ?   <ChosenPlaylist drill={drill} />
-                    :   null }
-                
+                :   (currentRound===0 && currentPlaylist)? <ChosenPlaylist drill={drill} /> : null }
                 {playlistPlayersExist()
                     ?   isPlaying
                             ?   null
@@ -273,7 +251,6 @@ export default function Dashboard({ drill, playPassAudio }) {
                                                         height: "11vh",
                                                         borderRadius: ".3vh"
                                                     }} />
-                                            
                                             :<Button 
                                                     action={handleResume} 
                                                     text="RESUME PLAYING"
@@ -296,7 +273,7 @@ export default function Dashboard({ drill, playPassAudio }) {
                                                     height: "4vh",
                                                     borderRadius: ".3vh"
                                                 }} />
-                                        : null}
+                                        :   null}
                                 </>
                     :   <Button
                     action={null}
@@ -310,9 +287,7 @@ export default function Dashboard({ drill, playPassAudio }) {
                         backgroundColor: "#cccccc"
                     }} />}
                 <div>
-                    <Playback 
-                        drill={drill}
-                        trackUri={currentSong?.uri} />
+                    <Playback drill={drill} trackUri={currentSong?.uri} />
                 </div>
         </Container>
     )

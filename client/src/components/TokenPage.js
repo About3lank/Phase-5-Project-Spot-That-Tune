@@ -32,14 +32,8 @@ export default function TokenPage({ drill, number }) {
 
     function handleScroll(index) {
         setCurrentToken(players[selectedPlayer-1].tokens[index])
-        // console.log("INDEX ", index, "PLAYERS", players)
     }
 
-
-    // cLog("MY INDEX", "TOKEN PAGE", myIndex())
-    // cLog("SELECTED PLAYER", "TOKENPAGE", selectedPlayer)
-    // cLog("PLAYERS", "TOKENPAGE", players)
-    // cLog("CURRENT TOKEN", "TOKENPAGE", currentToken)
     return (
         <>
             <h1>Viewing {players[selectedPlayer-1].name}'s Tokens</h1>
@@ -83,10 +77,7 @@ export default function TokenPage({ drill, number }) {
                 action={handleBackToGame}
                 text="BACK TO GAME"
                 color="green" 
-                style={{
-                    height: "8vh",
-                }} />
-            
+                style={{height: "8vh"}} />
         </>
     )
 }

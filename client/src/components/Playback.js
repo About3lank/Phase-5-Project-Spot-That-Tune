@@ -12,10 +12,7 @@ export default function Playback({ drill, trackUri }) {
         }
     }, [roundComplete]) 
 
-    // cLog("ACCESS TOKEN", "Playback.js", accessToken)
-
     if (!accessToken) return null
-
     return( 
         <SpotifyPlayer
             token={accessToken}
@@ -24,6 +21,6 @@ export default function Playback({ drill, trackUri }) {
                 if (!state.isPlaying) setIsPlaying(false)
             }}
             play={isPlaying}
-            uris={trackUri? [trackUri] : []}
-            />)
+            uris={trackUri? [trackUri] : []}/>
+    )
 }

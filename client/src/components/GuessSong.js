@@ -12,20 +12,15 @@ export default function GuessSong({ drill }) {
                 type="search" 
                 placeholder="Search Spotify for that tune..."
                 value={trackSearch}
-                onChange={e => setTrackSearch(e.target.value)}
-                />
+                onChange={e => setTrackSearch(e.target.value)} />
             <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
                 {trackResults.map(track => (
                     <TrackSearchResult
                         drill={drill}
                         track={track}
                         key={track.url} 
-                        playTrack={playTrack}
-                        />
+                        playTrack={playTrack} />
                 ))}
-                {/* {trackResults.length === 0 && (
-                    <div className="text-center" style={{ whiteSpace: "pre" }}>{lyrics}</div>
-                )} */}
             </div>
         </>
     )

@@ -7,12 +7,9 @@ import AuthorizedApp from './components/AuthorizedApp';
 import Dashboard from './components/Dashboard';
 import { Container } from 'react-bootstrap';
 
-
 function App() {
-
   const code = new URLSearchParams(window.location.search).get('code')
-  // console.log("CODE@App.js: ", code)
-  console.log("WINDOW LOCATION SEARCH: ", window.location.search)
+  // console.log("WINDOW LOCATION SEARCH: ", window.location.search)
 
   return (
     <BrowserRouter>
