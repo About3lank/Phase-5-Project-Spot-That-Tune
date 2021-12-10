@@ -59,7 +59,7 @@ export default function Dashboard({ drill, playPassAudio }) {
 
     function choosePlaylist(playlist) { 
         setCurrentPlaylist(playlist)
-        console.log("CURRENT PLAYLIST: ", playlist)
+        // console.log("CURRENT PLAYLIST: ", playlist)
         setPlaylistSearch("")
     }
 

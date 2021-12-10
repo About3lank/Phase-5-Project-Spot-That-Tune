@@ -20,11 +20,11 @@ export default function Buzzer({ drill, number }) {
         // cLog(                                   "WHO BUZZED???? (ID)", "Buzzer@handleBuzz", whoBuzzed)
     }
 
-        // handle keystroke events
-        function handleKeystrokeBuzz(e) {
-            // if (e.key='a') {console.log("working a")}
-            console.log("keystroke")
-        }
+        // // handle keystroke events
+        // function handleKeystrokeBuzz(e) {
+        //     // if (e.key='a') {console.log("working a")}
+        //     console.log("keystroke")
+        // }
 
     function playBuzzAudio() {
         // const buzzerUrl = "http://soundbible.com/grab.php?id=1501&type=mp3"

@@ -160,7 +160,7 @@ export default function AuthorizedApp({ code }) {
             ))
             setPlaylistBank(formatted)
         })
-        cLog("PLAYLIST BANK", "AUTH APP", playlistBank)
+        // cLog("PLAYLIST BANK", "AUTH APP", playlistBank)
     }, [])
 
     // initiate game

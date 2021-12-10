@@ -32,7 +32,7 @@ export default function TokenPage({ drill, number }) {
 
     function handleScroll(index) {
         setCurrentToken(players[selectedPlayer-1].tokens[index])
-        console.log("INDEX ", index, "PLAYERS", players)
+        // console.log("INDEX ", index, "PLAYERS", players)
     }
 
 
