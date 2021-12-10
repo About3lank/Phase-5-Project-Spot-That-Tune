@@ -67,7 +67,7 @@ Playlist.create([
     {name: "Today's Top Hits", description: 'SZA is on top of the Hottest 50!', tracks: 'https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks', uri: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M', imageUrl: 'https://i.scdn.co/image/ab67706f00000003dc90e10f545c356398a4d904'},
     {name: 'Rock Classics', description: 'Rock legends & epic songs spanning decades, that continue to inspire generations. ', tracks: 'https://api.spotify.com/v1/playlists/37i9dQZF1DWXRqgorJj26U/tracks', uri: 'spotify:playlist:37i9dQZF1DWXRqgorJj26U', imageUrl: 'https://i.scdn.co/image/ab67706f00000003571c3e893c065ed5832b3a3e'},
     {name: '80s Hits', description: 'Nothing but unforgettable songs from the 80s.', tracks: 'https://api.spotify.com/v1/playlists/37i9dQZF1DXb57FjYWz00c/tracks', uri: 'spotify:playlist:37i9dQZF1DXb57FjYWz00c', imageUrl: 'https://i.scdn.co/image/ab67706f000000035e98bc8db32dc5981d0df665'},
-    {name: "70s Hits - The Biggest Hits of the 70's", description: 'The best of what the 70s had to offer, from soft rock to pop, disco to classic rock', tracks: 'https://api.spotify.com/v1/playlists/00KjsgI9t715OJFEUFziGJ/tracks', uri: 'spotify:playlist:00KjsgI9t715OJFEUFziGJ', imageUrl: 'https://i.scdn.co/image/ab67706c0000bebbdc662c1acf1023a5413c6545'}
+    {name: "70s Hits", description: 'The best of what the 70s had to offer, from soft rock to pop, disco to classic rock', tracks: 'https://api.spotify.com/v1/playlists/00KjsgI9t715OJFEUFziGJ/tracks', uri: 'spotify:playlist:00KjsgI9t715OJFEUFziGJ', imageUrl: 'https://i.scdn.co/image/ab67706c0000bebbdc662c1acf1023a5413c6545'}
 ])
 
 # puts "Creating games..."

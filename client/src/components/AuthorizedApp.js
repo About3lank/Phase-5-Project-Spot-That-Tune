@@ -271,7 +271,7 @@ export default function AuthorizedApp({ code }) {
         if (!songGuess) return
         function reduced(str) {
             // const rTitle = title.slice(0, Math.floor(title.length()/2))
-            str = str.split("(")[0].split("-")[0]
+            str = str.split("(")[0].split(" - ")[0]
             str = str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g," ").toLowerCase()
             return str
         }
