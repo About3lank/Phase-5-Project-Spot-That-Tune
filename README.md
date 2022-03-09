@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+SPOT THAT TUNE
 
-Things you may want to cover:
+  ♫ Name That Tune game, powered by Spotify
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+  ♫ Tech Demo: https://www.youtube.com/watch?v=2XdkSyC5KKI
